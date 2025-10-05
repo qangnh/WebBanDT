@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/stylecart.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/productlist.css">
+    <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
+    <button onclick="topFunction()" id="upBtn" title="Go to top"><i class="fa-solid fa-chevron-up"></i></button>
+</head>
+<body>
+    <header>
+        <div class="header-img">
+            <img src="~/Pic/header-img.png">
+        </div>
+
+        <div id="header-taskbar">
+            <div class="header-taskbar-view">
+
+                <div class="header-taskbar-logo">
+                    <a asp-action="TrangChu" asp-controller="Home"><img src="/Pic/Logo.jpg"></a>
+                </div>
+
+                <div class="header-taskbar-dropdown">
+                    <div class="header-taskbar-dropdown-button"><i class="fas fa-bars"></i> Danh Mục <i class="fa-solid fa-sort-down" style=" margin-left: 3px; margin-bottom: 5px;"></i></div>
+                    <div class="header-taskbar-dropdown-list">
+                        <ul class="header-taskbar-dropdown-list-ul">
+                            <li class="menu-phone">
+                                <i class="fa-solid fa-mobile-screen"></i><a asp-controller="Category" asp-action="Phones"> Điện thoại</a>
+                                <ul class="sub-menu-phone">
+                                    <li class="sub-menu-1">
+                                        <p>Thương hiệu điện thoại</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">iPhone</a></li>
+                                            <li><a href="">Samsung</a></li>
+                                            <li><a href="">Xiaomi</a></li>
+                                            <li><a href="">Vivo</a></li>
+                                            <li><a href="">Oppo</a></li>
+                                            <li><a href="">Nubia</a></li>
+                                            <li><a href="">OnePlus</a></li>
+                                            <li><a href="">Nokia</a></li>
+                                            <li><a href="">ASUS</a></li>
+                                            <li><a href="">TECNO</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Mức giá</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Dưới 4tr</a></li>
+                                            <li><a href="">4tr - 10tr</a></li>
+                                            <li><a href="">10tr - 15tr</a></li>
+                                            <li><a href="">15tr - 20tr</a></li>
+                                            <li><a href="">Trên 20tr</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Điện thoại hot</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">iPhone 15</a></li>
+                                            <li><a href="">Galaxy Z Fold 5</a></li>
+                                            <li><a href="">Galaxy Z Flip 5</a></li>
+                                            <li><a href="">Xiaomi 13T Pro</a></li>
+                                            <li><a href="">Galaxy S23 Ultra</a></li>
+                                            <li><a href="">iPhone 15 Pro Max</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-tablet">
+                                <i class="fa-solid fa-tablet-screen-button"></i><a href=""> Tablet</a>
+                                <ul class="sub-menu-tablet">
+                                    <li class="sub-menu-1">
+                                        <p>Thương hiệu Tablet</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">iPad</a></li>
+                                            <li><a href="">Samsung</a></li>
+                                            <li><a href="">Xiaomi</a></li>
+                                            <li><a href="">Huawei</a></li>
+                                            <li><a href="">Lenovo</a></li>
+                                            <li><a href="">Nokia</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Mức giá</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Dưới 5tr</a></li>
+                                            <li><a href="">5tr - 12tr</a></li>
+                                            <li><a href="">12tr - 17tr</a></li>
+                                            <li><a href="">17tr - 25tr</a></li>
+                                            <li><a href="">Trên 25tr</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Điện thoại hot</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">iPad Air 5</a></li>
+                                            <li><a href="">iPad mini 6</a></li>
+                                            <li><a href="">Galaxy Tab S9 Ultra</a></li>
+                                            <li><a href="">iPad Pro 11" M2</a></li>
+                                            <li><a href="">Xiaomi Pad SE</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-laptop">
+                                <i class="fa-solid fa-laptop"></i><a asp-area="Category" asp-action="Laptops"> Laptop</a>
+                                <ul class="sub-menu-laptop">
+                                    <li class="sub-menu-1">
+                                        <p>Chọn theo hãng</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Apple</a></li>
+                                            <li><a href="">Asus</a></li>
+                                            <li><a href="">Lenovo</a></li>
+                                            <li><a href="">Dell</a></li>
+                                            <li><a href="">HP</a></li>
+                                            <li><a href="">Acer</a></li>
+                                            <li><a href="">MSI</a></li>
+                                            <li><a href="">LG</a></li>
+                                            <li><a href="">Sureface</a></li>
+                                            <li><a href="">Gigabyte</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Mức giá</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Dưới 15tr</a></li>
+                                            <li><a href="">15tr - 20tr</a></li>
+                                            <li><a href="">20tr - 25tr</a></li>
+                                            <li><a href="">25tr - 35tr</a></li>
+                                            <li><a href="">Trên 35tr</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Sản phẩm hot</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Macbook Pro M2 512GB</a></li>
+                                            <li><a href="">Asus VivoBook 15 OLED</a></li>
+                                            <li><a href="">Lenovo IdeaPad 5 Pro</a></li>
+                                            <li><a href="">MSI Modern 14</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-sound">
+                                <i class="fa-solid fa-headphones-simple"></i><a href="~/Category/Sounds"> Âm thanh</a>
+                                <ul class="sub-menu-sound">
+                                    <li class="sub-menu-1">
+                                        <p>Chọn hãng tai nghe</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Apple</a></li>
+                                            <li><a href=""></a>JBL</li>
+                                            <li><a href=""></a>Xiaomi</li>
+                                            <li><a href=""></a>Samsung</li>
+                                            <li><a href=""></a>HP</li>
+                                            <li><a href=""></a>Sony</li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Chọn loại tai nghe</p>
+                                        <ul class="sub-menu">
+                                            <li><a href=""></a>Tai nghe Bluetooth</li>
+                                            <li><a href=""></a>Tai nghe chụp tai</li>
+                                            <li><a href=""></a>Tai nghe có dây</li>
+                                            <li><a href=""></a>Tai nghe gaming</li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Chọn hãng loa</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">JBL</a></li>
+                                            <li><a href="">Marshall</a></li>
+                                            <li><a href="">Sony</a></li>
+                                            <li><a href="">LG</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-4">
+                                        <p>Chọn loại loa</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Loa Bluetooth</a></li>
+                                            <li><a href="">Loa Karaoke</a></li>
+                                            <li><a href="">Loa Soundbar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-watch">
+                                <img src="/pic/iconwatch.svg"><a href="watchs.html">Đồng hồ thông minh</a>
+                                <ul class="sub-menu-watch">
+                                    <li class="sub-menu-1">
+                                        <p>Chọn theo hãng</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Apple Watch</a></li>
+                                            <li><a href="">Samsung</a></li>
+                                            <li><a href="">Xiaomi</a></li>
+                                            <li><a href="">Huawei</a></li>
+                                            <li><a href="">Garmin</a></li>
+                                            <li><a href="">Coros</a></li>
+                                            <li><a href="">Amazfit</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Loại đồng hồ</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Đồng hồ thông minh</a></li>
+                                            <li><a href="">Đồng hồ Digital - Điện tử</a></li>
+                                            <li><a href="">Đồng hồ định vị trẻ em</a></li>
+                                            <li><a href="">Vòng đeo tai thông minh</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Sản phẩm nổi bật</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Apple Watch Series 9</a></li>
+                                            <li><a href="">Apple Watch Ultra 2</a></li>
+                                            <li><a href="">Samsung Galaxy Watch 6</a></li>
+                                            <li><a href="">Xiaomi Mi Band 8</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-accessory">
+                                <img src="/pic/iconcable.svg"><a href="accessorys.html">Phụ kiện</a>
+                                <ul class="sub-menu-accessory">
+                                    <li class="sub-menu-1">
+                                        <p>Phụ kiện di dộng</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Dán màn hình</a></li>
+                                            <li><a href="">Ốp lưng</a></li>
+                                            <li><a href="">Cáp sạc</a></li>
+                                            <li><a href="">Thẻ nhớ</a></li>
+                                            <li><a href="">Pin dự phòng</a></li>
+                                            <li><a href="">Phụ kiện Apple</a></li>
+                                            <li><a href="">Apple Care</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Phụ kiện laptop</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Chuột, bàn phím</a></li>
+                                            <li><a href="">Ổ cứng di động</a></li>
+                                            <li><a href="">Balo laptop</a></li>
+                                            <li><a href="">Phần mềm</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Gaming Gear</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Play Station</a></li>
+                                            <li><a href="">ROG Ally</a></li>
+                                            <li><a href="">Tay cầm chơi game</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-smarthome">
+                                <i class="fa-solid fa-house-signal"></i><a href="smarthomes.html">Smart home</a>
+                                <ul class="sub-menu-smarthome">
+                                    <li class="sub-menu-1">
+                                        <p>Thương hiệu</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Philips</a></li>
+                                            <li><a href="">Kangaroo</a></li>
+                                            <li><a href="">Panasonic</a></li>
+                                            <li><a href="">Sunhouse</a></li>
+                                            <li><a href="">Sharp</a></li>
+                                            <li><a href="">Xiaomi</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Sức khỏe - Làm đẹp</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Máy lọc không khí</a></li>
+                                            <li><a href="">Bàn ghế công thái học</a></li>
+                                            <li><a href="">Bàn ghế gaming</a></li>
+                                            <li><a href="">Bàn chải điện, tăm nước</a></li>
+                                            <li><a href="">Cân sức khỏe</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Thiết bị gia đình</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Robot hút bụi</a></li>
+                                            <li><a href="">Máy hút bụi cầm tay</a></li>
+                                            <li><a href="">TV Box</a></li>
+                                            <li><a href="">Quạt, đèn thông minh</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-pc">
+                                <i class="fa-solid fa-computer"></i><a href="pcs.html">PC, </a><a href="">màn hình</a>
+                                <ul class="sub-menu-pc">
+                                    <li class="sub-menu-1">
+                                        <p>Chọn theo hãng</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">ASUS</a></li>
+                                            <li><a href="">Samsung</a></li>
+                                            <li><a href="">Dell</a></li>
+                                            <li><a href="">LG</a></li>
+                                            <li><a href="">MSI</a></li>
+                                            <li><a href="">Gigabyte</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-2">
+                                        <p>Linh kiện máy tính</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">CPU</a></li>
+                                            <li><a href="">Main</a></li>
+                                            <li><a href="">Ram</a></li>
+                                            <li><a href="">Ổ cứng</a></li>
+                                            <li><a href="">Nguồn</a></li>
+                                            <li><a href="">VGA</a></li>
+                                            <li><a href="">Tản nhiệt</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-3">
+                                        <p>Màn hình</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Màn hình văn phòng</a></li>
+                                            <li><a href="">Màn hình đồ họa</a></li>
+                                            <li><a href="">Màn hình Gaming</a></li>
+                                            <li><a href="">Màn hình di động</a></li>
+                                            <li><a href="">Arm màn hình</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu-4">
+                                        <p>Thiết bị văn phòng</p>
+                                        <ul class="sub-menu">
+                                            <li><a href="">Máy in</a></li>
+                                            <li><a href="">Phần mềm</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-taskbar-location">
+                    <i class="fa-solid fa-map-location"></i>
+                    <a href="#" id="location-form">Xem giá tại <i class="fa-solid fa-caret-down"></i></a>
+                    <div class="location-form">
+                        <div class="location-from-content">
+                            <h2>Chọn địa chỉ mua hàng <span id="location-form-close"><i class="fa-regular fa-circle-xmark"></i> Đóng</span> </h2>
+                            <form>
+                                <p>Chọn địa chỉ chính xác để nhận được giá ưu đãi nhất</p>
+
+                                <select name="" id="city">
+                                    <option value="#">Chọn Tỉnh/Thành phố</option>
+                                </select>
+
+                                <select name="" id="district">
+                                    <option value="#">Chọn Quận/Huyện</option>
+                                </select>
+
+                                <select name="" id="ward">
+                                    <option value="##">Chọn Phường/Xã</option>
+                                </select>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+                                <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+                                <script>
+    const host = "https://provinces.open-api.vn/api/";
+var callAPI = (api) => {
+    return axios.get(api)
+        .then((response) => {
+            renderData(response.data, "city");
+        });
+}
+callAPI('https://provinces.open-api.vn/api/?depth=1');
+var callApiDistrict = (api) => {
+    return axios.get(api)
+        .then((response) => {
+            renderData(response.data.districts, "district");
+        });
+}
+var callApiWard = (api) => {
+    return axios.get(api)
+        .then((response) => {
+            renderData(response.data.wards, "ward");
+        });
+}
+
+var renderData = (array, select) => {
+    let row = ' <option disable value="">Chọn tỉnh thành</option>';
+    array.forEach(element => {
+        row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+    });
+    document.querySelector("#" + select).innerHTML = row
+}
+
+$("#city").change(() => {
+    callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+    printResult();
+});
+$("#district").change(() => {
+    callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+    printResult();
+});
+$("#ward").change(() => {
+    printResult();
+})
+
+var printResult = () => {
+    if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+        $("#ward").find(':selected').data('id') != "") {
+        let result = $("#city option:selected").text() +
+            " | " + $("#district option:selected").text() + " | " +
+            $("#ward option:selected").text();
+        $("#result").text(result)
+    }
+
+}
+                                </script>
+                                <input type="text" placeholder="Số nhà, tên đường">
+
+                                <button type="submit">xác nhận</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="header-taskbar-sreach">
+                    <input type="text" placeholder="Bạn cần tìm gì">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <div class="header-taskbar-phone">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:0396921560">Gọi mua hàng 0396921560</a>
+                </div>
+
+                <div class="header-taskbar-address">
+                    <i class="fa-solid fa-store"></i>
+                    <span><a href="https://maps.app.goo.gl/F6GS4q3iGVZhphhA9">Cửa hàng gần bạn</a></span>
+                </div>
+
+                <div class="header-taskbar-boxcard">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>@Html.ActionLink("Giỏ hàng", "GioHang", "Cart")</span>
+                </div>
+
+                <div class="header-taskbar-ship">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>@Html.ActionLink("Tra cứu đơn hàng", "GiaoHang", "Cart")</span>
+                </div>
+
+                <div class="header-taskbar-account">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <span>@Html.ActionLink("Đăng nhập", "Taikhoan", "Account")</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+
+    <script src="~/js/site.js"></script>
+    <script src="~/js/cart.js"></script>
+    @*@await RenderSectionAsync("Scripts", required: false)*@
+</body>
+</html>
+

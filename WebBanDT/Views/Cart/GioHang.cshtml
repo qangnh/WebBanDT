@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_CartLogin.cshtml";
+}
+
+
+<content>
+    <div class="super-cart">
+        <div class="cart-header-wrap">
+            <div class="cart-header">
+                <a asp-controller="Home" asp-action="TrangChu"><i class="fa-solid fa-chevron-left"></i> Mua thêm sản phẩm khác</a>
+                <p>Giỏ hàng của bạn</p>
+            </div>
+        </div>
+
+        <div class="cart-product">
+            <div class="cart-product-item">
+                <div class="cart-pic-item">
+                    <img src="https://cdn.tgdd.vn/Products/Images/42/299033/iphone-15-pro-blue-thumbnew-200x200.jpg" alt="">
+                    <div class="cart-product-btn">
+                        <i class="fa-solid fa-rectangle-xmark"></i>
+                        <span>Xóa</span>
+                    </div>
+                </div>
+                <div class="cart-product-info">
+                    <h4>Điện thoại iPhone 15 Promax 256GB</h4>
+                    <div class="cart-product-promotion-details">
+                        <ul>
+                            <li style="list-style-type: circle;">Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, Không kèm thanh toán qua cổng online, mua kèm) </li>
+                            <li style="list-style-type: circle;">Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO</li>
+                        </ul>
+                    </div>
+                    <div class="cart-product-promotion">
+                        <span>Khuyến mãi</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <i class="fa-solid fa-caret-up"></i>
+                    </div>
+                    <div class="cart-product-color">
+                        <span>Màu: Xám</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                        <div class="cart-product-color-dropdown">
+                            <ul>
+                                <li>
+                                    <img src="https://cdn.tgdd.vn/Products/Images/42/299033/iphone-15-pro-blue-thumbnew-200x200.jpg" alt="">
+                                    <span>Xám</span>
+                                </li>
+                                <li>
+                                    <img src="https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-tim-thumb-200x200.jpg" alt="">
+                                    <span>Tím</span>
+                                </li>
+                                <li>
+                                    <img src="https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-den-thumb-200x200.jpg" alt="">
+                                    <span>Đen</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-product-price-options">
+                    <div class="cart-product-price">
+                        <p class="price-product-cart">31990000<sup>đ</sup></p>
+                    </div>
+                    <div class="cart-product-quantity">
+                        <span class="cart-reduce cart-reduce--active">-</span>
+                        <p class="product-quantity">1</p>
+                        <span class="cart-add cart-add--active ">+</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="cart-product-allprice">
+                <p>Tạm tính (<span class="allprice">1</span> sản phẩm)</p>
+                <p><span class="totalprice">31990000</span><sup>đ</sup></p>
+            </div>
+
+            <div class="cart-user-info">
+
+                <h4>Thông tin khách hàng</h4>
+                <div class="cart-user-sex">
+                    <label class="container">
+                        Anh
+                        <input type="radio" checked="checked" name="gender">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">
+                        Chị
+                        <input type="radio" name="gender">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="cart-user-input">
+                    <input placeholder="Họ Và Tên" type="text" name="full-name" id="full-name">
+                    <input placeholder="Số điện thoại" type="text" name="phone" id="phone">
+                </div>
+
+
+                <h4>Chọn cách thức nhận hàng</h4>
+                <div class="cart-user-selector">
+                    <label class="container">
+                        Giao hàng tận nơi
+                        <input type="radio" checked="checked" name="delivery-method">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="container">
+                        Nhận tại cửa hàng
+                        <input type="radio" name="delivery-method">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+
+                <div class="cart-user-location">
+                    <p>Chọn địa chỉ để biết thời gian nhận hàng và phí vận chuyển (nếu có)</p>
+                    <div class="cart-user-location-selection">
+                        <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn tỉnh thành</option>
+                        </select>
+                        <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn quận huyện</option>
+                        </select>
+                    </div>
+                    <div class="cart-user-location-selection">
+                        <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn phường xã</option>
+                        </select>
+                        <input placeholder="Số nhà, tên đường" type="text" name="" id="">
+                    </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+                    <script>
+	var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
+var Parameter = {
+  url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+  method: "GET",
+  responseType: "application/json",
+};
+var promise = axios(Parameter);
+promise.then(function (result) {
+  renderCity(result.data);
+});
+
+function renderCity(data) {
+  for (const x of data) {
+    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+  }
+  citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option(k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+      for (const w of dataWards) {
+        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+      }
+    }
+  };
+}
+                    </script>
+                </div>
+
+                <input placeholder="Yêu cầu khác (Không bắt buộc)" type="text" name="" id="" class="cart-user-info-request">
+
+                <div class="cart-buy-request">
+                    <div class="cart-buy-request-call">
+                        <input type="checkbox">
+                        <span>Gọi người khác nhận hàng (nếu có)</span>
+                    </div>
+                    <div class="cart-buy-request-data">
+                        <input type="checkbox">
+                        <span>Chuyển dữ liệu qua máy mới</span>
+                    </div>
+                    <div class="cart-buy-request-bill">
+                        <input type="checkbox">
+                        <span>Xuất hóa đơn công ty</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-user-codesale">
+                <div class="cart-user-code">
+                    <i class="fa-solid fa-barcode"></i>
+                    <p>Sử dụng mã giảm giá</p>
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+            </div>
+            <div class="cart-user-plus">
+                <div class="cart-user-money-plus">
+                    <p>Tổng tiền</p>
+                    <p class="money-all">31990000</p>
+                </div>
+                <div class="cart-user-point-plus">
+                    <p>Điểm tích lũy nhận được</p>
+                    <p class="money-point">31990</p>
+                </div>
+                <label for="chinhsach"><input type="checkbox" name="chinhsach">Tôi đồng ý với <a href="">Chính sách xử lý dữ liệu cá nhân</a> của Cellphone S</label>
+            </div>
+            <div class="cart-user-buy-now">
+                <p>đặt hàng</p>
+            </div>
+        </div>
+    </div>
+
+</content>
+
+

@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "GiaoHang";
+    Layout = "~/Views/Shared/_CartLogin.cshtml";
+}
+
+<div class="navbar-line">
+    <div class="navbar-link">
+        <a asp-controller="Home" asp-action="TrangChu" style="text-decoration: none"><i class="fa-solid fa-house" style="color: red;"></i><span>Trang chủ</span></a><i class="fa-solid fa-angle-right"></i><span>TRA CỨU TÌNH TRẠNG ĐƠN HÀNG ONLINE</span>
+    </div>
+</div>
+
+<div class="ship-main">
+    <div class="ship-product">
+
+        <div class="ship-img">
+            <div class="ship-img-main">
+                <img src="~/Pic/snapedit_1700818007899.png" alt="">
+            </div>
+            <div class="ship-img-arrow-top" style="transform: translateX(400px) translateY(-234px);"></div>
+            <div class="ship-img-arrow-bottom" style=" transform: translateX(300px) translateY(-234px);"></div>
+        </div>
+
+        <div class="ship-content">
+            <form action="#">
+                <div class="ship-content-text">Kiểm tra thông tin đơn hàng & tình trạng vận chuyển</div>
+                <div class="ship-content-input">
+                    <p>Số điện thoại: </p>
+                    <input type="text" name="" id="" placeholder="Nhập số điện thoại mua hàng vào đây ( Bắt buộc )" required>
+                </div>
+                <div class="ship-content-input">
+                    <p>Mã đơn hàng: </p>
+                    <input type="text" name="" id="" placeholder="Nhập mã đơn hàng ( Bắt buộc )" required>
+                </div>
+                <button type="submit" class="ship-content-submit"> Tra cứu </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
