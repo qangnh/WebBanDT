@@ -5,23 +5,19 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/Content/sanpham.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/style.css"   >
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css" >
     <script src="~/js/index.js" asp-append-version="true"></script>
     <button onclick="topFunction()" id="upBtn" title="Go to top"><i class="fa-solid fa-chevron-up"></i></button>
     <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
     <header>
-        <div class="header-img">
-            <img src="~/Pic/header-img.png">
-        </div>
-
         <div id="header-taskbar">
             <div class="header-taskbar-view">
-
                 <div class="header-taskbar-logo">
-                    <a asp-action="TrangChu" asp-controller="Home"><img src="/Pic/Logo.jpg"></a>
+                    <a href="@Url.Action("TrangChu", "Home")">
+                        <img src="~/Image/GooD Phone.png" alt="Logo">
+                    </a>
                 </div>
 
                 <div class="header-taskbar-dropdown">
@@ -340,12 +336,12 @@
                 </div>
                 <div class="header-taskbar-location">
                     <i class="fa-solid fa-map-location"></i>
-                    <a href="#" id="location-form">Xem giá tại <i class="fa-solid fa-caret-down"></i></a>
+                    <a href="#" id="location-form">Thành phố của bạn<i class="fa-solid fa-caret-down"></i></a>
                     <div class="location-form">
                         <div class="location-from-content">
                             <h2>Chọn địa chỉ mua hàng <span id="location-form-close"><i class="fa-regular fa-circle-xmark"></i> Đóng</span> </h2>
                             <form>
-                                <p>Chọn địa chỉ chính xác để nhận được giá ưu đãi nhất</p>
+                                <p>Chọn địa chỉ chính xác để nhận được giá ưu đãi nhất</p> 
 
                                 <select name="" id="city">
                                     <option value="#">Chọn Tỉnh/Thành phố</option>
@@ -361,57 +357,57 @@
                                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
                                 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
                                 <script>
-    const host = "https://provinces.open-api.vn/api/";
-var callAPI = (api) => {
-    return axios.get(api)
-        .then((response) => {
-            renderData(response.data, "city");
-        });
-}
-callAPI('https://provinces.open-api.vn/api/?depth=1');
-var callApiDistrict = (api) => {
-    return axios.get(api)
-        .then((response) => {
-            renderData(response.data.districts, "district");
-        });
-}
-var callApiWard = (api) => {
-    return axios.get(api)
-        .then((response) => {
-            renderData(response.data.wards, "ward");
-        });
-}
+                                    const host = "https://provinces.open-api.vn/api/";
+                                    var callAPI = (api) => {
+                                        return axios.get(api)
+                                            .then((response) => {
+                                                renderData(response.data, "city");
+                                            });
+                                    }
+                                    callAPI('https://provinces.open-api.vn/api/?depth=1');
+                                    var callApiDistrict = (api) => {
+                                        return axios.get(api)
+                                            .then((response) => {
+                                                renderData(response.data.districts, "district");
+                                            });
+                                    }
+                                    var callApiWard = (api) => {
+                                        return axios.get(api)
+                                            .then((response) => {
+                                                renderData(response.data.wards, "ward");
+                                            });
+                                    }
 
-var renderData = (array, select) => {
-    let row = ' <option disable value="">Chọn tỉnh thành</option>';
-    array.forEach(element => {
-        row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
-    });
-    document.querySelector("#" + select).innerHTML = row
-}
+                                    var renderData = (array, select) => {
+                                        let row = ' <option disable value="">Chọn tỉnh thành</option>';
+                                        array.forEach(element => {
+                                            row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+                                        });
+                                        document.querySelector("#" + select).innerHTML = row
+                                    }
 
-$("#city").change(() => {
-    callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
-    printResult();
-});
-$("#district").change(() => {
-    callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
-    printResult();
-});
-$("#ward").change(() => {
-    printResult();
-})
+                                    $("#city").change(() => {
+                                        callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+                                        printResult();
+                                    });
+                                    $("#district").change(() => {
+                                        callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+                                        printResult();
+                                    });
+                                    $("#ward").change(() => {
+                                        printResult();
+                                    })
 
-var printResult = () => {
-    if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
-        $("#ward").find(':selected').data('id') != "") {
-        let result = $("#city option:selected").text() +
-            " | " + $("#district option:selected").text() + " | " +
-            $("#ward option:selected").text();
-        $("#result").text(result)
-    }
+                                    var printResult = () => {
+                                        if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
+                                            $("#ward").find(':selected').data('id') != "") {
+                                            let result = $("#city option:selected").text() +
+                                                " | " + $("#district option:selected").text() + " | " +
+                                                $("#ward option:selected").text();
+                                            $("#result").text(result)
+                                        }
 
-}
+                                    }
                                 </script>
                                 <input type="text" placeholder="Số nhà, tên đường">
 
@@ -428,7 +424,7 @@ var printResult = () => {
 
                 <div class="header-taskbar-phone">
                     <i class="fa-solid fa-phone"></i>
-                    <a href="tel:0396921560">Gọi mua hàng 0396921560</a>
+                    <a href="tel:0354445960">Gọi mua hàng 0354445960</a>
                 </div>
 
                 <div class="header-taskbar-address">
@@ -490,17 +486,15 @@ var printResult = () => {
             </div>
             <div class="footer-top-media">
                 <p>Kết nối với chúng tôi</p>
-                <a href="https://www.facebook.com/duogkhiem" class="fb"><img src="/pic/facebook.jpg"></a>
-                <a href="" class="zalo"><img src="/pic/zalo.png"></a>
-                <a href="" class="intagram"><img src="/pic/intagram.png"></a>
-                <a href="" class="yt"><img src="/pic/youtube.png"></a>
-                <a href="" class="tt"><img src="/pic/tiktok.webp"></a>
+                <a href="https://www.facebook.com/trungddat2004" class="fb"><img src="~/Image/FB.png" /> </a>
+                <a href="" class="zalo"><img src="~/Image/zalo.jpg" /></a>
+                <a href="" class="intagram"><img src="~/Image/IG.png" /></a>
                 <p style="margin-top: 10px;">Phương thức thanh toán</p>
                 <a href=""><img src="https://cdn2.cellphones.com.vn/x35,webp/media/wysiwyg/apple-pay-og.png" alt=""></a>
                 <a href=""><img src="https://cdn2.cellphones.com.vn/x35,webp/media/logo/payment/vnpay-logo.png" alt=""></a>
-                <a href=""><img src="https://cdn2.cellphones.com.vn/x/media/wysiwyg/momo_1.png" alt=""></a>
-                <a href=""><img src="https://cdn2.cellphones.com.vn/x35,webp/media/logo/payment/zalopay-logo.png" alt=""></a>
+                <a href=""><img src="https://cdn2.cellphones.com.vn/x/media/wysiwyg/momo_1.png" alt=""></a><a href=""><img src="https://cdn2.cellphones.com.vn/x35,webp/media/logo/payment/zalopay-logo.png" alt=""></a>
             </div>
+
         </div>
     </footer>
     @*@await RenderSectionAsync("Scripts", required: false)*@
