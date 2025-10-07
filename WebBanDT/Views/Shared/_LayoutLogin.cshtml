@@ -184,7 +184,8 @@
                                 </ul>
                             </li>
                             <li class="menu-watch">
-                                <img src="/pic/iconwatch.svg"><a href="watchs.html">Đồng hồ thông minh</a>
+                                <img src="~/Content/pic/iconwatch.svg" onerror="this.outerHTML='<i class=\'fa-solid fa-clock\'></i>'">
+                                <a href="watchs.html">Đồng hồ thông minh</a>
                                 <ul class="sub-menu-watch">
                                     <li class="sub-menu-1">
                                         <p>Chọn theo hãng</p>
@@ -219,7 +220,8 @@
                                 </ul>
                             </li>
                             <li class="menu-accessory">
-                                <img src="/pic/iconcable.svg"><a href="accessorys.html">Phụ kiện</a>
+                                < <img src="~/Content/pic/iconcable.svg" onerror="this.outerHTML='<i class=\'fa-solid fa-plug\'></i>'">
+                                <a href="accessorys.html">Phụ kiện</a>
                                 <ul class="sub-menu-accessory">
                                     <li class="sub-menu-1">
                                         <p>Phụ kiện di dộng</p>
@@ -336,88 +338,101 @@
                     </div>
                 </div>
                 <div class="header-taskbar-location">
-                    <i class="fa-solid fa-map-location"></i>
-                    <a href="#" id="location-form">Thành phố của bạn <i class="fa-solid fa-caret-down"></i></a>
-                    <div class="location-form">
+                    <i class="fa-solid fa-map-location" aria-hidden="true"></i>
+                    <a href="#" id="location-form-toggle">Thành phố của bạn <i class="fa-solid fa-caret-down" aria-hidden="true"></i></a>
+
+                    <!-- Popup location -->
+                    <div class="location-form" id="location-form">
                         <div class="location-from-content">
-                            <h2>Chọn địa chỉ mua hàng <span id="location-form-close"><i class="fa-regular fa-circle-xmark"></i> Đóng</span> </h2>
-                            <form>
+                            <h2>
+                                Chọn địa chỉ mua hàng
+                                <span id="location-form-close"><i class="fa-regular fa-circle-xmark"></i></span>
+                            </h2>
+                            <form id="location-form-main">
                                 <p>Chọn địa chỉ chính xác để nhận được giá ưu đãi nhất</p>
 
-                                <select name="" id="city">
-                                    <option value="#">Chọn Tỉnh/Thành phố</option>
+                                <select id="city">
+                                    <option value="" disabled selected>Chọn tỉnh thành</option>
                                 </select>
 
-                                <select name="" id="district">
-                                    <option value="#">Chọn Quận/Huyện</option>
+                                <select id="district">
+                                    <option value="" disabled selected>Chọn Quận/Huyện</option>
                                 </select>
 
-                                <select name="" id="ward">
-                                    <option value="#">Chọn Phường/Xã</option>
-
+                                <select id="ward">
+                                    <option value="" disabled selected>Chọn Phường/Xã</option>
                                 </select>
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
-                                <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-                                <script>
-                                    const host = "https://provinces.open-api.vn/api/";
-                                    var callAPI = (api) => {
-                                        return axios.get(api)
-                                            .then((response) => {
-                                                renderData(response.data, "city");
-                                            });
-                                    }
-                                    callAPI('https://provinces.open-api.vn/api/?depth=1');
-                                    var callApiDistrict = (api) => {
-                                        return axios.get(api)
-                                            .then((response) => {
-                                                renderData(response.data.districts, "district");
-                                            });
-                                    }
-                                    var callApiWard = (api) => {
-                                        return axios.get(api)
-                                            .then((response) => {
-                                                renderData(response.data.wards, "ward");
-                                            });
-                                    }
 
-                                    var renderData = (array, select) => {
-                                        let row = ' <option disable value="">Chọn tỉnh thành</option>';
-                                        array.forEach(element => {
-                                            row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
-                                        });
-                                        document.querySelector("#" + select).innerHTML = row
-                                    }
-
-                                    $("#city").change(() => {
-                                        callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
-                                        printResult();
-                                    });
-                                    $("#district").change(() => {
-                                        callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
-                                        printResult();
-                                    });
-                                    $("#ward").change(() => {
-                                        printResult();
-                                    })
-
-                                    var printResult = () => {
-                                        if ($("#district").find(':selected').data('id') != "" && $("#city").find(':selected').data('id') != "" &&
-                                            $("#ward").find(':selected').data('id') != "") {
-                                            let result = $("#city option:selected").text() +
-                                                " | " + $("#district option:selected").text() + " | " +
-                                                $("#ward option:selected").text();
-                                            $("#result").text(result)
-                                        }
-
-                                    }
-                                </script>
                                 <input type="text" placeholder="Số nhà, tên đường">
 
-                                <button type="submit">xác nhận</button>
+                                <button type="submit">Xác nhận</button>
                             </form>
                         </div>
                     </div>
                 </div>
+
+                <!-- JS -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+                <script>
+                    const host = "https://provinces.open-api.vn/api/";
+
+                    // Toggle popup
+                    $('#location-form-toggle').click(function (e) {
+                        e.preventDefault();
+                        $('#location-form').fadeIn();
+                    });
+                    $('#location-form-close').click(function () {
+                        $('#location-form').fadeOut();
+                    });
+                    $('#location-form').click(function (e) {
+                        if (e.target === this) $(this).fadeOut();
+                    });
+
+                    // Load Tỉnh
+                    axios.get(host + "?depth=1").then(res => {
+                        let html = '<option value="" disabled selected>Chọn tỉnh thành</option>';
+                        res.data.forEach(c => {
+                            html += `<option data-id="${c.code}" value="${c.name}">${c.name}</option>`;
+                        });
+                        $('#city').html(html);
+                    });
+
+                    // Khi chọn Tỉnh -> Huyện
+                    $('#city').change(function () {
+                        let cityId = $(this).find(':selected').data('id');
+                        axios.get(`${host}p/${cityId}?depth=2`).then(res => {
+                            let html = '<option value="" disabled selected>Chọn Quận/Huyện</option>';
+                            res.data.districts.forEach(d => {
+                                html += `<option data-id="${d.code}" value="${d.name}">${d.name}</option>`;
+                            });
+                            $('#district').html(html);
+                            $('#ward').html('<option value="" disabled selected>Chọn Phường/Xã</option>');
+                        });
+                    });
+
+                    // Khi chọn Huyện -> Xã
+                    $('#district').change(function () {
+                        let districtId = $(this).find(':selected').data('id');
+                        axios.get(`${host}d/${districtId}?depth=2`).then(res => {
+                            let html = '<option value="" disabled selected>Chọn Phường/Xã</option>';
+                            res.data.wards.forEach(w => {
+                                html += `<option data-id="${w.code}" value="${w.name}">${w.name}</option>`;
+                            });
+                            $('#ward').html(html);
+                        });
+                    });
+
+                    // Khi submit form
+                    $('#location-form-main').submit(function (e) {
+                        e.preventDefault();
+                        const city = $('#city option:selected').text();
+                        const district = $('#district option:selected').text();
+                        const ward = $('#ward option:selected').text();
+                        alert(`Bạn đã chọn: ${city} | ${district} | ${ward}`);
+                        $('#location-form').fadeOut();
+                    });
+                </script>
 
                 <div class="header-taskbar-sreach">
                     <input type="text" placeholder="Bạn cần tìm gì">
@@ -451,16 +466,9 @@
             </div>
         </div>
     </header>
-
     <div>
         @RenderBody()
     </div>
-
-    <script src="~/js/site.js"></script>
-    <script src="~/js/cart.js"></script>
-    <script src="~/js/script-login.js"></script>
-    @*@await RenderSectionAsync("Scripts", required: false)*@
 </body>
-<script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
 </html>
 
