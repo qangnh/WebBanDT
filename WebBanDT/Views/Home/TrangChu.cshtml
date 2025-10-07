@@ -3,447 +3,261 @@
     ViewBag.Title = "TrangChu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<section class="slider">
-    <div class="container">
-        <div class="slider-content">
-            <div class="slider-content-left">
-                <div class="slider-content-left-container">
-
-                    <div class="slider-content-left-pic">
-                        <a href="@Url.Action("SanPham", "Product")"><img src="/pic/15pm.png" alt=""></a>
-                        <a href=""><img src="/pic/oppo.png" alt=""></a>
-                        <a href=""><img src="/pic/ssz5.png" alt=""></a>
-                        <a href=""><img src="/pic/nubia.png" alt=""></a>
-                        <a href=""><img src="/pic/vivo.png" alt=""></a>
-                    </div>
-
-                    <div class="slider-content-left-pic-btn">
-                        <i class="fas fa-chevron-left"></i>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-
-                </div>
-
-                <div class="slider-content-left-text">
-                    <li class="active">iPhone 15 ProMax</li>
-                    <li>Oppo Reno 10 5G</li>
-                    <li>Samsung Z 5</li>
-                    <li>Nubia NEO 5G</li>
-                    <li>Vivo Y17s</li>
-                </div>
-
-            </div>
-
-            <div class="slider-content-right">
-                <ul>
-                    <li>
-                        <a href=""></a><img src="/pic/asus tuf.jpg">
-                    </li>
-                    <li>
-                        <a href=""></a><img src="/pic/m14.png">
-                    </li>
-                    <li>
-                        <a href=""></a><img src="/pic/ipad.png">
-                    </li>
-                </ul>
-
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<section class="product-sale">
-    <div class="product-sale-content">
-        <div class="product-sale-content-title">
-            <h2>Săn sale mỗi ngày <img src="/pic/iconfire.png"></h2>
-        </div>
-        <div class="product-sale-content-container">
-            <div class="product-sale-content-items">
-                <ul class="product-sale-content-items-list">
-                    <a href="@Url.Action("SanPham", "Product")">
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_3.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 15 promax 256gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">31.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>33.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    </a>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-plus_1__1.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫</div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/f/i/find-n3-flip-vang_1.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/t/gtt_7766_3__1_5.jpg">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-s23-ultra.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                </ul>
-
-                <ul class="product-sale-content-items-list">
-
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-z-fold-5-256gb_1.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/f/i/find_n3_-_combo_product_-_gold.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫</div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-13-pro-thumb-xanh-la9.jpg">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/n/u/nubia-neo-5g_2_1.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                    <li class="product-sale-content-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/e/tecno-pova-5_2_.png">
-
-                        <div class="product-sale-content-item-text">
-                            <div class="product-sale-content-item-text-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-sale-content-item-text-price ">25.990.000₫ </div>
-                            <div class="product-sale-content-item-text-price-discount"><del>29.990.000</del>₫ </div>
-                            <div class="product-sale-content-item-text-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <img src="/pic/cheap.png">
-                        </div>
-                    </li>
-                </ul>
-
-            </div>
-
-            <div class="product-sale-content-btn">
-                <i class="fas fa-chevron-left fa-chevron-left-two"></i>
-                <i class="fas fa-chevron-right fa-chevron-right-two"></i>
-            </div>
-        </div>
-    </div>
-</section>
-
+<br />
+<br />
+<br />
+<br />
 <div id="content">
     <div>
+        <div class="slider-manual">
+            <div class="slides-container">
+                <img src="https://i.ytimg.com/vi/vMVwdSp489E/maxresdefault.jpg" class="slide active">
+                <img src="https://img.pikbest.com/origin/09/02/27/66fpIkbEsTDXY.jpg!bw700" class="slide">
+                <img src="https://www.techone.vn/wp-content/uploads/2023/09/Banner-web_1920x824-3.jpg" class="slide">
+                <img src="https://mobiviet.vn/upload/images/gia-thay-mh-iphone.jpg" class="slide">
+                <img src="https://www.iphone-droid.net/wp-content/uploads/2020/06/iPhone-XR-Latest-Price-in-Thailand-June-2020-1-1000x600.jpg" class="slide">
+                <img src="https://didongthongminh.vn/images/news/2023/02/original/nen-mua-ip11-cu-2_1675325359.jpg" class="slide">
+                <img src="https://cdn2.viettelstore.vn/images/Advertises/BANNER-MAIN_PC_79307100029092023.jpg" class="slide">
+                <img src="https://www.xtsmart.vn/vnt_upload/news/06_2021/baner_web.png" class="slide">
+            </div>
+            <button class="prev-btn">&#10094;</button>
+            <button class="next-btn">&#10095;</button>
+        </div>
+        <script>
+            const slidesContainer = document.querySelector('.slides-container');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+
+            function updateSlide() {
+                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlide();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateSlide();
+            });
+
+            // Auto-slide mỗi 3 giây
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSlide();
+            }, 3000);
+        </script>
+
+
+
         <div class="s-product">
             <header class="s-product-heading">
                 <div class="s-product-title"><a asp-action="Phones" asp-controller="Category">điện thoại nổi bật </a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">Apple</a></li>
-                    <li class="s-product-name"><a href="">Samsung</a></li>
-                    <li class="s-product-name"><a href="">Vivo</a></li>
-                    <li class="s-product-name"><a href="">Xiaomi</a></li>
-                    <li class="s-product-name"><a href="">Nokia</a></li>
-                    <li class="s-product-name"><a href="">OPPO</a></li>
-                    <li class="s-product-name"><a href="">Realme</a></li>
-                    <li class="s-product-name"><a href="">Asus</a></li>
-                    <li class="s-product-name"><a href="">Techno</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
-
             <div class="s-product-body">
                 <div class="s-product-row">
                     <ul class="product-list">
+                        <!-- 1. iPhone 16 Pro Max -->
                         <li class="product-item">
-                            <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
-                            </div>
-                            <div class="product-img-wrap">
-                                <img src="/pic/IP14OM.JPG" alt="" class="product-img">
-                            </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <!-- Link tới trang SanPham -->
+                            <a href="/Product/SanPham">
+                                <div class="product-discount-wrap">
+                                    <div class="product-discount">Giảm 13%</div>
+                                    <div class="product-installment">Góp 0%</div>
+                                </div>
+                                <div class="product-img-wrap">
+                                    <img src="https://tse4.mm.bing.net/th/id/OIP.aE-vScJrLf7KOPXsGGY6vwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3"
+                                         alt="iPhone 16 Pro Max" class="product-img">
+                                </div>
+                                <div class="product-title">iPhone 16 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
+                                <div class="product-price">32.990.000₫</div>
+                                <div class="product-old-price"><del>36.990.000₫</del></div>
+                                <div class="product-upprice">
+                                    <span class="upprice-firstchild">Giá lên đời:</span>
+                                    <span class="upprice-nth2">31.490.000₫</span>
+                                </div>
+                                <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                                <div class="product-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <footer class="product-fav">
+                                    <span>Yêu thích</span>
+                                    <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                                </footer>
+                            </a>
                         </li>
+
+
+                        <!-- 2. iPhone 13 Pro Max -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max.png" alt="iPhone 13 Pro Max" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">iPhone 13 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">22.490.000₫</div>
+                            <div class="product-old-price"><del>24.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">21.490.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành 12 tháng</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 3. iPhone 15 Pro Max -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 11%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_4.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_4.png" alt="iPhone 15 Pro Max" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">iPhone 15 Pro Max 256GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">29.490.000₫</div>
+                            <div class="product-old-price"><del>32.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">28.000.000₫</span></div>
+                            <div class="product-service">Giảm thêm 1 triệu khi thanh toán VNPAY</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 4. Infinix Hot 30 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
+                                <div class="product-discount">Giảm 8%</div>
+                                <div class="product-installment">Trả góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/n/infinix-hot-30_2_.jpg" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/n/infinix-hot-30_2_.jpg" alt="Infinix Hot 30" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Infinix Hot 30 8GB/128GB | <span>Chính hãng</span></div>
+                            <div class="product-price">3.590.000₫</div>
+                            <div class="product-old-price"><del>3.890.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">3.290.000₫</span></div>
+                            <div class="product-service">Tặng tai nghe Bluetooth</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 5. Xiaomi Redmi Note 12 Pro 5G -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 9%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-note-12-pro-5g.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-note-12-pro-5g.png" alt="Xiaomi Redmi Note 12 Pro 5G" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
+                            <div class="product-title">Xiaomi Redmi Note 12 Pro 5G 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">7.790.000₫</div>
+                            <div class="product-old-price"><del>8.490.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">7.390.000₫</span></div>
+                            <div class="product-service">Tặng phiếu mua hàng 300.000₫</div>
                             <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
                     </ul>
 
                     <ul class="product-list">
+                        <!-- 6. iPhone 13 Pro Max 256GB -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max-256gb.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max-256gb.png" alt="iPhone 13 Pro Max 256GB" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">iPhone 13 Pro Max 256GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">24.490.000₫</div>
+                            <div class="product-old-price"><del>26.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.490.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành rơi vỡ</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 7. Samsung Galaxy Z Flip 4 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 15%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-z-flip-4.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-z-flip-4.png" alt="Samsung Galaxy Z Flip 4" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Samsung Galaxy Z Flip 4 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">15.990.000₫</div>
+                            <div class="product-old-price"><del>18.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">15.000.000₫</span></div>
+                            <div class="product-service">Tặng ốp lưng chính hãng</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 8. Xiaomi 13 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-13.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-13.png" alt="Xiaomi 13" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Xiaomi 13 12GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">18.990.000₫</div>
+                            <div class="product-old-price"><del>20.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">18.000.000₫</span></div>
+                            <div class="product-service">Giảm thêm 500k khi thanh toán online</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 9. TCL 40 NxtPaper -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
+                                <div class="product-discount">Giảm 12%</div>
+                                <div class="product-installment">Trả góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/c/tcl-40-nxt-paper_3_.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/c/tcl-40-nxt-paper_3_.png" alt="TCL 40 NxtPaper" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
+                            <div class="product-title">TCL 40 NxtPaper 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">5.490.000₫</div>
+                            <div class="product-old-price"><del>6.190.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">5.000.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành mở rộng 12 tháng</div>
                             <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
+
+                        <!-- 10. Điện thoại 365 Độc Quyền -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 7%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/1/_/1_365-doc-quyuen.jpg" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/1/_/1_365-doc-quyuen.jpg" alt="365 Độc Quyền" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">365 Độc Quyền | <span>Phiên bản đặc biệt</span></div>
+                            <div class="product-price">4.490.000₫</div>
+                            <div class="product-old-price"><del>4.890.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.190.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hiểm rơi vỡ</div>
+                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></div>
+                            <footer class="product-fav"><span>Yêu thích</span><i class="fa-regular fa-heart" onclick="toggleFav(this)"></i></footer>
                         </li>
                     </ul>
                 </div>
@@ -453,17 +267,6 @@
         <div class="s-product-laptop">
             <header class="s-product-heading">
                 <div class="s-product-title"><a href="">Laptop</a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">Macbook</a></li>
-                    <li class="s-product-name"><a href="">ThinkPad</a></li>
-                    <li class="s-product-name"><a href="">Asus</a></li>
-                    <li class="s-product-name"><a href="">HP</a></li>
-                    <li class="s-product-name"><a href="">Surface</a></li>
-                    <li class="s-product-name"><a href="">Acer</a></li>
-                    <li class="s-product-name"><a href="">MSI</a></li>
-                    <li class="s-product-name"><a href="">Dell</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
             <div class="s-product-body">
                 <div class="s-product-row">
@@ -476,185 +279,234 @@
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/i/air_m2.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Apple MacBook Air M1 256GB 2020 I Chính hãng Apple Việt Nam </div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">MacBook Air M2 13 inch (2022) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">25.490.000₫</div>
+                            <div class="product-old-price"><del>28.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫</span></div>
+                            <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m22.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Apple Macbook Air M2 2022 8GB 256GB I Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">MacBook Air M1 13 inch (2020) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">19.490.000₫</div>
+                            <div class="product-old-price"><del>21.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">17.990.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành mở rộng 6 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 14%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/p/r/pro-m2.jpg" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Apple Macbook Pro 13 M2 2022  8GB 256GB I Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">MacBook Pro 13 inch M2 (2022) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">29.490.000₫</div>
+                            <div class="product-old-price"><del>33.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">27.490.000₫</span></div>
+                            <div class="product-service">Tặng Apple Care+ 3 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/mac_pro.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Macbook Pro 14 M1 Pro 10 CPU - 16 GPU 16GB 1TB 2021 | Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">MacBook Pro 14 inch M1 Pro (2021) | 16GB/1TB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">48.990.000₫</div>
+                            <div class="product-old-price"><del>54.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">46.990.000₫</span></div>
+                            <div class="product-service">Bảo hành 24 tháng chính hãng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 11%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m2_8gb.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Macbook Air 15 inch M2 2023 8GB 256GB | Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">MacBook Air 15 inch M2 (2023) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">30.490.000₫</div>
+                            <div class="product-old-price"><del>33.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">28.990.000₫</span></div>
+                            <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
                     </ul>
+
                     <ul class="product-list">
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 15%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_-_2023-06-08t005130.908.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Laptop Asus VivoBook Go 14 E1404FA-NK177W</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Asus VivoBook Go 14 E1404FA-NK177W | Ryzen 5 7520U | 8GB | 512GB</div>
+                            <div class="product-price">12.990.000₫</div>
+                            <div class="product-old-price"><del>14.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">11.990.000₫</span></div>
+                            <div class="product-service">Tặng chuột không dây Logitech</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-tuf-gaming-f15-fx506hf-hn014w.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Laptop Asus TUF GAMING F15 FX506HF-HN014W</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Asus TUF Gaming F15 FX506HF-HN014W | i5-11400H | RTX 2050 | 8GB | 512GB</div>
+                            <div class="product-price">20.490.000₫</div>
+                            <div class="product-old-price"><del>22.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">19.990.000₫</span></div>
+                            <div class="product-service">Tặng balo gaming chính hãng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 9%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-e210ma-gj537w-4.jpg" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Laptop Asus E210MA GJ537W </div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Asus E210MA GJ537W | Celeron N4020 | 4GB | 256GB | Win11</div>
+                            <div class="product-price">6.990.000₫</div>
+                            <div class="product-old-price"><del>7.690.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">6.590.000₫</span></div>
+                            <div class="product-service">Tặng túi chống sốc laptop</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/a/gaming_5_5_.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Laptop Lenovo Legion 5 15ARH7 82RE002WVN </div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Lenovo Legion 5 15ARH7 82RE002WVN | Ryzen 7 6800H | RTX 3050 | 16GB | 512GB</div>
+                            <div class="product-price">26.990.000₫</div>
+                            <div class="product-old-price"><del>30.690.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">25.490.000₫</span></div>
+                            <div class="product-service">Tặng bàn phím cơ Redragon</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
                                 <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_2__3_18.png" alt="" class="product-img">
                             </div>
-                            <div class="product-title">Laptop Lenovo LOQ 15IRH8 82XV00D5VN  </div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Lenovo LOQ 15IRH8 82XV00D5VN | i5-13420H | RTX 3050 | 16GB | 512GB</div>
+                            <div class="product-price">22.990.000₫</div>
+                            <div class="product-old-price"><del>25.590.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">21.990.000₫</span></div>
+                            <div class="product-service">Tặng gói vệ sinh laptop 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
@@ -665,119 +517,131 @@
             </div>
         </div>
 
+
         <div class="s-product-screen">
             <header class="s-product-heading">
                 <div class="s-product-title"><a href="">màn hình, máy tính để bàn</a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">Màn hình văn phòng</a></li>
-                    <li class="s-product-name"><a href="">Màn hình đồ họa</a></li>
-                    <li class="s-product-name"><a href="">PC gaming</a></li>
-                    <li class="s-product-name"><a href="">PC đồ họa</a></li>
-                    <li class="s-product-name"><a href="">Build PC</a></li>
-                    <li class="s-product-name"><a href="">Máy all in one</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
             <div class="s-product-body-2">
                 <div class="s-product-row">
                     <ul class="product-list">
+
+                        <!-- 1️⃣ ASUS VA27EHE 27 inch -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 20%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-asus-va27ehf-27-inch-spa.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-asus-va27ehf-27-inch-spa.png" alt="Màn hình ASUS VA27EHE 27 inch" class="product-img">
                             </div>
-                            <div class="product-title">Màn hình ASUS VA27EHF 27 inch</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">Màn hình ASUS VA27EHE 27 inch</div>
+                            <div class="product-price">3.190.000₫</div>
+                            <div class="product-old-price"><del>3.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">2.990.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành 36 tháng chính hãng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
+                        <!-- 2️⃣ MSI PRO MP243X 24 inch -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-msi-pro-mp243x-24-inch_1.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-msi-pro-mp243x-24-inch_1.png" alt="Màn hình MSI Pro MP243X 24 inch" class="product-img">
                             </div>
                             <div class="product-title">Màn hình MSI Pro MP243X 24 inch</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-price">2.388.000₫</div>
+                            <div class="product-old-price"><del>2.650.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">2.190.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành 24 tháng chính hãng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
+                        <!-- 3️⃣ Giá treo màn hình North Bayou NB-F80 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 15%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/i/gia-treo-man-hinh-may-tinh-north-bayou-nb-f80-1.jpg" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/i/gia-treo-man-hinh-may-tinh-north-bayou-nb-f80-1.jpg" alt="Giá treo màn hình North Bayou NB-F80" class="product-img">
                             </div>
                             <div class="product-title">Giá treo màn hình máy tính North Bayou NB-F80</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-price">690.000₫</div>
+                            <div class="product-old-price"><del>810.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">650.000₫</span></div>
+                            <div class="product-service">Tặng kèm bộ ốc vít và bảo hành 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
+                        <!-- 4️⃣ LG UltraGear 27GN60R 27 inch -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 5%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_238_6__1.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_238_6__1.png" alt="Màn hình LG UltraGear 27GN60R 27 inch" class="product-img">
                             </div>
                             <div class="product-title">Màn hình Gaming LG UltraGear 27GN60R 27 inch</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-price">5.190.000₫</div>
+                            <div class="product-old-price"><del>5.490.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.990.000₫</span></div>
+                            <div class="product-service">Tặng gói bảo hành 2 đổi 1 trong vòng 6 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
+                        <!-- 5️⃣ LG UltraWide 29WQ600 29 inch -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_258_5.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_258_5.png" alt="Màn hình LG UltraWide 29WQ600 29 inch" class="product-img">
                             </div>
                             <div class="product-title">Màn hình LG UltraWide 29WQ600 29 inch</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-price">4.590.000₫</div>
+                            <div class="product-old-price"><del>5.190.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.290.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 24 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
-                    </ul>
 
+                    </ul>
                 </div>
             </div>
         </div>
@@ -785,377 +649,335 @@
         <div class="s-product-tablet">
             <header class="s-product-heading">
                 <div class="s-product-title"><a href="">Máy tính bảng</a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">iPad</a></li>
-                    <li class="s-product-name"><a href="">Samsung</a></li>
-                    <li class="s-product-name"><a href="">Lenovo</a></li>
-                    <li class="s-product-name"><a href="">Xiaomi</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
             <div class="s-product-body-2">
                 <div class="s-product-row">
                     <ul class="product-list">
+
+                        <!-- 1️⃣ iPad Air 5 10.9 inch 64GB -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/5/_/5_158_3.jpg" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/5/_/5_158_3.jpg" alt="iPad Air 5 10.9 inch 64GB" class="product-img">
                             </div>
-                            <div class="product-title">iPad Air 5 10.9 inch (2022) 64GB I Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-title">iPad Air 5 10.9 inch (2022) 64GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">14.990.000₫</div>
+                            <div class="product-old-price"><del>16.590.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">13.990.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
+
+                        <!-- 2️⃣ Samsung Galaxy Tab S9 FE 5G -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/a/tab-s9-fe-5g-doc-quyen.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/a/tab-s9-fe-5g-doc-quyen.png" alt="Samsung Galaxy Tab S9 FE 5G" class="product-img">
                             </div>
                             <div class="product-title">Samsung Galaxy Tab S9 FE 5G 6GB 128GB - Chỉ có tại CellphoneS</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                            <div class="product-price">8.990.000₫</div>
+                            <div class="product-old-price"><del>10.190.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">8.490.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                             <footer class="product-fav">
                                 <span>Yêu thích</span>
                                 <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
                             </footer>
                         </li>
-                        <li class="product-item">
-                            <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
-                            </div>
-                            <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-pro-13-select-wifi-spacegray-202210-02.jpg" alt="" class="product-img">
-                            </div>
-                            <div class="product-title">iPad Air 3 10.9 inch (2018) 64GB I Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
-                        </li>
-                        <li class="product-item">
-                            <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
-                            </div>
-                            <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/i/mi-pad-6-cps-doc-quyen.jpg" alt="" class="product-img">
-                            </div>
-                            <div class="product-title">Samsung Galaxy Tab S9 FE 5G 6GB 128GB - Chỉ có tại CellphoneS</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
-                        </li>
-                        <li class="product-item">
-                            <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
-                                <div class="product-installment">Góp 0%</div>
-                            </div>
-                            <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-2022-hero-silver-wifi-select.png" alt="" class="product-img">
-                            </div>
-                            <div class="product-title">iPad Gen 10 10.9 inch 2022 Wifi 64GB I Chính hãng Apple Việt Nam</div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
-                        </li>
-                    </ul>
 
+                        <!-- 3️⃣ iPad Air 3 10.9 inch 64GB -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 15%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-pro-13-select-wifi-spacegray-202210-02.jpg" alt="iPad Air 3 10.9 inch 64GB" class="product-img">
+                            </div>
+                            <div class="product-title">iPad Air 3 10.9 inch (2018) 64GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">9.490.000₫</div>
+                            <div class="product-old-price"><del>11.190.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">8.990.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 4️⃣ Xiaomi Pad 6 -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 10%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/i/mi-pad-6-cps-doc-quyen.jpg" alt="Xiaomi Pad 6" class="product-img">
+                            </div>
+                            <div class="product-title">Xiaomi Pad 6 6GB 128GB | Chỉ có tại CellphoneS</div>
+                            <div class="product-price">6.490.000₫</div>
+                            <div class="product-old-price"><del>7.190.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">6.190.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 5️⃣ iPad Gen 10 10.9 inch 2022 Wifi 64GB -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 12%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/ipad-2022-hero-silver-wifi-select.png" alt="iPad Gen 10 10.9 inch 2022 Wifi 64GB" class="product-img">
+                            </div>
+                            <div class="product-title">iPad Gen 10 10.9 inch 2022 Wifi 64GB | Chính hãng Apple Việt Nam</div>
+                            <div class="product-price">12.990.000₫</div>
+                            <div class="product-old-price"><del>14.790.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">12.490.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                    </ul>
                 </div>
             </div>
         </div>
 
+
+        <!-- Nhóm 1: Âm thanh -->
         <div class="s-product-sound">
             <header class="s-product-heading">
                 <div class="s-product-title"><a href="">âm thanh</a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">Tai nghe Bluetooth</a></li>
-                    <li class="s-product-name"><a href="">Tai nghe Gaming</a></li>
-                    <li class="s-product-name"><a href="">Loa Bluetooth</a></li>
-                    <li class="s-product-name"><a href="">Loa Karaoke</a></li>
-                    <li class="s-product-name"><a href="">Loa Soundbar</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
             <div class="s-product-body-2">
                 <div class="s-product-row">
                     <ul class="product-list">
+
+                        <!-- 1️⃣ Edifier W820NB -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_170_1_1.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/e/d/edifier_w820nb.png" alt="Edifier W820NB" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Tai nghe Edifier W820NB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">3.490.000₫</div>
+                            <div class="product-old-price"><del>3.890.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">3.190.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                         </li>
+
+                        <!-- 2️⃣ JBL Tune 510BT -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_150_1_3.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_150_1_3.png" alt="JBL Tune 510BT" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Tai nghe JBL Tune 510BT | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">990.000₫</div>
+                            <div class="product-old-price"><del>1.120.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">890.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                         </li>
+
+                        <!-- 3️⃣ Sony WH-CH510 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 15%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_321_4_.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_321_4_.png" alt="Sony WH-CH510" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Tai nghe Sony WH-CH510 | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">1.090.000₫</div>
+                            <div class="product-old-price"><del>1.290.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">990.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                         </li>
+
+                        <!-- 4️⃣ Anker Soundcore Life Q30 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_182_2.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_182_2.png" alt="Anker Soundcore Life Q30" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Tai nghe Anker Soundcore Life Q30 | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">1.690.000₫</div>
+                            <div class="product-old-price"><del>1.890.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">1.590.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                         </li>
+
+                        <!-- 5️⃣ Apple AirPods 3 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/e/d/edifier_w820nb.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/a/i/airpods3.png" alt="Apple AirPods 3" class="product-img">
                             </div>
-                            <div class="product-title">Iphone 14 promax 128gb | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Apple AirPods 3 | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">4.290.000₫</div>
+                            <div class="product-old-price"><del>4.790.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">3.990.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </div>
 
+        <!-- Nhóm 2: Đồng hồ thông minh -->
         <div class="s-product-watch">
             <header class="s-product-heading">
                 <div class="s-product-title"><a href="">đồng hồ thông minh</a></div>
-                <ul class="s-product-extra">
-                    <li class="s-product-name"><a href="">Apple Watch</a></li>
-                    <li class="s-product-name"><a href="">Samsung</a></li>
-                    <li class="s-product-name"><a href="">Huawei</a></li>
-                    <li class="s-product-name"><a href="">Xiaomi</a></li>
-                    <li class="s-product-name"><a href="">Xem tất cả</a></li>
-                </ul>
             </header>
             <div class="s-product-body-2">
                 <div class="s-product-row">
                     <ul class="product-list">
+
+                        <!-- 1️⃣ Huawei Watch GT4 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/h/u/huawei_3__1_1.png " alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/h/u/huawei_3__1_1.png" alt="Huawei Watch GT4" class="product-img">
                             </div>
                             <div class="product-title">Đồng hồ thông minh Huawei Watch GT4 dây da | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-price">4.990.000₫</div>
+                            <div class="product-old-price"><del>5.490.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.790.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
                         </li>
+
+                        <!-- 2️⃣ Xiaomi Mi Band 8 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi_2_1.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi_2_1.png" alt="Xiaomi Mi Band 8" class="product-img">
                             </div>
                             <div class="product-title">Vòng đeo tay thông minh Xiaomi Mi Band 8 | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-price">890.000₫</div>
+                            <div class="product-old-price"><del>990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">790.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
                         </li>
+
+                        <!-- 3️⃣ Amazfit GTR 3 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 12%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/m/amazfit_2__1.png" alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/m/amazfit_2__1.png" alt="Amazfit GTR 3" class="product-img">
                             </div>
-                            <div class="product-title">Đồng hồ thông minh  | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-title">Đồng hồ thông minh Amazfit GTR 3 | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">3.490.000₫</div>
+                            <div class="product-old-price"><del>3.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">3.290.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
                         </li>
+
+                        <!-- 4️⃣ Samsung Galaxy Watch6 40mm -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 8%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/w/a/watch6_thumbnail.png " alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/w/a/watch6_thumbnail.png" alt="Samsung Galaxy Watch6 40mm" class="product-img">
                             </div>
                             <div class="product-title">Samsung Galaxy Watch6 40mm Bluetooth | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-price">5.490.000₫</div>
+                            <div class="product-old-price"><del>5.990.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">5.290.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
                         </li>
+
+                        <!-- 5️⃣ Apple Watch SE 2 2023 -->
                         <li class="product-item">
                             <div class="product-discount-wrap">
-                                <div class="product-discount">Giảm 13%</div>
+                                <div class="product-discount">Giảm 10%</div>
                                 <div class="product-installment">Góp 0%</div>
                             </div>
                             <div class="product-img-wrap">
-                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/p/apple-watch-se-2023-40mm.png " alt="" class="product-img">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/p/apple-watch-se-2023-40mm.png" alt="Apple Watch SE 2 2023" class="product-img">
                             </div>
                             <div class="product-title">Apple Watch SE 2 2023 40mm (GPS) viền nhôm | <span>Chính hãng VN/A</span></div>
-                            <div class="product-price">25.990.000₫ </div>
-                            <div class="product-old-price "><del>29.990.000₫</del> </div>
-                            <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                            <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                            <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                            <footer class="product-fav">
-                                <span>Yêu thích</span>
-                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                            </footer>
+                            <div class="product-price">5.290.000₫</div>
+                            <div class="product-old-price"><del>5.890.000₫</del></div>
+                            <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">5.090.000₫</span></div>
+                            <div class="product-service">Bảo hành chính hãng 12 tháng</div>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </div>
-
-
-
-        <div class="s-product-accessories">
-            <div class="s-product-accessories-title"><a href="">phụ kiện - linh kiện máy tính</a></div>
-            <div class="s-product-accessories-item">
-                <ul>
-                    <li style="background-image: url(/pic/bg1.svg);"><a href="">Nổi bật</a></li>
-                    <li style="background-image: url(/pic/bg2.svg);"><a href="">Phụ kiện Apple</a></li>
-                    <li style="background-image: url(/pic/bg3.svg);"><a href="">Dán màn hình</a></li>
-                    <li style="background-image: url(/pic/bg4.svg);"><a href="" style="padding-left: 5px;">Ốp lưng - Bao da</a></li>
-                    <li style="background-image: url(/pic/bg5.svg);"><a href="">Cáp sạc</a></li>
-                    <li style="background-image: url(/pic/bg6.svg);"><a href="">Sạc dự phòng</a></li>
-                    <li style="background-image: url(/pic/bg7.svg);"><a href="">Thiết bị mạng</a></li>
-                    <li style="background-image: url(/pic/bg8.svg);"><a href="" style="padding-left: 5px;">Tay cầm chơi game</a></li>
-                    <li style="background-image: url(/pic/bg10.svg);"><a href="">Thẻ nhớ, USB</a></li>
-                    <li style="background-image: url(/pic/bg11.svg);"><a href="" style="padding-left: 5px;">Chuột, bàn phím</a></li>
-                </ul>
-                <ul>
-                    <li style="background-image: url(/pic/bg12.svg);"><a href="">Ổ cứng di động</a></li>
-                    <li style="background-image: url(/pic/bg9.svg);"><a href="">Apple Care</a></li>
-                    <li style="background-image: url(/pic/bg20.webp);"><a href="">Màn hình</a></li>
-                    <li style="background-image: url(/pic/bg14.png);"><a href="">CPU</a></li>
-                    <li style="background-image: url(/pic/bg15.png);"><a href="">MainBoard</a></li>
-                    <li style="background-image: url(/pic/bg16.png);"><a href="">Nguồn</a></li>
-                    <li style="background-image: url(/pic/bg17.png);"><a href="">RAM</a></li>
-                    <li style="background-image: url(/pic/bg18.png);"><a href="">Ổ cứng</a></li>
-                    <li style="background-image: url(/pic/bg19.png);"><a href="">Card Màn Hình</a></li>
-                    <li style="background-image: url(/pic/bg13.png);"><a href="">Tản nhiệt</a></li>
-                </ul>
-            </div>
+        <div>
         </div>
     </div>
 </div>
