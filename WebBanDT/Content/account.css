@@ -1,12 +1,31 @@
-﻿.main-login {
+﻿/* --- FIX FOOTER LUÔN DƯỚI CÙNG --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}
+
+/* --- MAIN LOGIN --- */
+.main-login {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 60px 0; /* tránh dính header */
+    min-height: calc(100vh - 180px); /* giữ form giữa trang */
 }
-/* css form-box */
+
+/* --- FORM BOX --- */
 .wrapper {
-    position: absolute;
     width: 400px;
     height: 400px;
     background-color: white;
@@ -19,7 +38,6 @@
     justify-content: center;
     transition: height 0.2s ease;
     overflow: hidden;
-    transform: translateY(80%);
 }
 
     .wrapper.active {
@@ -52,8 +70,7 @@
         transform: translateX(0);
     }
 
-
-
+/* --- FORM ELEMENTS --- */
 .form-box h2 {
     font-size: 2em;
     color: #162938;

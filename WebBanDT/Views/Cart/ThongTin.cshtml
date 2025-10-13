@@ -1,0 +1,329 @@
+﻿
+@{
+    ViewBag.Title = "Thông tin";
+    Layout = "~/Views/Shared/_CartLogin.cshtml";
+}
+
+<br />
+<br />
+<div class="super-cart">
+    <div class="cart-header-wrap">
+        <div class="cart-header">
+            <a href="@Url.Action("GioHang", "Cart")">
+                <i class="fa-solid fa-chevron-left"></i> Quay lại
+            </a>
+            <p>Thông tin</p>
+        </div>
+    </div>
+    <div class="cart-product">
+        <!-- Sản phẩm trong giỏ -->
+        <div class="cart-product-item">
+            <div class="cart-pic-item">
+                <img src="https://cellphones.com.vn/media/catalog/product/i/p/iphone-16-pro-max_1.png" alt="">
+                <div class="cart-product-btn">
+                    <i class="fa-solid fa-rectangle-xmark"></i>
+                    <span>Xóa</span>
+                </div>
+            </div>
+
+            <div class="cart-product-info">
+                <h4>Điện thoại iPhone 16 Promax 512GB</h4>
+                <div class="cart-product-promotion-details">
+                    <ul>
+                        <li>Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, không kèm thanh toán qua cổng online, mua kèm)</li>
+                        <li>Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO</li>
+                    </ul>
+                </div>
+
+                <div class="cart-product-promotion">
+                    <span>Khuyến mãi</span>
+                    <i class="fa-solid fa-caret-down"></i>
+                    <i class="fa-solid fa-caret-up"></i>
+                </div>
+
+                <!-- Chọn màu sản phẩm -->
+                <div class="cart-product-color">
+                    <label for="product-color">Màu sắc:</label>
+                    <select id="product-color" class="product-color-select">
+                        <option value="black" selected>Đen</option>
+                        <option value="natural">Tự nhiên</option>
+                        <option value="desert">Sa mạc</option>
+                        <option value="white">Trắng</option>
+                    </select>
+                </div>
+
+                <script>
+                    const colorImages = {
+                        black: "https://phucanhcdn.com/media/product/56537_dien_thoai_apple_iphone_16_pro_max_titan_den_3.jpg",
+                        natural: "https://catalog-assets-asia-southeast1.aeon-vn-prod.e.spresso.com/c3RvcmFnZS5nb29nbGVhcGlzLmNvbQ==/YWVvbnZpZXRuYW0tc3ByZXNzby1wdWJsaWM=/MjAyNA==/U0VQVEVNQkVS/MTAxMjA2NjggKDEp.jpg",
+                        desert: "https://tse1.mm.bing.net/th/id/OIP.c_j0ujfcHT-I8S3SzNwIxgHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
+                        white: "https://cdn2.fptshop.com.vn/unsafe/750x0/filters:format(webp):quality(75)/iphone_16_pro_max_white_titan_1_a15c48070f.png"
+                    };
+
+                    document.getElementById('product-color').addEventListener('change', function () {
+                        const selectedColor = this.value;
+                        const img = document.querySelector('.cart-pic-item img');
+                        img.src = colorImages[selectedColor];
+                    });
+                </script>
+
+                <style>
+                    .cart-product-color {
+                        margin-top: 10px;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        font-size: 15px;
+                    }
+
+                    .product-color-select {
+                        padding: 8px 10px;
+                        border-radius: 6px;
+                        border: 1px solid #ccc;
+                        outline: none;
+                        font-size: 14px;
+                        cursor: pointer;
+                    }
+
+                        .product-color-select:hover {
+                            border-color: #007bff;
+                        }
+                </style>
+
+            </div>
+
+            <div class="cart-product-price-options">
+                <div class="cart-product-price">
+                    <p class="price-product-cart">31.990.000<sup>đ</sup></p>
+                </div>
+                <div class="cart-product-quantity">
+                    <span class="cart-reduce cart-reduce--active">-</span>
+                    <p class="product-quantity">1</p>
+                    <span class="cart-add cart-add--active">+</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tổng tiền -->
+        <div class="cart-product-allprice">
+            <p>Tạm tính (<span class="allprice">1</span> sản phẩm)</p>
+            <p><span class="totalprice">31.990.000</span><sup>đ</sup></p>
+        </div>
+
+        <!-- Thông tin khách hàng -->
+        <div class="cart-user-info">
+            <h4>Thông tin khách hàng</h4>
+
+            <div class="cart-user-sex">
+                <label class="container">
+                    Anh
+                    <input type="radio" name="gender" checked>
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container">
+                    Chị
+                    <input type="radio" name="gender">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <div class="cart-user-input">
+                <input placeholder="Họ và tên" type="text" id="full-name">
+                <input placeholder="Số điện thoại" type="text" id="phone">
+            </div>
+
+            <h4>Chọn cách thức nhận hàng</h4>
+            <div class="cart-user-selector">
+                <label class="container">
+                    Giao hàng tận nơi
+                    <input type="radio" name="delivery-method" checked>
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container">
+                    Nhận tại cửa hàng
+                    <input type="radio" name="delivery-method">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <!-- Phần chọn địa chỉ giao hàng -->
+            <div class="cart-user-location-selection">
+                <label for="cart-province">Tỉnh / Thành phố</label>
+                <select id="cart-province">
+                    <option value="" disabled selected>Chọn tỉnh / thành phố</option>
+                </select>
+
+                <label for="cart-district">Quận / Huyện</label>
+                <select id="cart-district">
+                    <option value="" disabled selected>Chọn quận / huyện</option>
+                </select>
+
+                <label for="cart-ward">Phường / Xã</label>
+                <select id="cart-ward">
+                    <option value="" disabled selected>Chọn phường / xã</option>
+                </select>
+            </div>
+
+
+
+
+            <style>
+                .checkout-location {
+                    background: #fff;
+                    border: 1px solid #eee;
+                    padding: 15px;
+                    border-radius: 10px;
+                    margin-top: 15px;
+                }
+
+                    .checkout-location h3 {
+                        font-size: 16px;
+                        margin-bottom: 10px;
+                        color: #333;
+                    }
+
+                .location-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 10px;
+                }
+
+                    .location-row select {
+                        flex: 1;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        font-size: 14px;
+                    }
+
+                #address-detail {
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    font-size: 14px;
+                }
+            </style>
+
+
+            <input placeholder="Yêu cầu khác (không bắt buộc)" type="text" class="cart-user-info-request">
+
+            <div class="cart-buy-request">
+                <div><input type="checkbox"> <span>Gọi người khác nhận hàng (nếu có)</span></div>
+                <div><input type="checkbox"> <span>Chuyển dữ liệu qua máy mới</span></div>
+                <div><input type="checkbox"> <span>Xuất hóa đơn công ty</span></div>
+            </div>
+        </div>
+
+        <!-- Mã giảm giá -->
+        <div class="cart-user-codesale">
+            <div class="cart-user-code">
+                <i class="fa-solid fa-barcode"></i>
+                <p>Sử dụng mã giảm giá</p>
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+        </div>
+
+        <!-- Tổng kết -->
+        <div class="cart-user-plus">
+            <div class="cart-user-money-plus">
+                <p>Tổng tiền</p>
+                <p class="money-all">31.990.000</p>
+            </div>
+            <div class="cart-user-point-plus">
+                <p>Điểm tích lũy nhận được</p>
+                <p class="money-point">31.990</p>
+            </div>
+            <label>
+                <input type="checkbox" name="chinhsach">
+                Tôi đồng ý với <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Good Phone
+            </label>
+        </div>
+
+        <div class="cart-user-buy-now">
+            <a href="javascript:void(0)" id="btnOrder" class="btn-order">Đặt hàng</a>
+        </div>
+    </div>
+</div>
+<!-- Import thư viện -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const host = "https://provinces.open-api.vn/api/";
+
+        // Load danh sách Tỉnh/Thành
+        axios.get(host + "?depth=1").then(res => {
+            let options = '<option value="" disabled selected>Chọn tỉnh / thành phố</option>';
+            res.data.forEach(item => {
+                options += `<option data-id="${item.code}" value="${item.name}">${item.name}</option>`;
+            });
+            $("#cart-province").html(options);
+        });
+
+        // Khi chọn Tỉnh => load Quận/Huyện
+        $("#cart-province").change(function () {
+            const provinceId = $(this).find(":selected").data("id");
+            axios.get(`${host}p/${provinceId}?depth=2`).then(res => {
+                let options = '<option value="" disabled selected>Chọn quận / huyện</option>';
+                res.data.districts.forEach(item => {
+                    options += `<option data-id="${item.code}" value="${item.name}">${item.name}</option>`;
+                });
+                $("#cart-district").html(options);
+                $("#cart-ward").html('<option value="" disabled selected>Chọn phường / xã</option>');
+            });
+        });
+
+        // Khi chọn Quận/Huyện => load Phường/Xã
+        $("#cart-district").change(function () {
+            const districtId = $(this).find(":selected").data("id");
+            axios.get(`${host}d/${districtId}?depth=2`).then(res => {
+                let options = '<option value="" disabled selected>Chọn phường / xã</option>';
+                res.data.wards.forEach(item => {
+                    options += `<option data-id="${item.code}" value="${item.name}">${item.name}</option>`;
+                });
+                $("#cart-ward").html(options);
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btnOrder").click(function () {
+            let errors = [];
+
+            // Kiểm tra họ tên
+            if (!$("#full-name").val().trim()) {
+                errors.push("Vui lòng nhập họ và tên.");
+            }
+
+            // Kiểm tra số điện thoại
+            const phone = $("#phone").val().trim();
+            if (!phone) {
+                errors.push("Vui lòng nhập số điện thoại.");
+            } else if (!/^\d{9,11}$/.test(phone)) {
+                errors.push("Số điện thoại không hợp lệ.");
+            }
+
+            // Kiểm tra chọn Tỉnh/Thành, Quận/Huyện, Phường/Xã
+            if (!$("#cart-province").val()) errors.push("Vui lòng chọn Tỉnh / Thành phố.");
+            if (!$("#cart-district").val()) errors.push("Vui lòng chọn Quận / Huyện.");
+            if (!$("#cart-ward").val()) errors.push("Vui lòng chọn Phường / Xã.");
+
+            // Kiểm tra chọn giới tính
+            if (!$("input[name='gender']:checked").length) errors.push("Vui lòng chọn giới tính.");
+
+            // Kiểm tra đồng ý chính sách
+            if (!$("input[name='chinhsach']").is(":checked")) errors.push("Bạn phải đồng ý với Chính sách xử lý dữ liệu cá nhân.");
+
+            // Nếu có lỗi
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return false; // dừng thực hiện
+            }
+
+            // Nếu hợp lệ, chuyển trang Thanh toán
+            window.location.href = "@Url.Action("ThanhToan","Cart")";
+        });
+    });
+</script>

@@ -1,0 +1,396 @@
+﻿
+@{
+    ViewBag.Title = "Screen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="navbar-line">
+    <div class="navbar-link">
+        <a asp-controller="Home" asp-action="TrangChu" style="text-decoration: none"><i class="fa-solid fa-house" style="color: red;"></i><span>Trang chủ</span></a><i class="fa-solid fa-angle-right"></i><span>Điện thoại</span>
+    </div>
+</div>
+
+<div class="category">
+    <div>
+        <div class="category-sort" style="margin-bottom: 20px; margin-top: 20px;">
+            <strong>Chọn theo tiêu chí</strong>
+        </div>
+        <div class="category-list">
+            <div id="criteria-dropdown-price" class="sort-list">
+                <i class="fa-solid fa-money-bill"></i>
+                <span style="padding-left: 3px;"> Giá</span>
+                <div class="range-price">
+                    <div class="group">
+                        <div class="progress"></div>
+                        <div class="range-input">
+                            <input class="range-min" min="0" max="50000000" type="range" value="0" step="100000">
+                            <input class="range-max" min="0" max="50000000" type="range" value="50000000" step="100000">
+                        </div>
+                        <div class="range-text">
+                            <div class="text-min">0</div>
+                            <div class="text-max">50.000.000</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sort-list sort-btn" onclick="changeColor()">
+                <i class="fa-solid fa-truck"></i>
+                <span style="padding-left: 3px;"> Sẵn hàng</span>
+            </div>
+
+            <div id="criteria-dropdown" class="sort-list">
+                <span style="padding-right: 3px;">Nhu cầu sử dụng</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <div class="list-use">
+                    <ul class="list-dropdown">
+                        <li class="list-dropdown-item">Chơi game</li>
+                        <li class="list-dropdown-item">Pin trâu</li>
+                        <li class="list-dropdown-item">Dung lượng lớn</li>
+                        <li class="list-dropdown-item">Cấu hình cao</li>
+                        <li class="list-dropdown-item">Mỏng nhẹ</li>
+                        <li class="list-dropdown-item">Chụp ảnh đẹp</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="criteria-dropdown-2" class="sort-list">
+                <span style="padding-right: 3px;">Hệ điều hành</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-2">
+                    <li class="list-dropdown-item">iOS</li>
+                    <li class="list-dropdown-item">Android</li>
+                </ul>
+            </div>
+
+            <div id="criteria-dropdown-3" class="sort-list">
+                <span style="padding-right: 3px;"> Bộ nhớ trong</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-3">
+                    <li class="list-dropdown-item">Dưới 64GB</li>
+                    <li class="list-dropdown-item">128GB và 256GB</li>
+                    <li class="list-dropdown-item">Trên 512GB</li>
+                </ul>
+            </div>
+
+            <div id="criteria-dropdown-4" class="sort-list">
+                <span style="padding-right: 3px;"> Dung lượng ram</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-4">
+                    <li class="list-dropdown-item">Dưới 4GB</li>
+                    <li class="list-dropdown-item">4GB - 8GB</li>
+                    <li class="list-dropdown-item">8GB - 12GB</li>
+                    <li class="list-dropdown-item">Trên 12GB</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-5" class="sort-list">
+                <span style="padding-right: 3px;"> Tính năng đặt biệt</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-5">
+                    <li class="list-dropdown-item">Sạc không dây</li>
+                    <li class="list-dropdown-item">Bảo mật vân tay</li>
+                    <li class="list-dropdown-item">Nhận diện khuôn mặt</li>
+                    <li class="list-dropdown-item">Kháng nước, kháng bụi</li>
+                    <li class="list-dropdown-item">Hỗ trợ 5G</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-6" class="sort-list">
+                <span style="padding-right: 3px;"> Tính năng camera</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-6">
+                    <li class="list-dropdown-item">Chụp xóa phông</li>
+                    <li class="list-dropdown-item">Chụp góc rộng</li>
+                    <li class="list-dropdown-item">Quay video 4K</li>
+                    <li class="list-dropdown-item">Chụp Zoom xa</li>
+                    <li class="list-dropdown-item">Chụp Macro</li>
+                    <li class="list-dropdown-item">Chống rung</li>
+                    <li class="list-dropdown-item">Quay video 8K</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-7" class="sort-list">
+                <span style="padding-right: 3px;"> Tần số quét</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-7">
+                    <li class="list-dropdown-item">60Hz</li>
+                    <li class="list-dropdown-item">90Hz</li>
+                    <li class="list-dropdown-item">120Hz</li>
+                    <li class="list-dropdown-item">Trên 144Hz</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-8" class="sort-list">
+                <span style="padding-right: 3px;"> Kích thước màn hình</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-8">
+                    <li class="list-dropdown-item">Trên 6 inch</li>
+                    <li class="list-dropdown-item">Dưới 6 inch</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-9" class="sort-list">
+                <span style="padding-right: 3px;"> Kiểu màn hình</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-9">
+                    <li class="list-dropdown-item">Tai thỏ</li>
+                    <li class="list-dropdown-item">Tràn viền ( Không khiếm khuyết)</li>
+                    <li class="list-dropdown-item">Màn hình gập</li>
+                    <li class="list-dropdown-item">Giọt nước</li>
+                    <li class="list-dropdown-item">Đục lỗ</li>
+                    <li class="list-dropdown-item">Dynamic Island</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-10" class="sort-list">
+                <span style="padding-right: 3px;"> Chip xử lí</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-10">
+                    <li class="list-dropdown-item">Snapdragon</li>
+                    <li class="list-dropdown-item">Apple A</li>
+                    <li class="list-dropdown-item">Mediatek Dimensicy</li>
+                    <li class="list-dropdown-item">Mediatek Helio</li>
+                    <li class="list-dropdown-item">Exynos</li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            let rangeInput = document.querySelectorAll('.range-input input');
+            let rangeText = document.querySelectorAll('.range-text div');
+            let progress = document.querySelector('.progress');
+            let priceMax = rangeInput[0].max;
+            let priceGap = 100000;
+
+            rangeInput.forEach(input => {
+                input.addEventListener('input', (event) => {
+                    let minVal = parseInt(rangeInput[0].value);
+                    let maxVal = parseInt(rangeInput[1].value);
+
+                    if (maxVal - minVal < priceGap) {
+                        if (event.target.className === 'range-min') {
+                            minVal = rangeInput[0].value = maxVal - priceGap;
+                        } else {
+                            maxVal = rangeInput[1].value = minVal + priceGap;
+                        }
+                    }
+
+                    let positionMin = (minVal / priceMax) * 100;
+                    let positionMax = 100 - ((maxVal / priceMax) * 100);
+                    progress.style.left = positionMin + '%';
+                    progress.style.right = positionMax + '%';
+                    rangeText[0].style.left = positionMin + '%';
+                    rangeText[1].style.right = positionMax + '%';
+                    rangeText[0].innerText = minVal.toLocaleString();
+                    rangeText[1].innerText = maxVal.toLocaleString();
+                })
+            })
+
+            //-----------Sort------------
+            const Btnprice = document.querySelector("#criteria-dropdown-price");
+            const listDropdownprice = document.querySelector(".range-price");
+            addClickEvent(Btnprice, listDropdownprice);
+
+            const Btn = document.querySelector("#criteria-dropdown");
+            const listDropdown = document.querySelector(".list-dropdown");
+            addClickEvent(Btn, listDropdown);
+
+            const Btn2 = document.querySelector("#criteria-dropdown-2");
+            const listDropdown2 = document.querySelector(".list-dropdown-2");
+            addClickEvent(Btn2, listDropdown2);
+
+            const Btn3 = document.querySelector("#criteria-dropdown-3");
+            const listDropdown3 = document.querySelector(".list-dropdown-3");
+            addClickEvent(Btn3, listDropdown3);
+
+            const Btn4 = document.querySelector("#criteria-dropdown-4");
+            const listDropdown4 = document.querySelector(".list-dropdown-4");
+            addClickEvent(Btn4, listDropdown4);
+
+            const Btn5 = document.querySelector("#criteria-dropdown-5");
+            const listDropdown5 = document.querySelector(".list-dropdown-5");
+            addClickEvent(Btn5, listDropdown5);
+
+            const Btn6 = document.querySelector("#criteria-dropdown-6");
+            const listDropdown6 = document.querySelector(".list-dropdown-6");
+            addClickEvent(Btn6, listDropdown6);
+
+            const Btn7 = document.querySelector("#criteria-dropdown-7");
+            const listDropdown7 = document.querySelector(".list-dropdown-7");
+            addClickEvent(Btn7, listDropdown7);
+
+            const Btn8 = document.querySelector("#criteria-dropdown-8");
+            const listDropdown8 = document.querySelector(".list-dropdown-8");
+            addClickEvent(Btn8, listDropdown8);
+
+            const Btn9 = document.querySelector("#criteria-dropdown-9");
+            const listDropdown9 = document.querySelector(".list-dropdown-9");
+            addClickEvent(Btn9, listDropdown9);
+
+            const Btn10 = document.querySelector("#criteria-dropdown-10");
+            const listDropdown10 = document.querySelector(".list-dropdown-10");
+            addClickEvent(Btn10, listDropdown10);
+
+            function addClickEvent(Btn, listDropdown) {
+                Btn.addEventListener("click", function () {
+                    listDropdown.style.display = "flex";
+                });
+
+                document.addEventListener("click", function (event) {
+                    if (!listDropdown.contains(event.target) && !Btn.contains(event.target)) {
+                        listDropdown.style.display = "none";
+                    }
+                });
+            }</script>
+    </div>
+
+    <div>
+        <div class="category-sort" style="margin-bottom: 20px; margin-top: 20px;">
+            <strong>Sắp xếp theo</strong>
+        </div>
+        <div class="category-list">
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                <span style="padding-left: 3px;"> Giá cao - thấp</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-arrow-down-short-wide"></i>
+                <span style="padding-left: 3px;"> Giá thấp - cao</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span style="padding-left: 3px;"> Khuyến mãi hot</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-regular fa-eye"></i>
+                <span style="padding-left: 3px;"> Xem nhiều</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="product-wrap">
+        <div class="s-product-body-2">
+            <div class="s-product-row">
+                <ul class="product-list">
+
+                    <!-- 1️⃣ ASUS VA27EHE 27 inch -->
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 20%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-asus-va27ehf-27-inch-spa.png" alt="Màn hình ASUS VA27EHE 27 inch" class="product-img">
+                        </div>
+                        <div class="product-title">Màn hình ASUS VA27EHE 27 inch</div>
+                        <div class="product-price">3.190.000₫</div>
+                        <div class="product-old-price"><del>3.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">2.990.000₫</span></div>
+                        <div class="product-service">Tặng gói bảo hành 36 tháng chính hãng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <!-- 2️⃣ MSI PRO MP243X 24 inch -->
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 10%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/man-hinh-msi-pro-mp243x-24-inch_1.png" alt="Màn hình MSI Pro MP243X 24 inch" class="product-img">
+                        </div>
+                        <div class="product-title">Màn hình MSI Pro MP243X 24 inch</div>
+                        <div class="product-price">2.388.000₫</div>
+                        <div class="product-old-price"><del>2.650.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">2.190.000₫</span></div>
+                        <div class="product-service">Tặng gói bảo hành 24 tháng chính hãng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <!-- 3️⃣ Giá treo màn hình North Bayou NB-F80 -->
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 15%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/i/gia-treo-man-hinh-may-tinh-north-bayou-nb-f80-1.jpg" alt="Giá treo màn hình North Bayou NB-F80" class="product-img">
+                        </div>
+                        <div class="product-title">Giá treo màn hình máy tính North Bayou NB-F80</div>
+                        <div class="product-price">690.000₫</div>
+                        <div class="product-old-price"><del>810.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">650.000₫</span></div>
+                        <div class="product-service">Tặng kèm bộ ốc vít và bảo hành 12 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <!-- 4️⃣ LG UltraGear 27GN60R 27 inch -->
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 5%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_238_6__1.png" alt="Màn hình LG UltraGear 27GN60R 27 inch" class="product-img">
+                        </div>
+                        <div class="product-title">Màn hình Gaming LG UltraGear 27GN60R 27 inch</div>
+                        <div class="product-price">5.190.000₫</div>
+                        <div class="product-old-price"><del>5.490.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.990.000₫</span></div>
+                        <div class="product-service">Tặng gói bảo hành 2 đổi 1 trong vòng 6 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <!-- 5️⃣ LG UltraWide 29WQ600 29 inch -->
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 12%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/r/group_258_5.png" alt="Màn hình LG UltraWide 29WQ600 29 inch" class="product-img">
+                        </div>
+                        <div class="product-title">Màn hình LG UltraWide 29WQ600 29 inch</div>
+                        <div class="product-price">4.590.000₫</div>
+                        <div class="product-old-price"><del>5.190.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">4.290.000₫</span></div>
+                        <div class="product-service">Bảo hành chính hãng 24 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />

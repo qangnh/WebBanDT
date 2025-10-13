@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <!-- CSS mặc định -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- CSS riêng -->
+    <link href="~/Content/productlist.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+
+    <script src="~/js/phones.js"></script>
+    <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <button onclick="topFunction()" id="upBtn" title="Go to top">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    <header>
+        <div id="header-taskbar">
+            <div class="header-taskbar-view">
+
+                <!-- Logo -->
+                <div class="header-taskbar-logo">
+                    <a href="@Url.Action("TrangChu", "Home")">
+                        <img src="~/Image/GooD Phone.png" alt="Logo">
+                    </a>
+                </div>
+
+                <!-- Danh mục -->
+                <div class="header-taskbar-dropdown">
+                    <div class="header-taskbar-dropdown-button">
+                        <i class="fas fa-bars"></i> Danh Mục
+                        <i class="fa-solid fa-sort-down" style="margin-left: 3px; margin-bottom: 5px;"></i>
+                    </div>
+
+                    <div class="header-taskbar-dropdown-list">
+                        <ul class="header-taskbar-dropdown-list-ul">
+                            <li class="menu-phone">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                <a href="@Url.Action("Phones", "Category")">Điện thoại</a>
+                            </li>
+
+                            <li class="menu-tablet">
+                                <i class="fa-solid fa-tablet-screen-button"></i>
+                                <a href="@Url.Action("Tablet", "Category")">Tablet</a>
+                            </li>
+
+                            <li class="menu-laptop">
+                                <i class="fa-solid fa-laptop"></i>
+                                <a href="@Url.Action("Laptop", "Category")">Laptop</a>
+                            </li>
+
+                            <li class="menu-sound">
+                                <i class="fa-solid fa-headphones-simple"></i>
+                                <a href="@Url.Action("Sound", "Category")">Âm thanh</a>
+                            </li>
+
+                            <li class="menu-watch">
+                                <img src="~/Content/pic/iconwatch.svg"
+                                     onerror="this.outerHTML='<i class=\'fa-solid fa-clock\'></i>'">
+                                <a href="@Url.Action("Watch", "Category")">Đồng hồ thông minh</a>
+                            </li>
+                            <li class="menu-screen">
+                                <i class="fa-solid fa-computer"></i>
+                                <a href="@Url.Action("Screen", "Category")">Màn hình</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Chọn vị trí -->
+                <div class="header-taskbar-location">
+                    <i class="fa-solid fa-map-location"></i>
+                    <a href="#" id="location-form-toggle">
+                        Thành phố của bạn <i class="fa-solid fa-caret-down"></i>
+                    </a>
+
+                    <!-- Popup location -->
+                    <div class="location-form" id="location-form">
+                        <div class="location-from-content">
+                            <h2>
+                                Chọn địa chỉ mua hàng
+                                <span id="location-form-close"><i class="fa-regular fa-circle-xmark"></i></span>
+                            </h2>
+                            <form id="location-form-main">
+                                <p>Chọn địa chỉ chính xác để nhận được giá ưu đãi nhất</p>
+
+                                <select id="city">
+                                    <option value="" disabled selected>Chọn tỉnh thành</option>
+                                </select>
+
+                                <select id="district">
+                                    <option value="" disabled selected>Chọn Quận/Huyện</option>
+                                </select>
+
+                                <select id="ward">
+                                    <option value="" disabled selected>Chọn Phường/Xã</option>
+                                </select>
+
+                                <input type="text" placeholder="Số nhà, tên đường">
+
+                                <button type="submit">Xác nhận</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thanh tìm kiếm -->
+                <div class="header-taskbar-sreach">
+                    <input type="text" placeholder="Bạn cần tìm gì">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+
+                <!-- Gọi mua hàng -->
+                <div class="header-taskbar-phone">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:0354445960">Gọi mua hàng 0354445960</a>
+                </div>
+
+                <!-- Cửa hàng -->
+                <div class="header-taskbar-address">
+                    <i class="fa-solid fa-store"></i>
+                    <span><a href="https://maps.app.goo.gl/F6GS4q3iGVZhphhA9">Cửa hàng gần bạn</a></span>
+                </div>
+
+                <!-- Giỏ hàng -->
+                <div class="header-taskbar-boxcard">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span><a href="@Url.Action("GioHang", "Cart")">Giỏ hàng</a></span>
+                </div>
+
+                <!-- Tra cứu đơn hàng -->
+                <div class="header-taskbar-ship">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span><a href="@Url.Action("GiaoHang", "Cart")">Tra cứu đơn hàng</a></span>
+                </div>
+
+                <!-- Tài khoản -->
+                <div class="header-taskbar-account">
+                    <i class="fa-regular fa-circle-user"></i>
+                    <span><a href="@Url.Action("Taikhoan", "Account")">Đăng nhập</a></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- JS location -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        const host = "https://provinces.open-api.vn/api/";
+
+        // Toggle popup
+        $('#location-form-toggle').click(function (e) {
+            e.preventDefault();
+            $('#location-form').fadeIn();
+        });
+        $('#location-form-close').click(function () {
+            $('#location-form').fadeOut();
+        });
+        $('#location-form').click(function (e) {
+            if (e.target === this) $(this).fadeOut();
+        });
+
+        // Load tỉnh
+        axios.get(host + "?depth=1").then(res => {
+            let html = '<option value="" disabled selected>Chọn tỉnh thành</option>';
+            res.data.forEach(c => {
+                html += `<option data-id="${c.code}" value="${c.name}">${c.name}</option>`;
+            });
+            $('#city').html(html);
+        });
+
+        // Khi chọn Tỉnh -> Huyện
+        $('#city').change(function () {
+            let cityId = $(this).find(':selected').data('id');
+            axios.get(`${host}p/${cityId}?depth=2`).then(res => {
+                let html = '<option value="" disabled selected>Chọn Quận/Huyện</option>';
+                res.data.districts.forEach(d => {
+                    html += `<option data-id="${d.code}" value="${d.name}">${d.name}</option>`;
+                });
+                $('#district').html(html);
+                $('#ward').html('<option value="" disabled selected>Chọn Phường/Xã</option>');
+            });
+        });
+
+        // Khi chọn Huyện -> Xã
+        $('#district').change(function () {
+            let districtId = $(this).find(':selected').data('id');
+            axios.get(`${host}d/${districtId}?depth=2`).then(res => {
+                let html = '<option value="" disabled selected>Chọn Phường/Xã</option>';
+                res.data.wards.forEach(w => {
+                    html += `<option data-id="${w.code}" value="${w.name}">${w.name}</option>`;
+                });
+                $('#ward').html(html);
+            });
+        });
+
+        // Khi submit form
+        $('#location-form-main').submit(function (e) {
+            e.preventDefault();
+            const city = $('#city option:selected').text();
+            const district = $('#district option:selected').text();
+            const ward = $('#ward option:selected').text();
+            alert(`Bạn đã chọn: ${city} | ${district} | ${ward}`);
+            $('#location-form').fadeOut();
+        });
+    </script>
+</body>
+</html>

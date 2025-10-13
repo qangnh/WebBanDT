@@ -13,5 +13,25 @@ namespace WebBanDT.App_Start
         {
             return View();
         }
+        public ActionResult Laptop()
+        {
+            return View();
+        }
+        public ActionResult Screen()
+        {
+            return View();
+        }
+        public ActionResult Tablet()
+        {
+            return View();
+        }
+        public ActionResult Sound()
+        {
+            return View();
+        }
+        public ActionResult Watch()
+        {
+            return View();
+        }
     }
 }

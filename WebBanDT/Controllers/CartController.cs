@@ -17,5 +17,13 @@ namespace WebBanDT.Controllers
         {
             return View();
         }
+        public ActionResult ThongTin()
+        {
+            return View();
+        }
+        public ActionResult ThanhToan()
+        {
+            return View();
+        }
     }
 }

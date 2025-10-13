@@ -1,0 +1,522 @@
+﻿
+@{
+    ViewBag.Title = "Laptop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="navbar-line">
+    <div class="navbar-link">
+        <a asp-controller="Home" asp-action="TrangChu" style="text-decoration: none"><i class="fa-solid fa-house" style="color: red;"></i><span>Trang chủ</span></a><i class="fa-solid fa-angle-right"></i><span>Điện thoại</span>
+    </div>
+</div>
+
+<div class="category">
+    <div>
+        <div class="category-sort" style="margin-bottom: 20px; margin-top: 20px;">
+            <strong>Chọn theo tiêu chí</strong>
+        </div>
+        <div class="category-list">
+            <div id="criteria-dropdown-price" class="sort-list">
+                <i class="fa-solid fa-money-bill"></i>
+                <span style="padding-left: 3px;"> Giá</span>
+                <div class="range-price">
+                    <div class="group">
+                        <div class="progress"></div>
+                        <div class="range-input">
+                            <input class="range-min" min="0" max="50000000" type="range" value="0" step="100000">
+                            <input class="range-max" min="0" max="50000000" type="range" value="50000000" step="100000">
+                        </div>
+                        <div class="range-text">
+                            <div class="text-min">0</div>
+                            <div class="text-max">50.000.000</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="sort-list sort-btn" onclick="changeColor()">
+                <i class="fa-solid fa-truck"></i>
+                <span style="padding-left: 3px;"> Sẵn hàng</span>
+            </div>
+
+            <div id="criteria-dropdown" class="sort-list">
+                <span style="padding-right: 3px;">Nhu cầu sử dụng</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <div class="list-use">
+                    <ul class="list-dropdown">
+                        <li class="list-dropdown-item">Chơi game</li>
+                        <li class="list-dropdown-item">Pin trâu</li>
+                        <li class="list-dropdown-item">Dung lượng lớn</li>
+                        <li class="list-dropdown-item">Cấu hình cao</li>
+                        <li class="list-dropdown-item">Mỏng nhẹ</li>
+                        <li class="list-dropdown-item">Chụp ảnh đẹp</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="criteria-dropdown-2" class="sort-list">
+                <span style="padding-right: 3px;">Hệ điều hành</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-2">
+                    <li class="list-dropdown-item">iOS</li>
+                    <li class="list-dropdown-item">Android</li>
+                </ul>
+            </div>
+
+            <div id="criteria-dropdown-3" class="sort-list">
+                <span style="padding-right: 3px;"> Bộ nhớ trong</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-3">
+                    <li class="list-dropdown-item">Dưới 64GB</li>
+                    <li class="list-dropdown-item">128GB và 256GB</li>
+                    <li class="list-dropdown-item">Trên 512GB</li>
+                </ul>
+            </div>
+
+            <div id="criteria-dropdown-4" class="sort-list">
+                <span style="padding-right: 3px;"> Dung lượng ram</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-4">
+                    <li class="list-dropdown-item">Dưới 4GB</li>
+                    <li class="list-dropdown-item">4GB - 8GB</li>
+                    <li class="list-dropdown-item">8GB - 12GB</li>
+                    <li class="list-dropdown-item">Trên 12GB</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-5" class="sort-list">
+                <span style="padding-right: 3px;"> Tính năng đặt biệt</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-5">
+                    <li class="list-dropdown-item">Sạc không dây</li>
+                    <li class="list-dropdown-item">Bảo mật vân tay</li>
+                    <li class="list-dropdown-item">Nhận diện khuôn mặt</li>
+                    <li class="list-dropdown-item">Kháng nước, kháng bụi</li>
+                    <li class="list-dropdown-item">Hỗ trợ 5G</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-6" class="sort-list">
+                <span style="padding-right: 3px;"> Tính năng camera</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-6">
+                    <li class="list-dropdown-item">Chụp xóa phông</li>
+                    <li class="list-dropdown-item">Chụp góc rộng</li>
+                    <li class="list-dropdown-item">Quay video 4K</li>
+                    <li class="list-dropdown-item">Chụp Zoom xa</li>
+                    <li class="list-dropdown-item">Chụp Macro</li>
+                    <li class="list-dropdown-item">Chống rung</li>
+                    <li class="list-dropdown-item">Quay video 8K</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-7" class="sort-list">
+                <span style="padding-right: 3px;"> Tần số quét</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-7">
+                    <li class="list-dropdown-item">60Hz</li>
+                    <li class="list-dropdown-item">90Hz</li>
+                    <li class="list-dropdown-item">120Hz</li>
+                    <li class="list-dropdown-item">Trên 144Hz</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-8" class="sort-list">
+                <span style="padding-right: 3px;"> Kích thước màn hình</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-8">
+                    <li class="list-dropdown-item">Trên 6 inch</li>
+                    <li class="list-dropdown-item">Dưới 6 inch</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-9" class="sort-list">
+                <span style="padding-right: 3px;"> Kiểu màn hình</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-9">
+                    <li class="list-dropdown-item">Tai thỏ</li>
+                    <li class="list-dropdown-item">Tràn viền ( Không khiếm khuyết)</li>
+                    <li class="list-dropdown-item">Màn hình gập</li>
+                    <li class="list-dropdown-item">Giọt nước</li>
+                    <li class="list-dropdown-item">Đục lỗ</li>
+                    <li class="list-dropdown-item">Dynamic Island</li>
+                </ul>
+            </div>
+            <div id="criteria-dropdown-10" class="sort-list">
+                <span style="padding-right: 3px;"> Chip xử lí</span>
+                <i class="fa-solid fa-caret-down"></i>
+                <ul class="list-dropdown-10">
+                    <li class="list-dropdown-item">Snapdragon</li>
+                    <li class="list-dropdown-item">Apple A</li>
+                    <li class="list-dropdown-item">Mediatek Dimensicy</li>
+                    <li class="list-dropdown-item">Mediatek Helio</li>
+                    <li class="list-dropdown-item">Exynos</li>
+                </ul>
+            </div>
+        </div>
+        <script>
+let rangeInput = document.querySelectorAll('.range-input input');
+    let rangeText = document.querySelectorAll('.range-text div');
+    let progress = document.querySelector('.progress');
+    let priceMax = rangeInput[0].max;
+    let priceGap = 100000;
+
+    rangeInput.forEach(input => {
+        input.addEventListener('input', (event) => {
+            let minVal = parseInt(rangeInput[0].value);
+            let maxVal = parseInt(rangeInput[1].value);
+
+            if(maxVal - minVal < priceGap){
+                if(event.target.className === 'range-min'){
+                    minVal = rangeInput[0].value = maxVal - priceGap;
+                }else{
+                    maxVal = rangeInput[1].value = minVal + priceGap;
+                }
+            }
+
+            let positionMin = (minVal / priceMax) * 100;
+            let positionMax = 100 - ((maxVal / priceMax) * 100);
+            progress.style.left = positionMin + '%';
+            progress.style.right = positionMax + '%';
+            rangeText[0].style.left = positionMin + '%';
+            rangeText[1].style.right = positionMax + '%';
+            rangeText[0].innerText = minVal.toLocaleString();
+            rangeText[1].innerText = maxVal.toLocaleString();
+        })
+    })
+
+    //-----------Sort------------
+    const Btnprice = document.querySelector("#criteria-dropdown-price");
+    const listDropdownprice = document.querySelector(".range-price");
+    addClickEvent(Btnprice, listDropdownprice);
+
+    const Btn = document.querySelector("#criteria-dropdown");
+    const listDropdown = document.querySelector(".list-dropdown");
+    addClickEvent(Btn, listDropdown);
+
+    const Btn2 = document.querySelector("#criteria-dropdown-2");
+    const listDropdown2 = document.querySelector(".list-dropdown-2");
+    addClickEvent(Btn2, listDropdown2);
+
+    const Btn3 = document.querySelector("#criteria-dropdown-3");
+    const listDropdown3 = document.querySelector(".list-dropdown-3");
+    addClickEvent(Btn3, listDropdown3);
+
+    const Btn4 = document.querySelector("#criteria-dropdown-4");
+    const listDropdown4 = document.querySelector(".list-dropdown-4");
+    addClickEvent(Btn4, listDropdown4);
+
+    const Btn5 = document.querySelector("#criteria-dropdown-5");
+    const listDropdown5 = document.querySelector(".list-dropdown-5");
+    addClickEvent(Btn5, listDropdown5);
+
+    const Btn6 = document.querySelector("#criteria-dropdown-6");
+    const listDropdown6 = document.querySelector(".list-dropdown-6");
+    addClickEvent(Btn6, listDropdown6);
+
+    const Btn7 = document.querySelector("#criteria-dropdown-7");
+    const listDropdown7 = document.querySelector(".list-dropdown-7");
+    addClickEvent(Btn7, listDropdown7);
+
+    const Btn8 = document.querySelector("#criteria-dropdown-8");
+    const listDropdown8 = document.querySelector(".list-dropdown-8");
+    addClickEvent(Btn8, listDropdown8);
+
+    const Btn9 = document.querySelector("#criteria-dropdown-9");
+    const listDropdown9 = document.querySelector(".list-dropdown-9");
+    addClickEvent(Btn9, listDropdown9);
+
+    const Btn10 = document.querySelector("#criteria-dropdown-10");
+    const listDropdown10 = document.querySelector(".list-dropdown-10");
+    addClickEvent(Btn10, listDropdown10);
+
+    function addClickEvent(Btn, listDropdown) {
+        Btn.addEventListener("click", function () {
+            listDropdown.style.display = "flex";
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!listDropdown.contains(event.target) && !Btn.contains(event.target)) {
+                listDropdown.style.display = "none";
+            }
+        });
+    }</script>
+    </div>
+
+    <div>
+        <div class="category-sort" style="margin-bottom: 20px; margin-top: 20px;">
+            <strong>Sắp xếp theo</strong>
+        </div>
+        <div class="category-list">
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-arrow-down-wide-short"></i>
+                <span style="padding-left: 3px;"> Giá cao - thấp</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-arrow-down-short-wide"></i>
+                <span style="padding-left: 3px;"> Giá thấp - cao</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <span style="padding-left: 3px;"> Khuyến mãi hot</span>
+            </div>
+            <div class="sort-list sort-list-changeColor" onclick="toggleColorSee(this)">
+                <i class="fa-regular fa-eye"></i>
+                <span style="padding-left: 3px;"> Xem nhiều</span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="product-wrap">
+        <div class="s-product-body">
+            <div class="s-product-row">
+                <ul class="product-list">
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 13%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/a/i/air_m2.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">MacBook Air M2 13 inch (2022) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                        <div class="product-price">25.490.000₫</div>
+                        <div class="product-old-price"><del>28.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫</span></div>
+                        <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 12%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m22.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">MacBook Air M1 13 inch (2020) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                        <div class="product-price">19.490.000₫</div>
+                        <div class="product-old-price"><del>21.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">17.990.000₫</span></div>
+                        <div class="product-service">Tặng gói bảo hành mở rộng 6 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 14%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/p/r/pro-m2.jpg" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">MacBook Pro 13 inch M2 (2022) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                        <div class="product-price">29.490.000₫</div>
+                        <div class="product-old-price"><del>33.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">27.490.000₫</span></div>
+                        <div class="product-service">Tặng Apple Care+ 3 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 10%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/mac_pro.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">MacBook Pro 14 inch M1 Pro (2021) | 16GB/1TB | Chính hãng Apple Việt Nam</div>
+                        <div class="product-price">48.990.000₫</div>
+                        <div class="product-old-price"><del>54.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">46.990.000₫</span></div>
+                        <div class="product-service">Bảo hành 24 tháng chính hãng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 11%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/m/a/macbook_air_m2_8gb.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">MacBook Air 15 inch M2 (2023) | 8GB/256GB | Chính hãng Apple Việt Nam</div>
+                        <div class="product-price">30.490.000₫</div>
+                        <div class="product-old-price"><del>33.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">28.990.000₫</span></div>
+                        <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+                </ul>
+
+                <ul class="product-list">
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 15%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_-_2023-06-08t005130.908.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">Asus VivoBook Go 14 E1404FA-NK177W | Ryzen 5 7520U | 8GB | 512GB</div>
+                        <div class="product-price">12.990.000₫</div>
+                        <div class="product-old-price"><del>14.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">11.990.000₫</span></div>
+                        <div class="product-service">Tặng chuột không dây Logitech</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 10%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-tuf-gaming-f15-fx506hf-hn014w.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">Asus TUF Gaming F15 FX506HF-HN014W | i5-11400H | RTX 2050 | 8GB | 512GB</div>
+                        <div class="product-price">20.490.000₫</div>
+                        <div class="product-old-price"><del>22.990.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">19.990.000₫</span></div>
+                        <div class="product-service">Tặng balo gaming chính hãng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 9%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/l/a/laptop-asus-e210ma-gj537w-4.jpg" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">Asus E210MA GJ537W | Celeron N4020 | 4GB | 256GB | Win11</div>
+                        <div class="product-price">6.990.000₫</div>
+                        <div class="product-old-price"><del>7.690.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">6.590.000₫</span></div>
+                        <div class="product-service">Tặng túi chống sốc laptop</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 12%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/a/gaming_5_5_.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">Lenovo Legion 5 15ARH7 82RE002WVN | Ryzen 7 6800H | RTX 3050 | 16GB | 512GB</div>
+                        <div class="product-price">26.990.000₫</div>
+                        <div class="product-old-price"><del>30.690.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">25.490.000₫</span></div>
+                        <div class="product-service">Tặng bàn phím cơ Redragon</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+
+                    <li class="product-item">
+                        <div class="product-discount-wrap">
+                            <div class="product-discount">Giảm 10%</div>
+                            <div class="product-installment">Góp 0%</div>
+                        </div>
+                        <div class="product-img-wrap">
+                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/e/text_ng_n_2__3_18.png" alt="" class="product-img">
+                        </div>
+                        <div class="product-title">Lenovo LOQ 15IRH8 82XV00D5VN | i5-13420H | RTX 3050 | 16GB | 512GB</div>
+                        <div class="product-price">22.990.000₫</div>
+                        <div class="product-old-price"><del>25.590.000₫</del></div>
+                        <div class="product-upprice"><span class="upprice-firstchild">Giá ưu đãi:</span> <span class="upprice-nth2">21.990.000₫</span></div>
+                        <div class="product-service">Tặng gói vệ sinh laptop 12 tháng</div>
+                        <div class="product-rating">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                        <footer class="product-fav">
+                            <span>Yêu thích</span>
+                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                        </footer>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />

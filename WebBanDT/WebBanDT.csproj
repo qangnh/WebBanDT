@@ -135,6 +135,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\checkin.css" />
+    <Content Include="Content\checkout.css" />
     <Content Include="Content\productlist.css" />
     <Content Include="Content\sanpham.css" />
     <Content Include="Content\style.css" />
@@ -186,6 +188,15 @@
     <Content Include="Views\Category\Phones.cshtml" />
     <Content Include="Views\Product\SanPham.cshtml" />
     <Content Include="Views\Shared\_LayoutPro.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Category\Laptop.cshtml" />
+    <Content Include="Views\Category\Screen.cshtml" />
+    <Content Include="Views\Category\Tablet.cshtml" />
+    <Content Include="Views\Category\Sound.cshtml" />
+    <Content Include="Views\Category\Watch.cshtml" />
+    <Content Include="Views\Cart\ThongTin.cshtml" />
+    <Content Include="Views\Cart\ThanhToan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,4 @@
-﻿@*@{
+﻿@{
     ViewBag.Title = "Phone";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,38 +10,6 @@
 </div>
 
 <div class="category">
-    <div>
-        <div class="category-name" style="margin-top: 20px;">
-            <strong>Thương hiệu điện thoại</strong>
-        </div>
-        <div class=" list-brand">
-            <a href=""><img src="/picbrand/apple.webp"></a>
-            <a href=""><img src="/picbrand/ssphone.webp"></a>
-            <a href=""><img src="/picbrand/xiaomi.webp"></a>
-            <a href=""><img src="/picbrand/realme.webp"></a>
-            <a href=""><img src="/picbrand/oppo.webp"></a>
-            <a href=""><img src="/picbrand/vivo.webp"></a>
-            <a href=""><img src="/picbrand/Nokia.webp"></a>
-            <a href=""><img src="/picbrand/techno.webp"></a>
-            <a href=""><img src="/picbrand/asus.webp"></a>
-            <a href=""><img src="/picbrand/nubia.webp"></a>
-        </div>
-    </div>
-
-    <div>
-        <div class="category-quired" style="margin-bottom: 20px;">
-            <strong>Chọn theo nhu cầu</strong>
-        </div>
-        <div class="list-quired">
-            <li style="background-image: url(/picrequired/choigame.jpg);"><a href="home.html">Chơi game</a></li>
-            <li style="background-image: url(/picrequired/dungluong.jpg); background-color: rgb(144, 144, 144);"><a href="">Dung lượng lớn</a></li>
-            <li style="background-image: url(/picrequired/pintrau.jpg); background-color: rgb(101, 91, 117);"><a href="">Pin trâu</a></li>
-            <li style="background-image: url(/picrequired/camera-dt.jpg); background-color: rgb(70, 81, 107);"><a href="">Chụp ảnh đẹp</a></li>
-            <li style="background-image: url(/picrequired/cauhinhcao.jpg); background-color: rgb(178, 142, 142);"><a href="">Cấu hình cao</a></li>
-            <li style="background-image: url(/picrequired/mong-nhe.jpg);background-color: rgb(210, 149, 213);"><a href="">Mỏng nhẹ</a></li>
-        </div>
-    </div>
-
     <div>
         <div class="category-sort" style="margin-bottom: 20px; margin-top: 20px;">
             <strong>Chọn theo tiêu chí</strong>
@@ -293,9 +261,6 @@
 
         </div>
     </div>
-
-
-
 </div>
 
 
@@ -303,583 +268,309 @@
 
 <div id="content">
     <div class="product-wrap">
-        <div class="product">
-            <ul class="product-list">
-                <a href="@Url.Action("SanPham", "Product")">Sản phẩm</a>
+        <div class="s-product">
+            <div class="s-product-body">
+                <div class="s-product-row">
+                    <ul class="product-list">
+                        <!-- 1. iPhone 16 Pro Max -->
+                        <li class="product-item">
+                            <a href="/Product/SanPham">
+                                <div class="product-discount-wrap">
+                                    <div class="product-discount">Giảm 13%</div>
+                                    <div class="product-installment">Góp 0%</div>
+                                </div>
+                                <div class="product-img-wrap">
+                                    <img src="https://tse4.mm.bing.net/th/id/OIP.aE-vScJrLf7KOPXsGGY6vwHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3"
+                                         alt="iPhone 16 Pro Max" class="product-img">
+                                </div>
+                                <div class="product-title">iPhone 16 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
+                                <div class="product-price">32.990.000₫</div>
+                                <div class="product-old-price"><del>36.990.000₫</del></div>
+                                <div class="product-upprice">
+                                    <span class="upprice-firstchild">Giá lên đời:</span>
+                                    <span class="upprice-nth2">31.490.000₫</span>
+                                </div>
+                                <div class="product-service">Tặng gói dịch vụ 1 đổi 1 trong 6 tháng</div>
+                                <div class="product-rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <footer class="product-fav">
+                                    <span>Yêu thích</span>
+                                    <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                                </footer>
+                            </a>
+                        </li>
 
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_3.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">iPhone 15 Pro Max 256GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-                </a>
+                        <!-- 2. iPhone 13 Pro Max -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 10%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max.png"
+                                     alt="iPhone 13 Pro Max" class="product-img">
+                            </div>
+                            <div class="product-title">iPhone 13 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">22.490.000₫</div>
+                            <div class="product-old-price"><del>24.990.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">21.490.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng gói bảo hành 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
 
+                        <!-- 3. iPhone 15 Pro Max -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 11%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_4.png"
+                                     alt="iPhone 15 Pro Max" class="product-img">
+                            </div>
+                            <div class="product-title">iPhone 15 Pro Max 256GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">29.490.000₫</div>
+                            <div class="product-old-price"><del>32.990.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">28.000.000₫</span>
+                            </div>
+                            <div class="product-service">Giảm thêm 1 triệu khi thanh toán VNPAY</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
 
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/g/t/gtt_7766_3__1_5.jpg" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Xiaomi Redmi Note 12 8GB 128GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
+                        <!-- 4. Infinix Hot 30 -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 8%</div>
+                                <div class="product-installment">Trả góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/n/infinix-hot-30_2_.jpg"
+                                     alt="Infinix Hot 30" class="product-img">
+                            </div>
+                            <div class="product-title">Infinix Hot 30 8GB/128GB | <span>Chính hãng</span></div>
+                            <div class="product-price">3.590.000₫</div>
+                            <div class="product-old-price"><del>3.890.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">3.290.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng tai nghe Bluetooth</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
 
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/f/i/find-n3-flip-vang_1.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">OPPO Find N3 Flip 12GB 256GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-plus_1__1.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">iPhone 15 128GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-plus_1__1.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Samsung Galaxy S22 Ultra | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-            </ul>
-            <ul class="product-list">
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 10%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-s23-ultra.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Samsung Galaxy S23 Ultra 256GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">27.000.000₫ </div>
-                    <div class="product-old-price "><del>30.000.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-s22-ultra-12gb-256gb.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Xiaomi Redmi Note 12 4GB 128GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-note-12_1.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Samsung Galaxy Z Flip5 256GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-z-flip-5-256gb_1_4.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">Xiaomi Redmi 13C 6GB 128GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-
-                <li class="product-item">
-                    <div class="product-discount-wrap">
-                        <div class="product-discount">Giảm 13%</div>
-                        <div class="product-installment">Góp 0%</div>
-                    </div>
-                    <div class="product-img-wrap">
-                        <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-13c_21__1.png" alt="" class="product-img">
-                    </div>
-                    <div class="product-title">OPPO Find N3 16GB 512GB | <span>Chính hãng VN/A</span></div>
-                    <div class="product-price">25.990.000₫ </div>
-                    <div class="product-old-price "><del>29.990.000₫</del> </div>
-                    <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                    <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                    <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <footer class="product-fav">
-                        <span>Yêu thích</span>
-                        <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                    </footer>
-                </li>
-            </ul>
-
-            <div class="more-product">
-                <ul class="product-list">
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/f/i/find_n3_-_combo_product_-_gold.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">Samsung Galaxy Z Fold5 12GB 256GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13_2_.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 13 128GB  | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-plus-256gb_2.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 15 Plus 128GB  | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13_2_.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 13 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-plus_1_.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 15 Pro 128GB  | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-                </ul>
-                <ul class="product-list">
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 12 Pro Max 128GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-15-pro-max_4.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">Xiaomi 13T Pro 5G | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-13-pro-thumb-xanh-la9.jpg" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">iPhone 14 128GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-14_1.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">Infinix Hot 30 8GB 256GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-
-                    <li class="product-item">
-                        <div class="product-discount-wrap">
-                            <div class="product-discount">Giảm 13%</div>
-                            <div class="product-installment">Góp 0%</div>
-                        </div>
-                        <div class="product-img-wrap">
-                            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/n/u/nubia-neo-5g_2_1.png" alt="" class="product-img">
-                        </div>
-                        <div class="product-title">TECNO POVA 5 8GB 128GB | <span>Chính hãng VN/A</span></div>
-                        <div class="product-price">25.990.000₫ </div>
-                        <div class="product-old-price "><del>29.990.000₫</del> </div>
-                        <div class="product-upprice "><span class="upprice-firstchild">Giá lên đời:</span> <span class="upprice-nth2">23.990.000₫ </span></div>
-                        <div class="product-service ">Tặng gói dịch vụ 1 đổi 1 trong vòng 6 tháng</div>
-                        <div class="product-rating"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <footer class="product-fav">
-                            <span>Yêu thích</span>
-                            <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
-                        </footer>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="show-more-product"> Xem thêm </div>
-        </div>
-
-        <div class="product-box">
-            <div class="product-box-content">
-                <h2>Điện thoại di động – Vật “bất li thân” ở thời đại công nghệ</h2>
-                <p>
-                    <b>Điện thoại di động</b> dường như là <b>một phần không thể thiếu trong cuộc sống</b>
-                    hiện đại ngày nay. Với sự đa dạng về thiết kế, thương hiệu cùng với đó là tính năng đa dạng
-                    giúp người dùng thoải mái kết nối cũng như theo dõi, cập nhật các thông tin mới mẻ hấp dẫn.
-                    Chắc chắn rằng khi sở hữu bạn sẽ có những giây phút giải trí ấn tượng và thú vị hơn mọi ngày.
-                    Hơn nữa, điện thoại di động cũng trở thành công cụ quan trọng giúp hỗ trợ đắc lực người dùng
-                    trong cuộc sống lẫn công việc.
-                </p>
-                <img src="/pic/Bat-mi-5-meo-chup-anh-chan-dung-sieu-dep-tren-galaxy-s23-xtmobile.webp">
-                <h3>Các chức năng chính của điện thoại di động:</h3>
-                <p>
-                    <b>- Giao tiếp và kết nối:</b> Điện thoại di động cho phép người dùng liên lạc và
-                    kết nối với nhau mọi lúc, mọi nơi thông qua các hình thức như: gọi, nhắn tin, gửi
-                    email, thậm chí video call với người thân, bạn bè, đồng nghiệp và đối tác kinh doanh
-                    ở bất kỳ đâu trên thế giới. Từ đó giúp thu gọn khoảng cách và tạo ra sự gắn kết trong
-                    xã hội hiện đại.<br>
-                    <b>- Truy cập thông tin:</b>Điện thoại thông minh còn giúp người dùng có thể dễ dàng
-                    truy cập vào internet và tìm kiếm thông tin chỉ bằng một vài lần chạm. Điều này giúp
-                    bạn dễ dàng nắm bắt cập nhật về tin tức, kiến thức và xu hướng trong thời gian thực. <br>
-                    <b>- Giải trí:</b>Điện thoại di động giờ đây còn là một công cụ giải trí đa năng. Bạn có
-                    thể nghe nhạc, xem phim, đọc sách điện tử, chơi game và truy cập vào các ứng dụng giải trí
-                    khác trực tiếp trên thiết bị. Đây là cách vô cùng thuận tiện giúp mọi người có thể thư giãn
-                    và giải trí tiện ích hơn trong cuộc sống bận rộn.<br>
-                    <b>- Quản lý cuộc sống:</b>Trên điện thoại di động có chứa các ứng dụng giúp người dùng có thể
-                    dễ dàng quản lý cuộc sống hàng ngày. Chúng có thể là ứng dụng lên kế hoạch, tổ chức công việc hay
-                    nhắc nhở sự kiện, thông tin quan trọng. Bên cạnh đó còn vô vàn ứng dụng khác cực kỳ hữu ích với
-                    người dùng.<br>
-                </p>
-                <div class="more-content">
-                    <p>
-                        Ngày nay, thị trường di động luôn chứng kiến sự cạnh tranh vô cùng khốc liệt giữa các nhà sản xuất.
-                        Họ sẵn sàng đầu tư nghiên cứu để liên tục cho ra đời những chiếc điện thoại mới nhất chất lượng, từ
-                        giá rẻ, tầm trung, cận cao cấp cho đến cao cấp để đáp ứng tối đa nhu cầu của mọi đối tượng người dùng.
-                    </p>
-                    <h5>Bảng đặc điểm và thông số của điện thoại smartphone:</h5>
-                    <table border="1" class="table-phone" style="border-color: black;">
-                        <tr>
-                            <th>RAM</th>
-                            <td>2GB - 12GB</td>
-                            <th>Bộ nhớ trong</th>
-                            <td>32Gb - 1 TB</td>
-                        </tr>
-                        <tr>
-                            <th>Kích thước màn hình</th>
-                            <td>4.7 inch - 7.6 inch</td>
-                            <th>Tần số quét</th>
-                            <td>60Hz - 144Hz</td>
-                        </tr>
-                        <tr>
-                            <th>Camera sau</th>
-                            <td>1 camera - 4 camera</td>
-                            <th>Pin</th>
-                            <td>2.406mAh - 6.000mAh</td>
-                        </tr>
-                        <tr>
-                            <th>Hệ điều hành</th>
-                            <td>iOS, Android</td>
-                            <th>Giá bán</th>
-                            <td>2.000.000đ - Trên 20.000.000đ</td>
-                        </tr>
-                    </table>
-                    <h3>Có mấy loại điện thoại di động?</h3>
-                    <p>
-                        Hiện nay <b>điện thoại</b> được chia thành nhiều loại khác nhau tùy thuộc vào mục đích
-                        cũng như nhu cầu. Dưới đây là 2 <b>phân loại điện thoại di động</b> dựa trên <b>
-                            chức
-                            năng và tính năng được tích hợp
-                        </b> trên thiết bị:
-                    </p>
-                    <h5>Điện thoại thông minh</h5>
-                    <p>
-                        Thông qua các thiết bị điện thoại thông minh giá rẻ smartphone bạn có thể thể truy cập internet,
-                        chạy ứng dụng, chụp ảnh và quay video chất lượng cao, nghe nhạc, xem phim, và có thể thực hiện
-                        được thêm nhiều chức năng khác nhau như làm việc, giải trí, giao tiếp xã hội và quản lý hiệu quả
-                        các thông tin cá nhân.<br>
-                        Các thương hiệu điện thoại thông minh nổi tiếng, quen thuộc như: Apple (iPhone), Samsung, OPPO,
-                        Vivo, Xiaomi, Huawei, Sony, Oneplus, Realme,...
-                    </p>
-                    <img src="/pic-phone/camera-00.jpg.webp">
-                    <h5>Điện thoại phổ thông</h5>
-                    <p>
-                        Điện thoại phổ thông là những mẫu điện thoại tập trung vào các chức năng nghe – gọi là chính.
-                        Đây là dòng điện thoại được xuất hiện đầu tiên trên thị trường với những tính năng vô cùng đơn giản.<br>
-                        Trên dòng điện thoại này, người dùng có thể thao tác được với các chức năng cơ bản như gọi điện, nhắn tin
-                        và có thể một số tính năng như FM radio, máy ảnh cơ bản.
-                    </p>
-                    <h3> Phân loại điện thoại thông minh theo nhu cầu</h3>
-                    <p>
-                        Ngoài cách phân loại như đã liệt kê bên trên thì điện thoại thông minh còn được phân loại theo nhu
-                        cầu sử dụng. Dưới đây là chi tiết phân loại cho các bạn quan tâm, tìm kiếm và tham khảo.
-                    </p>
-                    <h5>Điện thoại chuyên chơi game</h5>
-                    <p>Điện thoại chuyên chơi game là dòng sản phẩm được thiết kế đặc biệt để cung cấp cho người dùng trải nghiệm chơi game tốt nhất. </p>
-                    <img src="/pic-phone/dt-game.jpeg">
-                    <p>
-                        Thông thường, các điện thoại thuộc dòng gaming được trang bị các tính năng và hiệu năng mạnh mẽ nhằm đáp ứng yêu cầu đồ họa và xử lý phức tạp
-                        của các trò chơi di động. Bên cạnh đó là hệ thống tản nhiệt ấn tượng, pin dung lượng lớn, màn hình hiển thị sắc nét, âm thanh chất lượng,...
-                        Tất cả sẽ giúp bạn thoải mái tận hưởng và đắm chìm trong mọi trận game
-                    </p>
-                    <h5>Điện thoại smartphone pin trâu</h5>
-                    <p>
-                        Điện thoại smartphone pin trâu là một khái niệm thông thường được sử dụng để chỉ những điện thoại di động được trang bị viên pin có thời
-                        lượng sử dụng dài hơn so với các điện thoại thông thường.
-                    </p>
-                    <img src="/pic-phone/samsunggalaxym62_1280x720-800-resize.jpg">
-                    <p>
-                        Thông thường điện thoại được gọi là "pin trâu" sẽ có dung lượng pin lớn, từ 4.000mAh trở lên. Điều này cho phép thiết bị có thể sử dụng được
-                        trong một khoảng thời gian dài trước khi cần sạc lại. Ngoài ra, các sản phẩm thuộc dòng điện thoại này thường được tối ưu hóa để tiết kiệm năng
-                        lượng và quản lý pin hiệu quả, giúp kéo dài thời gian sử dụng một cách tối ưu.
-                    </p>
-                    <h5>Điện thoại dung lượng lớn</h5>
-                    <p>
-                        Điện thoại dung lượng lớn là những điện thoại được trang bị dung lượng, là không gian để lưu trữ dữ liệu như ảnh, video, ứng dụng và tệp tin khác
-                        trên thiết bị. Dung lượng lưu trữ được đo bằng đơn vị gigabyte (GB) hoặc terabyte (TB).
-                    </p>
-                    <img src="/pic-phone/samsung-galaxy-m51-ra-mat.jpg">
-                    <p>
-                        Những sản phẩm điện thoại dung lượng lớn sẽ cung cấp không gian lưu trữ rộng hơn cho người dùng, cho phép lưu trữ nhiều dữ liệu hơn trên thiết bị mà không
-                        cần phải lo lắng về việc hết dung lượng. Điều này đặc biệt hữu ích khi bạn muốn lưu trữ nhiều ảnh, video chất lượng cao, tải xuống ứng dụng nặng, hoặc lưu trữ
-                        nhiều tệp tin và tài liệu trên điện thoại.
-                    </p>
-                    <h5>Smartphone cấu hình cao</h5>
-                    <p>Điện thoại cấu hình cao là dòng sản phẩm được trang bị các linh kiện, phụ kiện cao cấp giúp cho ra đời 1 phiên bản hấp dẫn, ấn tượng và cực kỳ thu hút được người tiêu dùng.</p>
-                    <h5>Điện thoại thông minh mỏng nhẹ</h5>
-                    <p>Đúng như tên gọi của chúng, điện thoại thông minh mỏng nhẹ là dòng sản phẩm được tối ưu về thiết kế giúp chúng sở hữu vẻ ngoài mỏng, ấn tượng nhưng vẫn đáp ứng được tối đa nhu cầu sử dụng của người dùng.</p>
-                    <img src="/pic-phone/mongnhe.png">
-                    <p>Nhờ thiết kế mỏng nhẹ, điện thoại giúp người dùng có thể cầm nắm chắc chắn và dễ dàng hơn trong việc thao tác trên thiết bị.</p>
-                    <h3>Mua smartphone giá rẻ tại cửa hàng bán điện thoại CellphoneS</h3>
-                    <ul>
-                        <li>Tại hệ thống cửa hàng điện thoại <a href="" style="color: red; text-decoration: none;">CellphoneS</a> tất cả các sản phẩm đều có xuất xứ rõ ràng và hóa đơn đầy đủ</li>
-                        <li>Bảo hành chính hãng 12 tháng, 1 đổi 1 trong 30 ngày đầu tiên</li>
-                        <li>Giá bán hấp dẫn trên thị trường. Nhiều chương trình khuyến mãi hấp dẫn. Chương trình thu cũ đổi mới, lên đời điện thoại</li>
-                        <li>Nhiều dịch vụ tiện ích: trả góp 0% qua thẻ tính dụng với hơn 20 ngân hàng. Thanh toán online, thanh toán bằng thẻ, giao hàng và thu tiền tại nhà miễn phí trên toàn quốc.</li>
-                        <li>Đội ngũ nhân viên tư vấn offline và chăm sóc khách hàng online luôn sẵn sàng giải đáp mọi thắc mắc, đáp ứng tối đa nhu cầu của người dùng.</li>
+                        <!-- 5. Xiaomi Redmi Note 12 Pro 5G -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 9%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-redmi-note-12-pro-5g.png"
+                                     alt="Xiaomi Redmi Note 12 Pro 5G" class="product-img">
+                            </div>
+                            <div class="product-title">Xiaomi Redmi Note 12 Pro 5G 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">7.790.000₫</div>
+                            <div class="product-old-price"><del>8.490.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">7.390.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng phiếu mua hàng 300.000₫</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
                     </ul>
+
+                    <ul class="product-list">
+                        <!-- 6. iPhone 13 Pro Max 256GB -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 10%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-13-pro-max-256gb.png"
+                                     alt="iPhone 13 Pro Max 256GB" class="product-img">
+                            </div>
+                            <div class="product-title">iPhone 13 Pro Max 256GB | <span>Chính hãng VN/A</span></div>
+                            <div class="product-price">24.490.000₫</div>
+                            <div class="product-old-price"><del>26.990.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">23.490.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng gói bảo hành rơi vỡ</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 7. Samsung Galaxy Z Flip 4 -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 15%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/s/a/samsung-galaxy-z-flip-4.png"
+                                     alt="Samsung Galaxy Z Flip 4" class="product-img">
+                            </div>
+                            <div class="product-title">Samsung Galaxy Z Flip 4 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">15.990.000₫</div>
+                            <div class="product-old-price"><del>18.990.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">15.000.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng ốp lưng chính hãng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 8. Xiaomi 13 -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 10%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/x/i/xiaomi-13.png"
+                                     alt="Xiaomi 13" class="product-img">
+                            </div>
+                            <div class="product-title">Xiaomi 13 12GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">18.990.000₫</div>
+                            <div class="product-old-price"><del>20.990.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">18.000.000₫</span>
+                            </div>
+                            <div class="product-service">Giảm thêm 500k khi thanh toán online</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 9. TCL 40 NxtPaper -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 12%</div>
+                                <div class="product-installment">Trả góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/t/c/tcl-40-nxt-paper_3_.png"
+                                     alt="TCL 40 NxtPaper" class="product-img">
+                            </div>
+                            <div class="product-title">TCL 40 NxtPaper 8GB/256GB | <span>Chính hãng</span></div>
+                            <div class="product-price">5.490.000₫</div>
+                            <div class="product-old-price"><del>6.190.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">5.000.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng gói bảo hành mở rộng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+
+                        <!-- 10. 365 Độc Quyền -->
+                        <li class="product-item">
+                            <div class="product-discount-wrap">
+                                <div class="product-discount">Giảm 7%</div>
+                                <div class="product-installment">Góp 0%</div>
+                            </div>
+                            <div class="product-img-wrap">
+                                <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:80/plain/https://cellphones.com.vn/media/catalog/product/1/_/1_365-doc-quyuen.jpg"
+                                     alt="365 Độc Quyền" class="product-img">
+                            </div>
+                            <div class="product-title">365 Độc Quyền | <span>Phiên bản đặc biệt</span></div>
+                            <div class="product-price">4.490.000₫</div>
+                            <div class="product-old-price"><del>4.890.000₫</del></div>
+                            <div class="product-upprice">
+                                <span class="upprice-firstchild">Giá lên đời:</span>
+                                <span class="upprice-nth2">4.190.000₫</span>
+                            </div>
+                            <div class="product-service">Tặng gói bảo hành mở rộng 12 tháng</div>
+                            <div class="product-rating">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <footer class="product-fav">
+                                <span>Yêu thích</span>
+                                <i class="fa-regular fa-heart" onclick="toggleFav(this)"></i>
+                            </footer>
+                        </li>
+                     </ul>           
                 </div>
-                <div class="show-more-content"> Xem thêm </div>
-            </div>
-
-            <div class="product-box-ads">
-                <h3><i class="fa-solid fa-newspaper"></i> Tin tức công nghệ</h3>
-                <a href="">
-                    <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/oppo-find-n3-vs-samsung-galaxy-fold5-thumb.jpg" alt="">
-                    <p>So sánh OPPO Find N3 và Galaxy Z Fold5: Đâu là chiếc điện thoại gập cao cấp đáng mua nhất ở thời điểm này?</p>
-                </a>
-                <a href="">
-                    <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/oppo-find-n3-vs-samsung-galaxy-fold5-thumb.jpg" alt="">
-                    <p>So sánh OPPO Find N3 và Galaxy Z Fold5: Đâu là chiếc điện thoại gập cao cấp đáng mua nhất ở thời điểm này?</p>
-                </a>
-                <a href="">
-                    <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/oppo-find-n3-vs-samsung-galaxy-fold5-thumb.jpg" alt="">
-                    <p>So sánh OPPO Find N3 và Galaxy Z Fold5: Đâu là chiếc điện thoại gập cao cấp đáng mua nhất ở thời điểm này?</p>
-                </a>
-                <a href="">
-                    <img src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/10/oppo-find-n3-vs-samsung-galaxy-fold5-thumb.jpg" alt="">
-                    <p>So sánh OPPO Find N3 và Galaxy Z Fold5: Đâu là chiếc điện thoại gập cao cấp đáng mua nhất ở thời điểm này?</p>
-                </a>
-                <a href="" class="show-post-all">Xem tất cả bài viết<i class="fa-solid fa-chevron-down"></i></a>
-            </div>
-        </div>
-
-    </div>
-</div>*@
+                </div>
+                </div>
+         </div>
+     </div>
+                
