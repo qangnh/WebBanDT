@@ -114,7 +114,6 @@
 
 .cart-product-quantity {
     display: flex;
-    align-items: center;
     gap: 5px;
     margin-top: 8px;
 }
@@ -170,6 +169,7 @@
     font-size: 14px;
 }
 
+/* (khối cart-user-location giữ nguyên nếu bạn dùng) */
 .cart-user-location {
     width: 550px;
     background-color: #fff;
@@ -185,7 +185,7 @@
         color: #444;
     }
 
-/* PHẦN CHỌN LOCATION */
+/* PHẦN CHỌN LOCATION – layout cũ */
 .cart-user-location-selection {
     display: flex;
     flex-wrap: wrap;
@@ -222,14 +222,13 @@
     }
 
         .cart-user-location-selection select:focus {
-            border-color: #ff8000; /* Cam chủ đạo */
+            border-color: #ff8000;
             outline: none;
         }
 
         .cart-user-location-selection select:hover {
             border-color: #ff6600;
         }
-
 
 /* YÊU CẦU KHÁC */
 .cart-user-info-request {
@@ -241,7 +240,7 @@
     margin-bottom: 15px;
 }
 
-/* CHECKBOX */
+/* CHECKBOX TUỲ CHỌN */
 .cart-buy-request {
     display: flex;
     flex-direction: column;
@@ -251,7 +250,7 @@
     margin-bottom: 20px;
 }
 
-/* MÃ GIẢM GIÁ */
+/* MÃ GIẢM GIÁ – layout cũ */
 .cart-user-code {
     display: flex;
     align-items: center;
@@ -299,7 +298,7 @@
 }
 
     .cart-user-buy-now p {
-        background-color: #ff7b00; /* cam */
+        background-color: #ff7b00;
         width: 100%;
         max-width: 550px;
         height: 50px;
@@ -310,13 +309,13 @@
         color: #fff;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        box-shadow: 0 3px 8px rgba(255, 123, 0, 0.4); /* bóng cam nhẹ */
+        box-shadow: 0 3px 8px rgba(255, 123, 0, 0.4);
         transition: all 0.3s;
         cursor: pointer;
     }
 
         .cart-user-buy-now p:hover {
-            background-color: #e56d00; /* cam đậm hơn khi hover */
+            background-color: #e56d00;
             box-shadow: 0 4px 12px rgba(229, 109, 0, 0.4);
         }
 
@@ -342,3 +341,73 @@
         background-color: #e65c00;
         box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
     }
+
+/* ===================== FIX ONLY (vá lỗi) ===================== */
+
+/* 1) Radio “Anh/Chị” và radio phương thức nhận hàng: giãn cách, không đè text */
+.cart-user-sex .container,
+.cart-user-selector .container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    line-height: 1.6;
+}
+
+
+    .cart-user-sex .container input[type="radio"],
+    .cart-user-selector .container input[type="radio"] {
+        -webkit-appearance: auto;
+        appearance: auto;
+        position: static !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 16px;
+        height: 16px;
+        margin: 0;
+        order: -1; /* đưa radio ra trước chữ */
+    }
+.cart-buy-request input[type="checkbox"] {
+    position: static; /* bỏ absolute nếu có */
+    margin: 0;
+    accent-color: #e63946;
+}
+/* nếu trước đó có custom .checkmark thì ẩn để tránh chồng lên chữ */
+.cart-user-sex .checkmark,
+.cart-user-selector .checkmark {
+    display: none !important;
+}
+
+/* 2) Select địa chỉ: không mất chữ, dễ đọc */
+.cart-user-location-selection select {
+    min-height: 40px;
+    padding: 10px 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #222;
+    appearance: auto; /* bỏ custom gây cắt chữ */
+    overflow: visible;
+}
+
+/* 3) “Sử dụng mã giảm giá”: canh thẳng, icon – text – icon */
+.cart-user-code {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .cart-user-code p {
+        margin: 0;
+        flex: 1;
+    }
+
+    .cart-user-code i {
+        font-size: 16px;
+        line-height: 1;
+        color: #666;
+    }
+
+
+
+/* Nếu bạn muốn block mã giảm giá rộng bằng form, thay width ở trên bằng 100% + max-width:
+   .cart-user-code{ width:100%; max-width:550px; } */
