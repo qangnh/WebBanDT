@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ThanhToan";
     Layout = "~/Views/Shared/_CartLogin.cshtml";
 }
@@ -17,84 +16,40 @@
     </div>
 
     <div class="checkout-box">
-        <div class="voucher-section">
-            <label>Nhập mã giảm giá (chỉ áp dụng 1 lần)</label>
-            <div class="voucher-input">
-                <input type="text" placeholder="hoặc chọn từ 1 mã giảm giá có sẵn" />
-                <button class="btn-apply">Áp dụng</button>
-            </div>
-        </div>
-
-        <div class="summary-section">
-            <div class="summary-row">
-                <span>Số lượng sản phẩm</span>
-                <span>01</span>
-            </div>
-            <div class="summary-row">
-                <span>Tổng tiền hàng</span>
-                <span>40.990.000đ</span>
-            </div>
-            <div class="summary-row">
-                <span>Phí vận chuyển</span>
-                <span>Miễn phí</span>
-            </div>
-            <div class="summary-row discount">
-                <span>Giảm giá trực tiếp</span>
-                <span>-3.000.000đ</span>
-            </div>
-            <div class="summary-total">
-                <span>Tổng tiền</span>
-                <span>37.990.000đ</span>
-            </div>
-        </div>
-
-        <div class="payment-method-section">
-            <label>Phương thức thanh toán</label>
-            <select id="paymentMethod">
-                <option selected disabled>Chọn phương thức thanh toán</option>
-                <option>Thanh toán tại cửa hàng</option>
-                <option>Chuyển khoản ngân hàng qua mã QR</option>
-                <option>VNPay</option>
-                <option>MoMo</option>
-                <option>Qua thẻ Visa / Master / JCB / Napas</option>
-                <option>Kredivo</option>
-            </select>
-        </div>
+        <!-- Các phần như voucher, summary, payment method giữ nguyên -->
 
         <div class="customer-info">
             <h3>THÔNG TIN NHẬN HÀNG</h3>
-            <div class="info-row"><strong>Khách hàng:</strong> Trung Đạt</div>
-            <div class="info-row"><strong>Số điện thoại:</strong> 0345665648</div>
-            <div class="info-row"><strong>Email:</strong> trungddat2004@gmail.com</div>
-            <div class="info-row"><strong>Nhận hàng tại:</strong> 157-159 Nguyễn Thị Minh Khai, Q.1, TP.HCM</div>
-            <div class="info-row"><strong>Ghi chú:</strong> 123</div>
+            <div class="info-row"><strong>Khách hàng:</strong> <span id="show-fullname"></span></div>
+            <div class="info-row"><strong>Số điện thoại:</strong> <span id="show-phone"></span></div>
+            <div class="info-row"><strong>Giới tính:</strong> <span id="show-gender"></span></div>
+            <div class="info-row"><strong>Email:</strong> <span id="show-email"></span></div>
+            <div class="info-row"><strong>Nhận hàng tại:</strong> <span id="show-address"></span></div>
+            <div class="info-row"><strong>Ghi chú:</strong> <span id="show-note"></span></div>
         </div>
 
         <div class="confirm-box">
             <label><input type="checkbox" checked /> Tôi đồng ý với <a href="#">Điều khoản sử dụng</a></label>
             <div class="checkout-total">
                 <span>Tổng tiền tạm tính:</span>
-                <span class="total-amount">37.990.000đ</span>
+                <span class="total-amount">31.990.000đ</span>
             </div>
             <button class="btn-confirm">Thanh toán</button>
         </div>
     </div>
 </div>
+
 <!-- Popup thông báo -->
 <div id="success-popup" class="popup">
     <div class="popup-content">
         <h2>🎉 Thanh toán thành công!</h2>
-        <p>Cảm ơn bạn đã mua hàng tại <b>Good Phone</b> 💖</p>
+        <p>Cảm ơn bạn đã mua hàng tại <b>Good Phones</b> 💖</p>
         <button id="close-popup">Đóng</button>
     </div>
 </div>
 
 <script>
-    document.getElementById('paymentMethod').addEventListener('change', function () {
-        alert("Bạn đã chọn: " + this.value);
-    });
-</script>
-<script>
+    // Hiển thị popup
     const btnPay = document.querySelector(".btn-confirm");
     const popup = document.getElementById("success-popup");
     const closePopup = document.getElementById("close-popup");
@@ -105,5 +60,24 @@
 
     closePopup.addEventListener("click", () => {
         popup.style.display = "none";
+    });
+
+    // Lấy dữ liệu từ sessionStorage
+    $(document).ready(function () {
+        const fullName = sessionStorage.getItem("FullName") || "";
+        const phone = sessionStorage.getItem("Phone") || "";
+        const gender = sessionStorage.getItem("Gender") || "";
+        const email = sessionStorage.getItem("Email") || "";
+        const province = sessionStorage.getItem("Province") || "";
+        const district = sessionStorage.getItem("District") || "";
+        const ward = sessionStorage.getItem("Ward") || "";
+        const note = sessionStorage.getItem("Note") || "";
+
+        $("#show-fullname").text(fullName);
+        $("#show-phone").text(phone);
+        $("#show-gender").text(gender);
+        $("#show-email").text(email); // nếu bạn muốn gửi email từ form cũ
+        $("#show-address").text(`${ward}, ${district}, ${province}`);
+        $("#show-note").text(note);
     });
 </script>

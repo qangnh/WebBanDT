@@ -288,42 +288,37 @@
     });
 </script>
 <script>
+$(document).ready(function () {
+    $("#btnOrder").click(function () {
+    // Lưu dữ liệu vào sessionStorage
+    sessionStorage.setItem("FullName", $("#full-name").val());
+    sessionStorage.setItem("Phone", $("#phone").val());
+    sessionStorage.setItem("Gender", $("input[name='gender']:checked").val());
+    sessionStorage.setItem("Email", $("#email").val()); // thêm dòng này
+    sessionStorage.setItem("Province", $("#cart-province").val());
+    sessionStorage.setItem("District", $("#cart-district").val());
+    sessionStorage.setItem("Ward", $("#cart-ward").val());
+    sessionStorage.setItem("Note", $(".cart-user-info-request").val());
+    sessionStorage.setItem("ChinhSach", $("input[name='chinhsach']").is(":checked"));
+
+    // Chuyển sang trang Thanh toán
+    window.location.href = "@Url.Action("ThanhToan","Cart")";
+});
+
+    });
+</script>
+<script>
     $(document).ready(function () {
-        $("#btnOrder").click(function () {
-            let errors = [];
-
-            // Kiểm tra họ tên
-            if (!$("#full-name").val().trim()) {
-                errors.push("Vui lòng nhập họ và tên.");
-            }
-
-            // Kiểm tra số điện thoại
-            const phone = $("#phone").val().trim();
-            if (!phone) {
-                errors.push("Vui lòng nhập số điện thoại.");
-            } else if (!/^\d{9,11}$/.test(phone)) {
-                errors.push("Số điện thoại không hợp lệ.");
-            }
-
-            // Kiểm tra chọn Tỉnh/Thành, Quận/Huyện, Phường/Xã
-            if (!$("#cart-province").val()) errors.push("Vui lòng chọn Tỉnh / Thành phố.");
-            if (!$("#cart-district").val()) errors.push("Vui lòng chọn Quận / Huyện.");
-            if (!$("#cart-ward").val()) errors.push("Vui lòng chọn Phường / Xã.");
-
-            // Kiểm tra chọn giới tính
-            if (!$("input[name='gender']:checked").length) errors.push("Vui lòng chọn giới tính.");
-
-            // Kiểm tra đồng ý chính sách
-            if (!$("input[name='chinhsach']").is(":checked")) errors.push("Bạn phải đồng ý với Chính sách xử lý dữ liệu cá nhân.");
-
-            // Nếu có lỗi
-            if (errors.length > 0) {
-                alert(errors.join("\n"));
-                return false; // dừng thực hiện
-            }
-
-            // Nếu hợp lệ, chuyển trang Thanh toán
-            window.location.href = "@Url.Action("ThanhToan","Cart")";
-        });
+        // Nếu đã có dữ liệu trong sessionStorage, tự điền lại
+        if (sessionStorage.getItem("FullName")) {
+            $("#full-name").val(sessionStorage.getItem("FullName"));
+            $("#phone").val(sessionStorage.getItem("Phone"));
+            $("input[name='gender'][value='" + sessionStorage.getItem("Gender") + "']").prop("checked", true);
+            $("#cart-province").val(sessionStorage.getItem("Province"));
+            $("#cart-district").val(sessionStorage.getItem("District"));
+            $("#cart-ward").val(sessionStorage.getItem("Ward"));
+            $(".cart-user-info-request").val(sessionStorage.getItem("Note"));
+            $("input[name='chinhsach']").prop("checked", sessionStorage.getItem("ChinhSach") === "true");
+        }
     });
 </script>
