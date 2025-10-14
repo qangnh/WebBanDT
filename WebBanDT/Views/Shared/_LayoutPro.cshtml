@@ -5,14 +5,17 @@
     <title>@ViewBag.Title</title>
 
     <!-- CSS -->
-    <link href="@Url.Content("~/Content/sanpham.css")" rel="stylesheet" />
+
+
     <link href="@Url.Content("~/Content/style.css")" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
 
     <!-- JS -->
     <script src="@Url.Content("~/js/index.js")" asp-append-version="true"></script>
+
 </head>
 <body>
     @Html.Partial("_Header")
