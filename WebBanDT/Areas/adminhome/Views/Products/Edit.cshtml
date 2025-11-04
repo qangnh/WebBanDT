@@ -1,0 +1,80 @@
+﻿@model WebBanDT.Models.Product
+
+@{
+    ViewBag.Title = "Chỉnh sửa sản phẩm";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0">Chỉnh sửa thông tin sản phẩm</h5>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.ProductID)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.CategoryID, "Danh mục", htmlAttributes: new { @class = "form-label" })
+                    @Html.DropDownList("CategoryID", null, "-- Chọn danh mục --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ProductName, "Tên sản phẩm", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên sản phẩm..." } })
+                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ProductDescription, "Mô tả sản phẩm", htmlAttributes: new { @class = "form-label" })
+                    @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 3, placeholder = "Nhập mô tả chi tiết..." })
+                    @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ProductPrice, "Giá bán (VNĐ)", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập giá sản phẩm..." } })
+                    @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.StockQuantity, "Số lượng tồn kho", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập số lượng..." } })
+                    @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ProductImage, "Hình ảnh (URL)", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.ProductImage, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập đường dẫn hình ảnh..." } })
+                    @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.CreatedAt, "Ngày tạo", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-check mb-4">
+                    @Html.CheckBox("IsActive", Model.IsActive ?? false, new { @class = "form-check-input", id = "IsActive" })
+                    <label class="form-check-label" for="IsActive">Hiển thị sản phẩm</label>
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+                <div class="d-flex justify-content-start">
+                    <button type="submit" class="btn btn-success me-2">
+                        <i class="bi bi-save"></i> Lưu thay đổi
+                    </button>
+                    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

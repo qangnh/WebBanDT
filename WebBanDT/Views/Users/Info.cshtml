@@ -1,0 +1,230 @@
+﻿@model WebBanDT.Models.viewmodels.ProfileInfoViewModel
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<br />
+<br />
+<br />
+@section Styles {
+    <link rel="stylesheet" href="~/Content/profile.css" />
+}
+
+<div class="wrap">
+    <!-- Success/Error Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="background: #d1fae5; color: #065f46; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" style="background: #fee2e2; color: #7f1d1d; padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <!-- KPI Row -->
+    <div class="kpi">
+        <div class="kpi-card">
+            <div class="avatar">👤</div>
+            <div>
+                <div class="title">@ViewBag.CustomerName</div>
+                <small class="muted">@ViewBag.Phone · Cập nhật lại sau @ViewBag.UpdateDate</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">🛒</div>
+            <div>
+                <div class="num">@ViewBag.TotalOrders</div>
+                <small class="muted">Tổng số đơn hàng đã mua</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">💰</div>
+            <div>
+                <div class="num">@ViewBag.TotalSpent</div>
+                <small class="muted">Tổng tiền tích luỹ · Từ 01/01/2024</small>
+            </div>
+        </div>
+        <div class="kpi-card right">
+            <div>
+                <small class="muted">Bạn đang ở kênh thành viên</small>
+                <div class="title">GoodPhone</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="nav" id="profileMenu">
+                <li>
+                    <a href="@Url.Action("Index", "CustomerHome")">
+                        <span class="icon">🏠</span> Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Profile", "Users")">
+                        <span class="icon">📊</span> Tổng quan
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("History", "Users")">
+                        <span class="icon">🧾</span> Lịch sử mua hàng
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Info", "Users")" class="active">
+                        <span class="icon">👤</span> Thông tin tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "Account")">
+                        <span class="icon">↩️</span> Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Content - Info Section -->
+        <div class="panel">
+            <div class="grid grid-2">
+                <!-- Personal Info -->
+                <div class="panel">
+                    <div class="title">Thông tin cá nhân</div>
+                    @using (Html.BeginForm("UpdateInfo", "Users", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.UserID)
+
+                        <div class="grid grid-2" style="margin-top:12px">
+                            <div>
+                                <small class="muted">Họ và tên</small>
+                                @Html.TextBoxFor(m => m.FullName, new { @class = "ipt", style = "margin-top: 4px;" })
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <small class="muted">Số điện thoại</small>
+                                @Html.TextBoxFor(m => m.Phone, new { @class = "ipt", style = "margin-top: 4px;" })
+                                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <small class="muted">Giới tính</small>
+                                <select name="Gender" class="ipt" style="margin-top: 4px;">
+                                    <option value="">—</option>
+                                    <option value="Nam" @(Model.Gender == "Nam" ? "selected" : "")>Nam</option>
+                                    <option value="Nữ" @(Model.Gender == "Nữ" ? "selected" : "")>Nữ</option>
+                                    <option value="Khác" @(Model.Gender == "Khác" ? "selected" : "")>Khác</option>
+                                </select>
+                            </div>
+                            <div>
+                                <small class="muted">Email</small>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "ipt", type = "email", style = "margin-top: 4px;" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div>
+                                <small class="muted">Ngày sinh</small>
+                                @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { @class = "ipt", type = "date", style = "margin-top: 4px;" })
+                            </div>
+                            <div>
+                                <small class="muted">Địa chỉ mặc định</small>
+                                @Html.TextBoxFor(m => m.DefaultAddress, new { @class = "ipt", style = "margin-top: 4px;" })
+                            </div>
+                        </div>
+                        <div style="margin-top:12px">
+                            <button type="submit" class="btn">Cập nhật</button>
+                        </div>
+                    }
+                </div>
+
+                <!-- Addresses -->
+                <div class="panel">
+                    <div class="title">Sổ địa chỉ</div>
+                    @if (Model.Addresses != null && Model.Addresses.Any())
+                    {
+                        <div class="grid" style="margin-top: 12px;">
+                            @foreach (var address in Model.Addresses)
+                            {
+                                <div class="panel" style="border:1px solid var(--line); padding: 12px;">
+                                    <strong>@address.Label</strong>
+                                    <div class="muted" style="font-size: 13px;">@address.FullAddress</div>
+                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                        <a href="#" class="btn light" style="font-size: 12px; padding: 6px 10px;">Sửa</a>
+                                        <a href="#" class="btn light" style="font-size: 12px; padding: 6px 10px;">Xóa</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="muted" style="padding:24px 0">Bạn chưa có địa chỉ nào được tạo</div>
+                    }
+                    <a class="btn light" href="#" style="margin-top: 12px;">+ Thêm địa chỉ</a>
+                </div>
+
+                <!-- Password -->
+                <div class="panel">
+                    <div class="title">Mật khẩu</div>
+                    <small class="muted">Cập nhật lần cuối lúc: @Model.PasswordLastUpdated</small>
+
+                    @using (Html.BeginForm("ChangePassword", "Users", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div style="margin-top:12px">
+                            <div>
+                                <small class="muted">Mật khẩu hiện tại</small>
+                                <input type="password" name="OldPassword" class="ipt" required style="margin-top: 4px;" />
+                            </div>
+                            <div style="margin-top: 8px;">
+                                <small class="muted">Mật khẩu mới</small>
+                                <input type="password" name="NewPassword" class="ipt" required style="margin-top: 4px;" />
+                            </div>
+                            <div style="margin-top: 12px;">
+                                <button type="submit" class="btn">Thay đổi mật khẩu</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Linked Accounts -->
+                <div class="panel">
+                    <div class="title">Tài khoản liên kết</div>
+                    <div class="grid" style="margin-top: 12px;">
+                        <div class="ipt-group">
+                            <strong>Google</strong>
+                            @if (Model.IsGoogleLinked)
+                            {
+                                <span class="badge ok">Đã liên kết</span>
+                                <a class="btn light" href="#" style="margin-left: auto;">Hủy liên kết</a>
+                            }
+                            else
+                            {
+                                <a class="btn light" href="#" style="margin-left: auto;">Liên kết</a>
+                            }
+                        </div>
+                        <div class="ipt-group">
+                            <strong>Zalo</strong>
+                            @if (Model.IsZaloLinked)
+                            {
+                                <span class="badge ok">Đã liên kết</span>
+                                <a class="btn light" href="#" style="margin-left: auto;">Hủy liên kết</a>
+                            }
+                            else
+                            {
+                                <a class="btn light" href="#" style="margin-left: auto;">Liên kết</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/profile.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+}

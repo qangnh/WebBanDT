@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebBanDT.Models.ViewModels.ProductVM>
+@{
+    ViewBag.Title = "Tất Cả Sản Phẩm";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<div id="content">
+    <!-- Form tìm kiếm và lọc -->
+    @using (Html.BeginForm("FullProduct", "Category", FormMethod.Get))
+    {
+        <!-- Thanh tìm kiếm -->
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text"
+                       name="keyword"
+                       placeholder="Tìm sản phẩm theo tên, hãng..."
+                       class="search-input"
+                       value="@Request.QueryString["keyword"]" />
+                <button type="submit" class="search-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Bộ lọc giá -->
+        <div class="filter-form">
+            <input type="number"
+                   name="minPrice"
+                   placeholder="Giá từ"
+                   min="0"
+                   value="@Request.QueryString["minPrice"]" />
+            <input type="number"
+                   name="maxPrice"
+                   placeholder="Đến"
+                   min="0"
+                   value="@Request.QueryString["maxPrice"]" />
+            <button type="submit">Lọc</button>
+        </div>
+    }
+    <!-- Tiêu đề Tất Cả Sản Phẩm -->
+    <div class="category-header">
+        <h2 class="category-title">TẤT CẢ SẢN PHẨM</h2>
+    </div>
+    <!-- Thông báo nếu không có sản phẩm -->
+    @if (Model != null && !Model.Any())
+    {
+        <div style="text-align: center; padding: 60px 20px; color: #999;">
+            <i class="fa-solid fa-box-open" style="font-size: 64px; margin-bottom: 20px; display: block; color: #e0e0e0;"></i>
+            <p style="font-size: 18px; font-weight: 600; color: #666; margin: 10px 0;">Không tìm thấy sản phẩm phù hợp</p>
+            <p style="font-size: 14px; margin-top: 10px;">Vui lòng thử lại với từ khóa hoặc khoảng giá khác.</p>
+        </div>
+    }
+    else if (Model != null)
+    {
+        <!-- Product wrapper -->
+        <div class="product-wrap">
+            <div class="s-product-row">
+                <!-- Danh sách sản phẩm -->
+                @Html.Partial("_ProductList", Model)
+            </div>
+        </div>
+    }
+</div>

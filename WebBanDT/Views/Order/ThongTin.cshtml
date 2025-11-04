@@ -1,0 +1,624 @@
+﻿@model WebBanDT.Models.viewmodels.CheckoutViewModel
+
+@{
+    ViewBag.Title = "Thông tin thanh toán";
+    Layout = "~/Views/Shared/_CartLogin.cshtml";
+
+    // Lấy CartItems từ Cart hoặc từ property trực tiếp
+    var cartItems = Model.Cart != null ? Model.Cart.CartItems : Model.CartItems;
+    var totalAmount = cartItems.Sum(i => i.Quantity * i.UnitPrice);
+    var vat = totalAmount * 0.1m;
+    var grandTotal = totalAmount + vat;
+    var itemCount = cartItems.Count;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="@Url.Content("~/Content/stylecart.css")?v=@DateTime.UtcNow.Ticks" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* Payment Details Styling */
+        .payment-details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            animation: slideDown 0.3s ease-out;
+        }
+
+            .payment-details.active {
+                display: block;
+            }
+
+        @@keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-details h3 {
+            color: white;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qr-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 15px;
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bank-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            color: #333;
+        }
+
+        .bank-info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .bank-info-row:last-child {
+                border-bottom: none;
+            }
+
+        .bank-info-label {
+            font-weight: 600;
+            color: #666;
+        }
+
+        .bank-info-value {
+            font-weight: 700;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+            .copy-btn:hover {
+                background: #764ba2;
+                transform: scale(1.05);
+            }
+
+            .copy-btn.copied {
+                background: #10b981;
+            }
+
+        .momo-container, .vnpay-container, .zalopay-container {
+            text-align: center;
+            color: white;
+        }
+
+        .payment-logo {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .momo-logo {
+            color: #a50064;
+        }
+
+        .vnpay-logo {
+            color: #0066b2;
+        }
+
+        .zalopay-logo {
+            color: #0068ff;
+        }
+
+        .payment-instruction {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            color: white;
+            text-align: left;
+        }
+
+            .payment-instruction ol {
+                margin: 10px 0 0 20px;
+                padding: 0;
+            }
+
+            .payment-instruction li {
+                margin: 8px 0;
+                line-height: 1.6;
+            }
+
+        .payment-amount {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fbbf24;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .payment-note {
+            background: rgba(255,255,255,0.95);
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+}
+
+<div class="checkout-page">
+    <div class="checkout-header">
+        <h1><i class="fa-solid fa-credit-card"></i> Thông tin thanh toán</h1>
+    </div>
+
+    <div class="checkout-container">
+        <!-- Danh sách sản phẩm -->
+        <div class="checkout-products">
+            <div class="section-title">
+                <i class="fa-solid fa-shopping-bag"></i>
+                Sản phẩm trong đơn hàng (@Model.Cart.CartItems.Count)
+            </div>
+
+            @foreach (var item in Model.Cart.CartItems)
+            {
+                if (item.Product != null)
+                {
+                    <div class="product-item">
+                        <img src="@item.Product.ProductImage" alt="@item.Product.ProductName" class="product-image" />
+                        <div class="product-details">
+                            <div class="product-name">@item.Product.ProductName</div>
+                            <div class="product-meta">
+                                <div class="product-quantity">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
+                                    Số lượng: <strong>@item.Quantity</strong>
+                                </div>
+                                <div class="product-price">
+                                    @((item.Quantity * item.UnitPrice).ToString("N0") + "₫")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <!-- Sidebar: Thông tin giao hàng & thanh toán -->
+        <div class="checkout-sidebar">
+            <div class="shipping-info">
+                <div class="section-title">
+                    <i class="fa-solid fa-truck"></i>
+                    Thông tin giao hàng
+                </div>
+
+                @using (Html.BeginForm("Checkout", "Order", FormMethod.Post, new { id = "checkoutForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-user"></i> Họ và tên</label>
+                        <input type="text" name="FullName" value="@Model.FullName" placeholder="Nhập họ tên của bạn" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-phone"></i> Số điện thoại</label>
+                        <input type="tel" name="Phone" value="@Model.Phone" placeholder="Nhập số điện thoại" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-envelope"></i> Email</label>
+                        <input type="email" name="Email" value="@Model.Email" placeholder="Nhập email của bạn" />
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-location-dot"></i> Địa chỉ giao hàng</label>
+                        <textarea name="DeliveryAddress" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố" required>@Model.DeliveryAddress</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fa-solid fa-comment"></i> Ghi chú đơn hàng</label>
+                        <textarea name="OrderNote" placeholder="Ghi chú về đơn hàng (tùy chọn)">@Model.OrderNote</textarea>
+                    </div>
+
+                    <!-- Phương thức thanh toán -->
+                    <div class="section-title" style="margin-top: 30px;">
+                        <i class="fa-solid fa-wallet"></i>
+                        Phương thức thanh toán
+                    </div>
+
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="cod" name="PaymentMethod" value="COD" checked />
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                            <label for="cod">Thanh toán khi nhận hàng (COD)</label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="bank" name="PaymentMethod" value="Bank" />
+                            <i class="fa-solid fa-building-columns"></i>
+                            <label for="bank">Chuyển khoản ngân hàng</label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="momo" name="PaymentMethod" value="Momo" />
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <label for="momo">Ví MoMo</label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="vnpay" name="PaymentMethod" value="VNPay" />
+                            <i class="fa-solid fa-credit-card"></i>
+                            <label for="vnpay">VNPay</label>
+                        </div>
+
+                        <div class="payment-option">
+                            <input type="radio" id="zalopay" name="PaymentMethod" value="ZaloPay" />
+                            <i class="fa-brands fa-android"></i>
+                            <label for="zalopay">ZaloPay</label>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details Sections -->
+                    <div id="payment-details-container">
+                        <!-- COD - No additional info needed -->
+                        <div id="details-cod" class="payment-details">
+                            <h3><i class="fa-solid fa-hand-holding-dollar"></i> Thanh toán khi nhận hàng</h3>
+                            <div class="payment-instruction">
+                                <p><strong>Hướng dẫn:</strong></p>
+                                <ol>
+                                    <li>Nhận hàng tại địa chỉ đã cung cấp</li>
+                                    <li>Kiểm tra sản phẩm trước khi thanh toán</li>
+                                    <li>Thanh toán tiền mặt cho nhân viên giao hàng</li>
+                                </ol>
+                            </div>
+                            <div class="payment-amount">
+                                Tổng thanh toán: @grandTotal.ToString("N0")₫
+                            </div>
+                        </div>
+
+                        <!-- Bank Transfer -->
+                        <div id="details-bank" class="payment-details">
+                            <h3><i class="fa-solid fa-building-columns"></i> Chuyển khoản ngân hàng</h3>
+                            <div class="bank-info">
+                                <div class="bank-info-row">
+                                    <span class="bank-info-label">Ngân hàng:</span>
+                                    <span class="bank-info-value">
+                                        <span>Sacombank</span>
+                                    </span>
+                                </div>
+                                <div class="bank-info-row">
+                                    <span class="bank-info-label">Số tài khoản:</span>
+                                    <span class="bank-info-value">
+                                        <span id="account-number">060292041163</span>
+                                        <button type="button" class="copy-btn" onclick="copyToClipboard('account-number', this)">
+                                            <i class="fa-solid fa-copy"></i> Copy
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="bank-info-row">
+                                    <span class="bank-info-label">Chủ tài khoản:</span>
+                                    <span class="bank-info-value">BUI TRUNG DAT</span>
+                                </div>
+                                <div class="bank-info-row">
+                                    <span class="bank-info-label">Số tiền:</span>
+                                    <span class="bank-info-value" style="color: #dc2626; font-size: 20px;">
+                                        @grandTotal.ToString("N0")₫
+                                    </span>
+                                </div>
+                                <div class="bank-info-row">
+                                    <span class="bank-info-label">Nội dung:</span>
+                                    <span class="bank-info-value">
+                                        <span id="transfer-content">DH @DateTime.Now.ToString("yyyyMMddHHmmss")</span>
+                                        <button type="button" class="copy-btn" onclick="copyToClipboard('transfer-content', this)">
+                                            <i class="fa-solid fa-copy"></i> Copy
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="qr-container" style="margin-top: 15px;">
+                                <div class="qr-code">
+                                    <img src="https://img.vietqr.io/image/STB-060292041163-compact2.jpg?amount=@grandTotal&addInfo=DH@DateTime.Now.ToString(" yyyyMMddHHmmss")&accountName=BUI TRUNG DAT" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
+                                </div>
+                                <p style="color: #666; font-size: 14px;">Quét mã QR để chuyển khoản nhanh</p>
+                            </div>
+                            <div class="payment-note">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Vui lòng chuyển khoản đúng nội dung để đơn hàng được xử lý tự động</span>
+                            </div>
+                        </div>
+
+                        <!-- MoMo -->
+                        <div id="details-momo" class="payment-details">
+                            <h3><i class="fa-solid fa-mobile-screen-button"></i> Thanh toán qua Ví MoMo</h3>
+                            <div class="momo-container">
+                                <div class="payment-amount">
+                                    @grandTotal.ToString("N0")₫
+                                </div>
+                                <div class="qr-container">
+                                    <div class="qr-code">
+                                        <img src="@Url.Content("~/Image/momo.jpg")" alt="MoMo QR" style="width: 100%; height: 100%; object-fit: contain;" />
+                                    </div>
+                                    <p style="color: #666;">Quét mã QR bằng ứng dụng MoMo</p>
+                                </div>
+                                <div class="bank-info" style="margin-top: 15px;">
+                                    <div class="bank-info-row">
+                                        <span class="bank-info-label">Số điện thoại:</span>
+                                        <span class="bank-info-value">
+                                            <span id="momo-phone">0354445960</span>
+                                            <button type="button" class="copy-btn" onclick="copyToClipboard('momo-phone', this)">
+                                                <i class="fa-solid fa-copy"></i> Copy
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="bank-info-row">
+                                        <span class="bank-info-label">Tên tài khoản:</span>
+                                        <span class="bank-info-value">BUI TRUNG DAT</span>
+                                    </div>
+                                </div>
+                                <div class="payment-instruction">
+                                    <p><strong>Hướng dẫn thanh toán:</strong></p>
+                                    <ol>
+                                        <li>Mở ứng dụng MoMo trên điện thoại</li>
+                                        <li>Chọn "Quét mã QR"</li>
+                                        <li>Quét mã QR trên màn hình</li>
+                                        <li>Xác nhận thông tin và thanh toán</li>
+                                    </ol>
+                                </div>
+                                <div class="payment-note">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span>Vui lòng ghi rõ nội dung: DH@DateTime.Now.ToString("yyyyMMddHHmmss")</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VNPay -->
+                        <div id="details-vnpay" class="payment-details">
+                            <h3><i class="fa-solid fa-credit-card"></i> Thanh toán qua VNPay</h3>
+                            <div class="vnpay-container">
+                                <div class="payment-logo vnpay-logo">
+                                    <i class="fa-solid fa-credit-card"></i>
+                                </div>
+                                <div class="payment-amount">
+                                    @grandTotal.ToString("N0")₫
+                                </div>
+                                <div class="qr-container">
+                                    <div class="qr-code">
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=VNPay|@grandTotal|DH@DateTime.Now.ToString(" yyyyMMddHHmmss")" alt="VNPay QR" />
+                                    </div>
+                                    <p style="color: #666;">Quét mã QR bằng ứng dụng VNPay</p>
+                                </div>
+                                <div class="payment-instruction">
+                                    <p><strong>Hướng dẫn thanh toán:</strong></p>
+                                    <ol>
+                                        <li>Mở ứng dụng VNPay</li>
+                                        <li>Chọn tính năng quét QR</li>
+                                        <li>Quét mã QR và xác nhận thanh toán</li>
+                                        <li>Hoặc nhấn "Xác nhận đặt hàng" để chuyển đến cổng thanh toán</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ZaloPay -->
+                        <div id="details-zalopay" class="payment-details">
+                            <h3><i class="fa-brands fa-android"></i> Thanh toán qua ZaloPay</h3>
+                            <div class="zalopay-container">
+                                <div class="payment-amount">
+                                    @grandTotal.ToString("N0")₫
+                                </div>
+                                <div class="qr-container">
+                                    <div class="qr-code">
+                                        <img src="@Url.Content("~/Image/zalopay.jpg")" alt="ZaloPay QR" style="width: 100%; height: 100%; object-fit: contain;" />
+                                    </div>
+                                    <p style="color: #666;">Quét mã QR bằng ứng dụng ZaloPay hoặc app ngân hàng</p>
+                                </div>
+                                <div class="bank-info" style="margin-top: 15px;">
+                                    <div class="bank-info-row">
+                                        <span class="bank-info-label">Số điện thoại:</span>
+                                        <span class="bank-info-value">
+                                            <span id="zalopay-phone">0354445960</span>
+                                            <button type="button" class="copy-btn" onclick="copyToClipboard('zalopay-phone', this)">
+                                                <i class="fa-solid fa-copy"></i> Copy
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <div class="bank-info-row">
+                                        <span class="bank-info-label">Tên tài khoản:</span>
+                                        <span class="bank-info-value">BUI TRUNG DAT</span>
+                                    </div>
+                                </div>
+                                <div class="payment-instruction">
+                                    <p><strong>Hướng dẫn thanh toán:</strong></p>
+                                    <ol>
+                                        <li>Mở ứng dụng ZaloPay trên điện thoại</li>
+                                        <li>Nhấn vào biểu tượng "Quét mã"</li>
+                                        <li>Quét mã QR hiển thị trên màn hình</li>
+                                        <li>Kiểm tra thông tin và xác nhận thanh toán</li>
+                                    </ol>
+                                </div>
+                                <div class="payment-note">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    <span>Hỗ trợ thanh toán qua ZaloPay và các app ngân hàng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tóm tắt đơn hàng -->
+                    <div class="summary-box">
+                        <div class="section-title">
+                            <i class="fa-solid fa-receipt"></i>
+                            Tóm tắt đơn hàng
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Tạm tính:</span>
+                            <strong>@totalAmount.ToString("N0")₫</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Phí vận chuyển:</span>
+                            <strong class="text-success">Miễn phí</strong>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>VAT (10%):</span>
+                            <strong>@vat.ToString("N0")₫</strong>
+                        </div>
+
+                        <!-- Mã giảm giá -->
+                        <div class="voucher-section">
+                            <input type="text" class="voucher-input" placeholder="Nhập mã giảm giá" />
+                            <button type="button" class="btn-apply-voucher">
+                                <i class="fa-solid fa-ticket"></i> Áp dụng
+                            </button>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Tổng thanh toán:</span>
+                            <span>@grandTotal.ToString("N0")₫</span>
+                        </div>
+
+                        <button type="submit" class="btn-checkout">
+                            <i class="fa-solid fa-shield-halved"></i> Xác nhận đặt hàng <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                        <div class="security-badge">
+                            <i class="fa-solid fa-lock"></i> Giao dịch được bảo mật và mã hóa
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        // Scroll tới input invalid khi submit
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            const firstInvalid = this.querySelector(':invalid');
+            if (firstInvalid) {
+                e.preventDefault();
+                firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalid.focus();
+            }
+        });
+
+        // Handle payment method change
+        function showPaymentDetails(method) {
+            // Hide all payment details
+            document.querySelectorAll('.payment-details').forEach(detail => {
+                detail.classList.remove('active');
+            });
+
+            // Show selected payment details
+            const detailsId = 'details-' + method.toLowerCase();
+            const selectedDetails = document.getElementById(detailsId);
+            if (selectedDetails) {
+                selectedDetails.classList.add('active');
+            }
+        }
+
+        // Click payment option
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const radio = this.querySelector('input[type="radio"]');
+                radio.checked = true;
+                showPaymentDetails(radio.value);
+            });
+        });
+
+        // Initialize with COD selected
+        showPaymentDetails('COD');
+
+        // Copy to clipboard function
+        function copyToClipboard(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            navigator.clipboard.writeText(text).then(function() {
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy';
+                button.classList.add('copied');
+
+                setTimeout(function() {
+                    button.innerHTML = originalHTML;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                alert('Không thể copy: ' + err);
+            });
+        }
+
+        // Make copyToClipboard available globally
+        window.copyToClipboard = copyToClipboard;
+
+        // Áp dụng voucher
+        document.querySelector('.btn-apply-voucher').addEventListener('click', function() {
+            const input = document.querySelector('.voucher-input');
+            if (input.value.trim() === '') {
+                input.focus();
+                input.style.animation = 'shake 0.5s';
+                setTimeout(() => input.style.animation = '', 500);
+            } else {
+                alert('Mã giảm giá sẽ được áp dụng!');
+            }
+        });
+
+        // Shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @@keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+}

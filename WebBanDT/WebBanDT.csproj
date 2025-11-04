@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -47,6 +49,15 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -57,9 +68,30 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -106,20 +138,78 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Areas\adminhome\AdminHomeAreaRegistration.cs" />
+    <Compile Include="Areas\adminhome\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\CustomersController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\HomeController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\OrderDetailsController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\OrdersController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\adminhome\Controllers\UserAccountsController.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CustomerHomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\OrderInfoViewModel.cs" />
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CartItem.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderDetail.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserAccount.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewmodels\CheckoutViewModel.cs" />
+    <Compile Include="Models\viewmodels\CustomerHomeVM.cs" />
+    <Compile Include="Models\viewmodels\Metadata.cs" />
+    <Compile Include="Models\viewmodels\PartialClasses.cs" />
+    <Compile Include="Models\viewmodels\ProductVM.cs" />
+    <Compile Include="Models\viewmodels\ProfileViewModel.cs" />
+    <Compile Include="Models\WebBanDTModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebBanDTModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebBanDTModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebBanDTModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebBanDTModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\adminhome\admin-style.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -138,7 +228,10 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\checkin.css" />
     <Content Include="Content\checkout.css" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\productdetail.css" />
     <Content Include="Content\productlist.css" />
+    <Content Include="Content\profile.css" />
     <Content Include="Content\sanpham.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\stylecart.css" />
@@ -149,15 +242,69 @@
     <Content Include="Image\facebook.jpg" />
     <Content Include="Image\FB.png" />
     <Content Include="Image\GooD Phone.png" />
+    <Content Include="Image\icon.jpg" />
     <Content Include="Image\IG.png" />
+    <Content Include="Image\momo.jpg" />
     <Content Include="Image\unnamed.png" />
     <Content Include="Image\zalo.jpg" />
+    <Content Include="Image\zalopay.jpg" />
+    <Content Include="Models\WebBanDTModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebBanDTModel.edmx</DependentUpon>
+      <LastGenOutput>WebBanDTModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WebBanDTModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebBanDTModel.edmx</DependentUpon>
+      <LastGenOutput>WebBanDTModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\WebBanDTModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebBanDTModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WebBanDTModel.edmx.diagram">
+      <DependentUpon>WebBanDTModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\adminhome\Views\Categories\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\Categories\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\Categories\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\Categories\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\Categories\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\Customers\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\Customers\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\Customers\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\Customers\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\Customers\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\Home\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\OrderDetails\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\OrderDetails\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\OrderDetails\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\OrderDetails\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\OrderDetails\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\Orders\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\Orders\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\Orders\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\Orders\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\Orders\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\Products\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\Products\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\Products\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\Products\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\Products\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Areas\adminhome\Views\UserAccounts\Create.cshtml" />
+    <Content Include="Areas\adminhome\Views\UserAccounts\Delete.cshtml" />
+    <Content Include="Areas\adminhome\Views\UserAccounts\Details.cshtml" />
+    <Content Include="Areas\adminhome\Views\UserAccounts\Edit.cshtml" />
+    <Content Include="Areas\adminhome\Views\UserAccounts\Index.cshtml" />
+    <Content Include="Areas\adminhome\Views\web.config" />
+    <Content Include="Areas\adminhome\Views\_ViewStart.cshtml" />
     <None Include="Scripts\jquery-3.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.1.js" />
     <Content Include="Scripts\jquery-3.7.1.min.js" />
@@ -169,6 +316,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\profile.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -178,29 +326,41 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Account\Taikhoan.cshtml" />
-    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
-    <Content Include="Views\Home\TrangChu.cshtml" />
-    <Content Include="Views\Cart\GiaoHang.cshtml" />
-    <Content Include="Views\Cart\GioHang.cshtml" />
-    <Content Include="Views\Shared\_CartLogin.cshtml" />
-    <Content Include="Views\Category\Phones.cshtml" />
-    <Content Include="Views\Product\SanPham.cshtml" />
-    <Content Include="Views\Shared\_LayoutPro.cshtml" />
-    <Content Include="Views\Shared\_Header.cshtml" />
-    <Content Include="Views\Shared\_Footer.cshtml" />
-    <Content Include="Views\Category\Laptop.cshtml" />
-    <Content Include="Views\Category\Screen.cshtml" />
-    <Content Include="Views\Category\Tablet.cshtml" />
-    <Content Include="Views\Category\Sound.cshtml" />
-    <Content Include="Views\Category\Watch.cshtml" />
-    <Content Include="Views\Cart\ThongTin.cshtml" />
-    <Content Include="Views\Cart\ThanhToan.cshtml" />
+    <Content Include="Views\account\Login.cshtml" />
+    <Content Include="Views\account\Register.cshtml" />
+    <Content Include="Views\cart\GiaoHang.cshtml" />
+    <Content Include="Views\cart\GioHang.cshtml" />
+    <Content Include="Views\category\Laptop.cshtml" />
+    <Content Include="Views\category\Phones.cshtml" />
+    <Content Include="Views\category\Screen.cshtml" />
+    <Content Include="Views\category\Sound.cshtml" />
+    <Content Include="Views\category\Tablet.cshtml" />
+    <Content Include="Views\category\Watch.cshtml" />
+    <Content Include="Views\customerhome\Index.cshtml" />
+    <Content Include="Views\product\Details.cshtml" />
+    <Content Include="Views\product\Product.cshtml" />
+    <Content Include="Views\shared\Error.cshtml" />
+    <Content Include="Views\shared\_CartLogin.cshtml" />
+    <Content Include="Views\shared\_CustomerLayout.cshtml" />
+    <Content Include="Views\shared\_Footer.cshtml" />
+    <Content Include="Views\shared\_Header.cshtml" />
+    <Content Include="Views\shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\shared\_ProductList.cshtml" />
+    <Content Include="Views\category\SearchAll.cshtml" />
+    <Content Include="Views\category\FullProduct.cshtml" />
+    <Content Include="Views\Order\Order.cshtml" />
+    <Content Include="Views\Order\ThongTin.cshtml" />
+    <Content Include="Views\Order\Checkout.cshtml" />
+    <Content Include="Views\Order\OrderSuccess.cshtml" />
+    <Content Include="Views\Order\LichSuDonHang.cshtml" />
+    <Content Include="Views\Users\Profile.cshtml" />
+    <Content Include="Views\Users\History.cshtml" />
+    <Content Include="Views\Users\Info.cshtml" />
+    <Content Include="Views\Users\OrderDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\adminhome\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -229,9 +389,15 @@
     <Content Include="Scripts\jquery-3.7.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.7.1.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
@@ -253,6 +419,9 @@
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <servers defaultServer="SelfHostServer">
+            <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:63114/" workingDir="" />
+          </servers>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
@@ -263,7 +432,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.4.2.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

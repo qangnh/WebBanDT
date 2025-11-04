@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebBanDT.Models.Order>
+
+@{
+    ViewBag.Title = "Lịch sử đơn hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<h2>Lịch sử đơn hàng của bạn</h2>
+
+@if (!Model.Any())
+{
+    <p>Bạn chưa có đơn hàng nào.</p>
+}
+else
+{
+    foreach (var order in Model)
+    {
+        <div class="order-card" style="border:1px solid #ccc; padding:15px; margin-bottom:20px;">
+            <h3>Đơn hàng #@order.OrderID</h3>
+            <p><strong>Ngày đặt:</strong> @(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd/MM/yyyy HH:mm") : "-")</p>
+            <p><strong>Trạng thái:</strong> @order.OrderStatus | <strong>Thanh toán:</strong> @order.PaymentStatus</p>
+            <p><strong>Địa chỉ giao hàng:</strong> @order.DeliveryAddress</p>
+            <p><strong>Tổng tiền:</strong> @order.TotalAmount.ToString("N0") VND</p>
+
+            <h4>Sản phẩm trong đơn hàng:</h4>
+            <table class="table table-bordered" style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in order.OrderDetails)
+                    {
+                        <tr>
+                            <td>@item.Product.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("N0") VND</td>
+                            <td>@(item.UnitPrice * item.Quantity).ToString("N0") VND</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+}

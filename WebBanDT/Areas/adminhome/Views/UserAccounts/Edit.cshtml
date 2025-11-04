@@ -1,0 +1,56 @@
+﻿@model WebBanDT.Models.UserAccount
+
+@{
+    ViewBag.Title = "Chỉnh sửa tài khoản";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="bi bi-pencil-square"></i> Chỉnh sửa thông tin tài khoản</h5>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+                @Html.HiddenFor(model => model.UserID)
+                @Html.HiddenFor(model => model.CreatedAt)
+
+                <!-- Username readonly -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Tên đăng nhập</label>
+                    <input type="text" class="form-control" value="@Model.Username" readonly />
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.PasswordHash, "Mật khẩu mới")
+                    @Html.PasswordFor(model => model.PasswordHash, new { @class = "form-control", placeholder = "Để trống nếu không đổi" })
+                    @Html.ValidationMessageFor(model => model.PasswordHash, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Role -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.UserRole)
+                    @Html.DropDownListFor(model => model.UserRole, new SelectList(new[] { "Admin", "User" }, Model.UserRole), "-- Chọn vai trò --", new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.UserRole, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-start mt-4">
+                    <button type="submit" class="btn btn-success me-2"><i class="bi bi-save"></i> Lưu thay đổi</button>
+                    @Html.ActionLink("← Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="wrapper">
+    <div class="form-box login">
+        <h2>Đăng nhập</h2>
+
+        <!-- Hiển thị lỗi -->
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger" style="margin-bottom:10px; border-radius:8px; padding:10px;">
+                <p>@ViewBag.Error</p>
+            </div>
+        }
+
+        <form method="post" action="/Account/Login">
+            @Html.AntiForgeryToken()
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="person"></ion-icon></span>
+                <input type="text" name="Username" required>
+                <label>Tên đăng nhập</label>
+            </div>
+
+            <div class="input-box">
+                <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+                <input type="password" name="Password" required>
+                <label>Mật khẩu</label>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Ghi nhớ đăng nhập</label>
+                <a href="#">Quên mật khẩu?</a>
+            </div>
+
+            <button type="submit" class="btn">Đăng nhập</button>
+
+            <div class="login-resgister">
+                <p>Chưa có tài khoản? <a href="/Account/Register">Đăng ký</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .wrapper .form-box.login {
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        position: relative !important;
+    }
+
+    .alert-danger {
+        background: #ffe5e5;
+        border: 1px solid #ffb3b3;
+        color: #c00;
+    }
+
+        .alert-danger p {
+            margin: 0;
+            padding: 4px 0;
+        }
+</style>

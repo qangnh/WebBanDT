@@ -1,0 +1,253 @@
+﻿@model WebBanDT.Models.ViewModels.ProductVM
+@{
+    ViewBag.Title = Model.ProductName;
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<br />
+<br />
+
+
+<div class="product-page">
+    <div class="container">
+
+        <!-- breadcrumb -->
+        <nav style="font-size:13px;color:#888;margin-bottom:8px">
+            <span>@Model.CategoryName</span> /
+            <strong>@Model.ProductName</strong>
+        </nav>
+
+        <!-- ===== HÀNG 1: 3 CỘT ===== -->
+        <div class="top-3col">
+
+            <!-- GALLERY -->
+            <section class="gal">
+                <img id="mainImg" class="gal-main" src="@Model.ProductImage" alt="@Model.ProductName">
+                @if (Model.ProductImages != null && Model.ProductImages.Any())
+                {
+                    <div class="gal-thumbs" id="thumbs">
+                        @foreach (var img in Model.ProductImages)
+                        {
+                            <button class="gal-thumb @(img == Model.ProductImage ? "is-active" : "")">
+                                <img data-src="@img" src="@img" alt="@Model.ProductName" />
+                            </button>
+                        }
+                    </div>
+                }
+            </section>
+
+            <!-- INFO -->
+            <section>
+                <h1 class="title">@Model.ProductName</h1>
+
+                <div class="meta">
+                    <div>
+                        <strong>@Model.Rating.ToString("0.0")</strong>
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <i class="fa-solid fa-star" style="color:#f5a623"></i>
+                        }
+                    </div>
+                    <div class="dot"></div>
+                    <span>@Model.ReviewCount đánh giá</span>
+                    <div class="dot"></div>
+                    <span>Đã bán @Model.SoldQuantity+</span>
+                </div>
+
+                <div class="price-card">
+                    <div style="display:flex;align-items:center">
+                        <div class="price-now">@Model.ProductPrice.ToString("N0")<sup>đ</sup></div>
+                        @if (Model.OldPrice != null)
+                        {
+                            <div class="price-old">@Model.OldPrice?.ToString("N0")<sup>đ</sup></div>
+                            <div class="price-off">
+                                @Math.Round((1 - (double)(Model.ProductPrice / Model.OldPrice.Value)) * 100)%
+                            </div>
+                        }
+                    </div>
+                    <div class="ship">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Nhận trong <strong>2-3 ngày</strong> • <u>Miễn phí vận chuyển</u></span>
+                    </div>
+                </div>
+
+                <div class="pickers" style="grid-template-columns:120px auto">
+                    <div class="label">Số lượng còn</div>
+                    <div class="qty">@Model.StockQuantity</div>
+                </div>
+
+                <div class="cta" style="display:flex;gap:10px;align-items:center">
+                    <!-- CHỌN SỐ LƯỢNG -->
+                    <div class="qty-wrapper" style="display:flex;align-items:center;border:1px solid #ccc;border-radius:8px;overflow:hidden;width:110px;">
+                        <button type="button" class="qty-btn" onclick="changeQty(-1)"
+                                style="width:35px;height:35px;border:none;background:#f0f0f0;font-size:18px;cursor:pointer;">
+                            –
+                        </button>
+                        <input type="number" id="productQty" name="quantity" value="1" min="1" max="@Model.StockQuantity"
+                               style="flex:1;text-align:center;font-size:16px;border:none;outline:none;padding:5px 0;" />
+                        <button type="button" class="qty-btn" onclick="changeQty(1)"
+                                style="width:35px;height:35px;border:none;background:#f0f0f0;font-size:18px;cursor:pointer;">
+                            +
+                        </button>
+                    </div>
+
+                    <!-- THÊM VÀO GIỎ HÀNG -->
+                    <form action="@Url.Action("AddToCart", "Cart")" method="post" style="margin:0;">
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <input type="hidden" name="quantity" id="addToCartQty" value="1" />
+                        <button type="submit" class="btn-outline">
+                            <i class="fa-solid fa-cart-shopping" style="margin-right:6px"></i>
+                            Thêm Vào Giỏ Hàng
+                        </button>
+                    </form>
+
+                    <!-- MUA NGAY -->
+                    <form action="@Url.Action("MuaNgay", "Order")" method="post" style="margin:0;">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.ProductID" />
+                        <input type="hidden" name="quantity" id="buyNowQty" value="1" />
+                        <button type="submit" class="btn-buy">Mua Ngay</button>
+                    </form>
+
+                </div>
+
+                <script>
+                    function changeQty(delta) {
+                        const input = document.getElementById('productQty');
+                        let value = parseInt(input.value) || 1;
+                        const min = parseInt(input.min) || 1;
+                        const max = parseInt(input.max) || 100;
+                        value += delta;
+                        if (value < min) value = min;
+                        if (value > max) value = max;
+                        input.value = value;
+
+                        // Đồng bộ giá trị với 2 form
+                        document.getElementById('addToCartQty').value = value;
+                        document.getElementById('buyNowQty').value = value;
+                    }
+                </script>
+
+
+                <script>
+    // Đồng bộ số lượng với 2 form
+    const qtyInput = document.getElementById('productQty');
+    const addToCartQty = document.getElementById('addToCartQty');
+    const buyNowQty = document.getElementById('buyNowQty');
+
+    qtyInput.addEventListener('input', () => {
+        let val = Math.max(1, Math.min(parseInt(qtyInput.value) || 1, @Model.StockQuantity));
+        qtyInput.value = val;
+        addToCartQty.value = val;
+        buyNowQty.value = val;
+    });
+                </script>
+
+            </section>
+
+            <!-- SIDEBAR STICKY -->
+            <aside class="sticky">
+                <div class="card">
+                    <h3>Thông tin vận chuyển</h3>
+                    <div class="line">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Chọn chi nhánh nhận hàng</span>
+                    </div>
+                    <div class="line">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Giao hàng nhanh, miễn phí toàn quốc</span>
+                    </div>
+                </div>
+
+                <div class="card promo">
+                    <strong>Khuyến mãi hấp dẫn</strong>
+                    <ul style="margin-top:8px">
+                        <li>Giảm 5% tối đa 200.000đ khi thanh toán Kredivo</li>
+                        <li>Tặng Sim/Esim VNSKY miễn phí 30 ngày đầu</li>
+                        <li>Ưu đãi Smember (tuỳ sản phẩm)</li>
+                    </ul>
+                    <div style="display:flex;gap:10px;margin-top:10px">
+                        <button class="btn-buy" style="flex:1">Mua ngay</button>
+                        <button class="btn-outline" style="flex:1">Thêm vào giỏ</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- ===== THÔNG SỐ KỸ THUẬT + MÔ TẢ ===== -->
+        <div class="mid-2col">
+            <div>
+                <div class="card">
+                    <h3>Cam kết sản phẩm</h3>
+                    <div class="line"><i class="fa-solid fa-mobile-screen-button"></i> Máy mới 100% - Chính hãng</div>
+                    <div class="line"><i class="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng, 1 đổi 1 trong 30 ngày</div>
+                    <div class="line"><i class="fa-solid fa-square-check"></i> Giá đã bao gồm VAT</div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Specifications))
+                {
+                    <div class="card" style="margin-top:12px">
+                        <h3>Thông số kỹ thuật</h3>
+                        @Html.Raw(Model.Specifications)
+                    </div>
+                }
+
+                <!-- ===== MÔ TẢ SẢN PHẨM ===== -->
+                @if (!string.IsNullOrEmpty(Model.ProductDescription))
+                {
+                    <section class="card product-desc" style="margin-top:20px">
+                        <h3>Mô tả sản phẩm</h3>
+                        <div class="desc-content">
+                            @Html.Raw(Model.ProductDescription)
+                        </div>
+                    </section>
+                }
+            </div>
+
+            <!-- SIDEBAR PHẢI -->
+            <aside class="sticky">
+                <div class="card">
+                    <h3>Chọn nơi nhận</h3>
+                    <div class="line"><i class="fa-solid fa-store"></i> Cửa hàng gần bạn</div>
+                    <div class="line"><i class="fa-solid fa-circle-info"></i> Hỗ trợ đổi trả 15 ngày</div>
+                </div>
+                <div class="card promo">
+                    <strong>Ưu đãi thêm</strong>
+                    <ul style="margin-top:8px">
+                        <li>Mở thẻ VPBank giảm tới 500.000đ</li>
+                        <li>Trả góp 0% qua thẻ tín dụng</li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+        <!-- ===== GỢI Ý SẢN PHẨM ===== -->
+        @if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+        {
+            <section class="card reco">
+                <h3>Có thể bạn cũng thích</h3>
+                <div class="reco-grid">
+                    @foreach (var p in Model.RelatedProducts)
+                    {
+                        <div class="reco-card">
+                            <img class="reco-img" src="@p.ProductImage" />
+                            <div class="reco-title">@p.ProductName</div>
+                            <div class="reco-price">@p.ProductPrice.ToString("N0")đ</div>
+                        </div>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</div>
+
+<script>
+    // Đổi ảnh chính khi chọn thumbnail
+    document.querySelectorAll('#thumbs img').forEach(img => {
+        img.addEventListener('click', () => {
+            document.getElementById('mainImg').src = img.dataset.src || img.src;
+            document.querySelectorAll('.gal-thumb').forEach(b => b.classList.remove('is-active'));
+            img.closest('.gal-thumb').classList.add('is-active');
+        });
+    });
+</script>

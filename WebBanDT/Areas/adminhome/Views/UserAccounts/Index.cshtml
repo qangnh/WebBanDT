@@ -1,0 +1,101 @@
+﻿@model PagedList.IPagedList<WebBanDT.Models.UserAccount>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách tài khoản";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">@ViewBag.Title</h5>
+            @Html.ActionLink("➕ Thêm tài khoản mới", "Create", null, new { @class = "btn btn-light btn-sm fw-semibold" })
+        </div>
+
+        <div class="card-body">
+            <!-- Form tìm kiếm -->
+            @using (Html.BeginForm("Index", "UserAccounts", FormMethod.Get, new { area = "AdminHome", @class = "d-flex mb-3" }))
+            {
+                <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control me-2" placeholder="🔍 Nhập username hoặc email..." />
+                <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+            }
+
+            <!-- Bảng danh sách -->
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tên đăng nhập</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Username</td>
+                                <td>@(string.IsNullOrEmpty(item.Email) ? "—" : item.Email)</td>
+                                <td>
+                                    <span class="badge @(item.UserRole == "Admin" ? "bg-danger" : "bg-secondary")">
+                                        @item.UserRole
+                                    </span>
+                                </td>
+                                <td>@item.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @Html.ActionLink("✏️ Sửa", "Edit", new { id = item.UserID }, new { @class = "btn btn-warning btn-sm me-1" })
+                                    @Html.ActionLink("👁️ Xem", "Details", new { id = item.UserID }, new { @class = "btn btn-info btn-sm me-1 text-white" })
+                                    @Html.ActionLink("🗑️ Xóa", "Delete", new { id = item.UserID }, new { @class = "btn btn-danger btn-sm", onclick = "return confirm('Bạn có chắc muốn xóa tài khoản này không?');" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="5" class="text-muted fst-italic">Không có tài khoản nào phù hợp.</td></tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Phân trang -->
+            <div class="d-flex justify-content-center mt-3">
+                @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }),
+                    new PagedListRenderOptions
+                    {
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        UlElementClasses = new[] { "pagination", "justify-content-center" },
+                        LiElementClasses = new[] { "page-item" },
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = true
+                    }
+                )
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .pagination > li > a,
+    .pagination > li > span {
+        color: #0d6efd;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 0 3px;
+        text-decoration: none;
+    }
+
+    .pagination > .active > a {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: white !important;
+    }
+</style>

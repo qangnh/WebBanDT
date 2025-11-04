@@ -1,0 +1,88 @@
+﻿@model WebBanDT.Models.Product
+
+@{
+    ViewBag.Title = "Thêm sản phẩm";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="fa fa-plus-circle"></i> Thêm sản phẩm</h4>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Danh mục</label>
+                    @Html.DropDownList("CategoryID", (SelectList)ViewBag.CategoryID, "-- Chọn danh mục --",
+                        htmlAttributes: new { @class = "form-select" })
+                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tên sản phẩm</label>
+                    @Html.TextBoxFor(model => model.ProductName, new { @class = "form-control", placeholder = "Nhập tên sản phẩm..." })
+                    @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Mô tả sản phẩm</label>
+                    @Html.TextAreaFor(model => model.ProductDescription, new { @class = "form-control", rows = 3, placeholder = "Nhập mô tả chi tiết..." })
+                    @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Giá bán (VNĐ)</label>
+                        @Html.TextBoxFor(model => model.ProductPrice, new { @class = "form-control", type = "number", placeholder = "Nhập giá..." })
+                        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Số lượng tồn kho</label>
+                        @Html.TextBoxFor(model => model.StockQuantity, new { @class = "form-control", type = "number", placeholder = "Nhập số lượng..." })
+                        @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Hình ảnh sản phẩm (URL hoặc tải lên)</label>
+                    @Html.TextBoxFor(model => model.ProductImage, new { @class = "form-control", placeholder = "Nhập URL ảnh..." })
+                    @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Ngày tạo</label>
+                        @Html.TextBoxFor(model => model.CreatedAt, new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Trạng thái hiển thị</label>
+                        <div class="form-check mt-2">
+                            @Html.CheckBox("IsActive", false, new { @class = "form-check-input" })
+                            <label class="form-check-label">Kích hoạt sản phẩm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <a href="@Url.Action("Index", "Products", new { area = "AdminHome" })" class="btn btn-secondary me-2">
+                        <i class="fa fa-arrow-left"></i> Quay lại
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-save"></i> Lưu sản phẩm
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

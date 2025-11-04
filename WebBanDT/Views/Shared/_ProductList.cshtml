@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebBanDT.Models.ViewModels.ProductVM>
+
+<ul class="product-list" style="display:flex;flex-wrap:wrap;gap:24px;padding:0;list-style:none;margin:0;">
+    @foreach (var item in Model)
+    {
+        <li class="product-item" style="width:calc(20% - 20px);box-sizing:border-box;background:#fff;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08);overflow:hidden;transition:all .3s ease;">
+            <a href="@Url.Action("Details", "Product", new { id=item.ProductID })" style="text-decoration:none;color:inherit;display:block;">
+                <div style="position:relative;overflow:hidden;">
+                    <img src="@item.ProductImage" alt="@item.ProductName" style="width:100%;height:200px;object-fit:contain;padding:10px;">
+                </div>
+                <div style="padding:12px 10px 10px;">
+                    <h4 style="font-size:15px;font-weight:600;color:#333;">@item.ProductName</h4>
+                    <div style="font-size:16px;font-weight:bold;color:#d70018;margin-bottom:6px;">@item.ProductPrice.ToString("N0")₫</div>
+                    <div style="font-size:13px;color:#666;height:38px;overflow:hidden;">@item.ProductDescription</div>
+                    @if (Session["UserID"] != null)
+                    {
+                        <form action="@Url.Action("AddToCart", "Cart")" method="post" style="display:inline-block;margin-top:6px;">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn btn-warning" style="padding:6px 14px;border-radius:6px;font-size:14px;color:#fff;background:#f59e0b;">
+                                <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
+                            </button>
+                        </form>
+                        <form action="@Url.Action("ThongTin", "Order")" method="get">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fa-solid fa-bolt"></i> Mua ngay
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login","Account", new { returnUrl = Request.RawUrl })" class="btn btn-secondary" style="padding:6px 14px;border-radius:6px;font-size:14px;color:#fff;background:#9ca3af;" onclick="alert('Bạn chưa đăng nhập!');">
+                            <i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ hàng
+                        </a>
+                    }
+                </div>
+            </a>
+        </li>
+    }
+</ul>

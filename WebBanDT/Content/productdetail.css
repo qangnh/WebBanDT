@@ -1,0 +1,297 @@
+﻿/* ===== RESET & CƠ BẢN ===== */
+body {
+    background: #fafafa;
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+/* ===== LAYOUT CHUNG ===== */
+.product-page {
+    margin-top: 60px;
+}
+
+.top-3col {
+    display: grid;
+    grid-template-columns: 48% 32% 20%;
+    gap: 30px;
+}
+
+/* ===== GALLERY ===== */
+.gal {
+    text-align: center;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.gal-main {
+    width: 85%;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+    .gal-main:hover {
+        transform: scale(1.05);
+    }
+
+.gal-thumbs {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.gal-thumb {
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+    .gal-thumb img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    .gal-thumb.is-active img,
+    .gal-thumb:hover img {
+        border-color: #ff6700;
+    }
+
+/* ===== THÔNG TIN CHÍNH ===== */
+.title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 14px;
+    color: #666;
+}
+
+    .meta .dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #ccc;
+    }
+
+/* ===== GIÁ SẢN PHẨM ===== */
+.price-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    margin-top: 15px;
+}
+
+.price-now {
+    font-size: 28px;
+    color: #ff6700;
+    font-weight: 700;
+}
+
+.price-old {
+    margin-left: 10px;
+    text-decoration: line-through;
+    color: #aaa;
+    font-size: 15px;
+}
+
+.price-off {
+    background: #ff6700;
+    color: #fff;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.ship {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== NÚT HÀNH ĐỘNG ===== */
+.cta {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.btn-buy, .btn-outline {
+    flex: 1;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-size: 15px;
+}
+
+.btn-buy {
+    background: #ff6700;
+    color: #fff;
+    border: none;
+}
+
+    .btn-buy:hover {
+        background: #e65c00;
+    }
+
+.btn-outline {
+    border: 2px solid #ff6700;
+    background: #fff;
+    color: #ff6700;
+}
+
+    .btn-outline:hover {
+        background: #fff4ec;
+    }
+
+/* ===== GHI CHÚ, MÔ TẢ ===== */
+.note {
+    margin-top: 15px;
+    font-size: 14px;
+    background: #f9f9f9;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #555;
+}
+
+/* ===== SIDEBAR ===== */
+.sticky {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+    .card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card .line {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 14px;
+        margin: 6px 0;
+        color: #555;
+    }
+
+    .card ul {
+        padding-left: 20px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .card li {
+        margin-bottom: 5px;
+    }
+
+    .card.promo strong {
+        color: #ff6700;
+    }
+
+/* ===== KHUNG GIỮA - CAM KẾT & THÔNG SỐ ===== */
+.mid-2col {
+    display: grid;
+    grid-template-columns: 65% 35%;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* ===== SẢN PHẨM GỢI Ý ===== */
+.reco {
+    margin-top: 50px;
+}
+
+.reco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.reco-card {
+    text-align: center;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: 0.25s;
+}
+
+    .reco-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+.reco-img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.reco-title {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.reco-price {
+    color: #ff6700;
+    font-weight: 600;
+    margin-top: 4px;
+}
+.product-desc {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    line-height: 1.7;
+    margin-top: 24px;
+}
+
+    .product-desc h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #222;
+    }
+
+    .product-desc .desc-content {
+        font-size: 15px;
+        color: #444;
+        white-space: pre-line;
+    }
+
+    .product-desc p {
+        margin-bottom: 10px;
+    }

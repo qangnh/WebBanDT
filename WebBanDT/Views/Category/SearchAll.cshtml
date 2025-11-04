@@ -1,0 +1,146 @@
+﻿@model IEnumerable<WebBanDT.Models.ViewModels.ProductVM>
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    var keyword = ViewBag.SearchKeyword as string;
+    var resultCount = ViewBag.ResultCount ?? 0;
+}
+
+<div id="content">
+    <!-- Search Header -->
+    <div class="search-result-header">
+        <h1 class="search-result-title">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            Kết quả tìm kiếm cho: <span class="keyword">"@keyword"</span>
+        </h1>
+        <p class="search-result-count">Tìm thấy <strong>@resultCount</strong> sản phẩm</p>
+    </div>
+
+    <!-- Filter form -->
+    @using (Html.BeginForm("SearchAll", "Category", FormMethod.Get))
+    {
+        <input type="hidden" name="keyword" value="@keyword" />
+
+        <div class="filter-form">
+            <input type="number"
+                   name="minPrice"
+                   placeholder="Giá từ"
+                   min="0"
+                   value="@Request.QueryString["minPrice"]" />
+            <input type="number"
+                   name="maxPrice"
+                   placeholder="Đến"
+                   min="0"
+                   value="@Request.QueryString["maxPrice"]" />
+            <button type="submit">
+                <i class="fa-solid fa-filter"></i> Lọc giá
+            </button>
+        </div>
+    }
+
+    <!-- Results -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="product-wrap">
+            <div class="s-product-row">
+                @Html.Partial("_ProductList", Model)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="no-results">
+            <i class="fa-solid fa-box-open"></i>
+            <h3>Không tìm thấy sản phẩm phù hợp</h3>
+            <p>Vui lòng thử với từ khóa khác hoặc xem các sản phẩm phổ biến</p>
+            <a href="@Url.Action("Index", "CustomerHome")" class="btn-back-home">
+                <i class="fa-solid fa-house"></i> Về trang chủ
+            </a>
+        </div>
+    }
+</div>
+
+<style>
+    .search-result-header {
+        text-align: center;
+        padding: 30px 20px 20px;
+        background: white;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .search-result-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+        .search-result-title i {
+            color: #FF8C00;
+            margin-right: 10px;
+        }
+
+        .search-result-title .keyword {
+            color: #d70018;
+            font-weight: 700;
+        }
+
+    .search-result-count {
+        font-size: 16px;
+        color: #666;
+        margin: 0;
+    }
+
+        .search-result-count strong {
+            color: #d70018;
+            font-weight: 700;
+        }
+
+    .no-results {
+        text-align: center;
+        padding: 80px 20px;
+        background: white;
+        border-radius: 10px;
+    }
+
+        .no-results i {
+            font-size: 80px;
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .no-results h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+    .btn-back-home {
+        display: inline-block;
+        padding: 12px 30px;
+        background-color: #FF8C00;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-back-home:hover {
+            background-color: #d70018;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+
+        .btn-back-home i {
+            margin-right: 8px;
+        }
+</style>

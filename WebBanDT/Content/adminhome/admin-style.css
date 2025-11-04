@@ -1,0 +1,76 @@
+﻿body {
+    background-color: #f8f9fa;
+}
+
+/* Thanh navbar */
+.navbar {
+    padding: 0.8rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: #fff !important;
+    margin-right: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+    .nav-link:hover {
+        color: #ffc107 !important;
+    }
+
+/* Nội dung chính */
+.body-content {
+    padding: 30px 50px;
+    background: #fff;
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+    min-height: 85vh;
+}
+
+/* Footer */
+footer {
+    background: #343a40;
+    color: #ccc;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 14px;
+}
+
+    footer a {
+        color: #ffc107;
+    }
+
+/* Logo */
+.navbar-brand img {
+    height: 35px;
+    margin-right: 8px;
+}
+.card-header h5 {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+.table-hover tbody tr:hover {
+    background-color: #f2f6fc;
+    transition: 0.2s;
+}
+
+.card-header h5 {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.btn i {
+    margin-right: 4px;
+}
+
