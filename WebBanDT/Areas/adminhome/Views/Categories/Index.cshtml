@@ -1,10 +1,12 @@
-﻿@model PagedList.IPagedList<WebBanDT.Models.Category>
+﻿@using System.Linq;
+@model PagedList.IPagedList<WebBanDT.Models.Category>
 @using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Danh mục";
     Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
 }
+
 @using (Html.BeginForm("Index", "Categories", FormMethod.Get, new { area = "AdminHome", @class = "d-flex mb-3" }))
 {
     <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control me-2" placeholder="🔍 Nhập tên danh mục..." />
@@ -26,6 +28,7 @@
                     <tr>
                         <th>Tên danh mục</th>
                         <th>Mô tả</th>
+                        <th>Thương hiệu</th>
                         <th>Ngày tạo</th>
                         <th>Thao tác</th>
                     </tr>
@@ -36,6 +39,18 @@
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
                             <td>@Html.DisplayFor(modelItem => item.Description)</td>
+
+                            <td>
+                                @if (item.Brands != null && item.Brands.Any())
+                                {
+                                    @(string.Join(", ", item.Brands.Select(b => b.BrandName)))
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Chưa có thương hiệu</span>
+                                }
+                            </td>
+
                             <td>@(item.CreatedAt?.ToString("dd/MM/yyyy"))</td>
                             <td>
                                 <a href="@Url.Action("Edit", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
@@ -56,31 +71,33 @@
                     }
                 </tbody>
             </table>
+
             <div class="d-flex justify-content-center mt-3">
-            @Html.PagedListPager(
-                Model,
-                page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }),
-                new PagedListRenderOptions
-                {
-                    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
-                    DisplayLinkToLastPage = PagedListDisplayMode.Always,
-                    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-                    DisplayLinkToNextPage = PagedListDisplayMode.Always,
-                    MaximumPageNumbersToDisplay = 5,
-                    UlElementClasses = new[] { "pagination", "justify-content-center" },
-                    LiElementClasses = new[] { "page-item" },
-                    ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
-                    DisplayEllipsesWhenNotShowingAllPageNumbers = true,
-                    LinkToPreviousPageFormat = "«",
-                    LinkToNextPageFormat = "»",
-                    LinkToFirstPageFormat = "Trang đầu",
-                    LinkToLastPageFormat = "Trang cuối"
-                }
-            )
-        </div>
+                @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }),
+                    new PagedListRenderOptions
+                    {
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        UlElementClasses = new[] { "pagination", "justify-content-center" },
+                        LiElementClasses = new[] { "page-item" },
+                        ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                        LinkToPreviousPageFormat = "«",
+                        LinkToNextPageFormat = "»",
+                        LinkToFirstPageFormat = "Trang đầu",
+                        LinkToLastPageFormat = "Trang cuối"
+                    }
+                )
+            </div>
         </div>
     </div>
 </div>
+
 <style>
     .pagination > li > a,
     .pagination > li > span {

@@ -5,14 +5,17 @@
     ViewBag.Title = "Quản lý sản phẩm";
     Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
 }
+
 <div class="card-body">
     <!-- ✅ Form tìm kiếm -->
     @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { area = "AdminHome", @class = "d-flex mb-3" }))
     {
-        <input type="text" name="searchString" value="@ViewBag.CurrentFilter" class="form-control me-2" placeholder="🔍 Nhập tên sản phẩm..." />
+        <input type="text" name="searchString" value="@ViewBag.SearchString"
+               class="form-control me-2" placeholder="🔍 Nhập tên sản phẩm..." />
         <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
     }
 </div>
+
 <div class="container mt-4">
     <div class="card shadow-lg border-0 rounded-3">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -34,6 +37,9 @@
                         <th>Ngày tạo</th>
                         <th>Trạng thái</th>
                         <th>Danh mục</th>
+                        <th>Thương hiệu</th>
+                        <th>Phiên bản</th>
+                        <th>Màu sắc</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -44,9 +50,17 @@
                         {
                             <tr>
                                 <td class="fw-semibold">@item.ProductName</td>
-                                <td style="max-width: 250px;" class="text-truncate">@item.ProductDescription</td>
-                                <td class="text-end">@string.Format("{0:N0}", item.ProductPrice)</td>
+
+                                <td style="max-width: 250px;" class="text-truncate">
+                                    @item.ProductDescription
+                                </td>
+
+                                <td class="text-end">
+                                    @string.Format("{0:N0}", item.ProductPrice)
+                                </td>
+
                                 <td class="text-center">@item.StockQuantity</td>
+
                                 <td class="text-center">
                                     @if (!string.IsNullOrEmpty(item.ProductImage))
                                     {
@@ -58,9 +72,11 @@
                                         <span class="text-muted fst-italic">Chưa có ảnh</span>
                                     }
                                 </td>
+
                                 <td class="text-center">
                                     @(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd/MM/yyyy") : "Chưa có")
                                 </td>
+
                                 <td class="text-center">
                                     @if (item.IsActive == true)
                                     {
@@ -71,9 +87,49 @@
                                         <span class="badge bg-secondary">Ẩn</span>
                                     }
                                 </td>
+
                                 <td class="text-center">
                                     @(item.Category != null ? item.Category.CategoryName : "Không có")
                                 </td>
+
+                                <td class="text-center">
+                                    @(item.Brand != null ? item.Brand.BrandName : "Không có")
+                                </td>
+
+                                <!-- ✅ Số lượng phiên bản -->
+                                <td class="text-center">
+                                    @{
+                                        var verCount = (item.ProductVersions != null)
+                                            ? item.ProductVersions.Count()
+                                            : 0;
+                                    }
+                                    @if (verCount > 0)
+                                    {
+                                        <span class="badge bg-info">@verCount phiên bản</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">0</span>
+                                    }
+                                </td>
+
+                                <!-- ✅ Số lượng màu sắc -->
+                                <td class="text-center">
+                                    @{
+                                        var colorCount = (item.ProductColors != null)
+                                            ? item.ProductColors.Count()
+                                            : 0;
+                                    }
+                                    @if (colorCount > 0)
+                                    {
+                                        <span class="badge bg-dark">@colorCount màu</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">0</span>
+                                    }
+                                </td>
+
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
                                         <a href="@Url.Action("Edit", "Products", new { id = item.ProductID, area = "AdminHome" })"
@@ -91,20 +147,20 @@
                                         </a>
                                     </div>
                                 </td>
-
                             </tr>
                         }
                     }
                     else
                     {
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-4">
+                            <td colspan="12" class="text-center text-muted py-4">
                                 <i class="fa fa-circle-exclamation"></i> Không có sản phẩm nào để hiển thị.
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+
             <div class="d-flex justify-content-center mt-3">
                 @Html.PagedListPager(
                     Model,
@@ -130,6 +186,7 @@
         </div>
     </div>
 </div>
+
 <style>
     .pagination > li > a,
     .pagination > li > span {

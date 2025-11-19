@@ -4,8 +4,11 @@
     ViewBag.Title = "Thông tin thanh toán";
     Layout = "~/Views/Shared/_CartLogin.cshtml";
 
-    // Lấy CartItems từ Cart hoặc từ property trực tiếp
-    var cartItems = Model.Cart != null ? Model.Cart.CartItems : Model.CartItems;
+    // ✅ Lấy danh sách item từ Cart (session) hoặc từ property CartItems
+    var cartItems = (Model.Cart != null && Model.Cart.CartItems != null)
+        ? Model.Cart.CartItems
+        : (Model.CartItems ?? new List<WebBanDT.Models.CartItem>());
+
     var totalAmount = cartItems.Sum(i => i.Quantity * i.UnitPrice);
     var vat = totalAmount * 0.1m;
     var grandTotal = totalAmount + vat;
@@ -190,7 +193,8 @@
         }
     </style>
 }
-
+<br />
+<br />
 <div class="checkout-page">
     <div class="checkout-header">
         <h1><i class="fa-solid fa-credit-card"></i> Thông tin thanh toán</h1>
@@ -201,17 +205,39 @@
         <div class="checkout-products">
             <div class="section-title">
                 <i class="fa-solid fa-shopping-bag"></i>
-                Sản phẩm trong đơn hàng (@Model.Cart.CartItems.Count)
+                Sản phẩm trong đơn hàng (@itemCount)
             </div>
 
-            @foreach (var item in Model.Cart.CartItems)
+
+            @foreach (var item in cartItems)
             {
                 if (item.Product != null)
                 {
+                    // ✅ Chọn ảnh: ưu tiên ảnh theo màu nếu có
+                    var imgSrc = (item.ProductColor != null && !string.IsNullOrEmpty(item.ProductColor.ColorImage))
+                        ? item.ProductColor.ColorImage
+                        : item.Product.ProductImage;
+
                     <div class="product-item">
-                        <img src="@item.Product.ProductImage" alt="@item.Product.ProductName" class="product-image" />
+                        <img src="@imgSrc" alt="@item.Product.ProductName" class="product-image" />
+
                         <div class="product-details">
                             <div class="product-name">@item.Product.ProductName</div>
+
+                            @* ✅ Hiển thị phiên bản & màu nếu có *@
+                            @if (item.ProductVersion != null)
+                            {
+                                <div style="font-size: 13px; color: #555;">
+                                    Phiên bản: <strong>@item.ProductVersion.VersionName</strong>
+                                </div>
+                            }
+                            @if (item.ProductColor != null)
+                            {
+                                <div style="font-size: 13px; color: #555;">
+                                    Màu: <strong>@item.ProductColor.ColorName</strong>
+                                </div>
+                            }
+
                             <div class="product-meta">
                                 <div class="product-quantity">
                                     <i class="fa-solid fa-boxes-stacked"></i>
@@ -225,6 +251,7 @@
                     </div>
                 }
             }
+
         </div>
 
         <!-- Sidebar: Thông tin giao hàng & thanh toán -->
@@ -540,7 +567,7 @@
 @section Scripts{
     <script>
         // Scroll tới input invalid khi submit
-        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
             const firstInvalid = this.querySelector(':invalid');
             if (firstInvalid) {
                 e.preventDefault();
@@ -566,7 +593,7 @@
 
         // Click payment option
         document.querySelectorAll('.payment-option').forEach(option => {
-            option.addEventListener('click', function() {
+            option.addEventListener('click', function () {
                 const radio = this.querySelector('input[type="radio"]');
                 radio.checked = true;
                 showPaymentDetails(radio.value);
@@ -581,16 +608,16 @@
             const element = document.getElementById(elementId);
             const text = element.textContent;
 
-            navigator.clipboard.writeText(text).then(function() {
+            navigator.clipboard.writeText(text).then(function () {
                 const originalHTML = button.innerHTML;
                 button.innerHTML = '<i class="fa-solid fa-check"></i> Đã copy';
                 button.classList.add('copied');
 
-                setTimeout(function() {
+                setTimeout(function () {
                     button.innerHTML = originalHTML;
                     button.classList.remove('copied');
                 }, 2000);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 alert('Không thể copy: ' + err);
             });
         }
@@ -599,7 +626,7 @@
         window.copyToClipboard = copyToClipboard;
 
         // Áp dụng voucher
-        document.querySelector('.btn-apply-voucher').addEventListener('click', function() {
+        document.querySelector('.btn-apply-voucher').addEventListener('click', function () {
             const input = document.querySelector('.voucher-input');
             if (input.value.trim() === '') {
                 input.focus();
@@ -613,12 +640,12 @@
         // Shake animation
         const style = document.createElement('style');
         style.textContent = `
-            @@keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                25% { transform: translateX(-10px); }
-                75% { transform: translateX(10px); }
-            }
-        `;
+                @@keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-10px); }
+                    75% { transform: translateX(10px); }
+                }
+            `;
         document.head.appendChild(style);
     </script>
 }

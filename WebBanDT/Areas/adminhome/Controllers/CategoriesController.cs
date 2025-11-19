@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PagedList;
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using WebBanDT.Models;
-using System.Data.Entity;
-using PagedList;
+using WebBanDT.Models.viewmodels;
 
 namespace WebBanDT.Areas.AdminHome.Controllers
 {
@@ -15,9 +16,10 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         // GET: AdminHome/Categories
         public ActionResult Index(string searchString, int? page)
         {
-            var categories = db.Categories.AsQueryable();
+            var categories = db.Categories
+                               .Include(c => c.Brands)   // 👈 thêm dòng này
+                               .AsQueryable();
 
-            // Tìm kiếm theo tên danh mục
             if (!string.IsNullOrEmpty(searchString))
             {
                 string keyword = searchString.Trim().ToLower();
@@ -25,15 +27,14 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 ViewBag.SearchString = searchString;
             }
 
-            // Sắp xếp theo tên
             categories = categories.OrderBy(c => c.CategoryName);
 
-            // Phân trang
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
             return View(categories.ToPagedList(pageNumber, pageSize));
         }
+
 
         // GET: AdminHome/Categories/Details/5
         public ActionResult Details(int? id)
@@ -46,23 +47,57 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             return View(category);
         }
 
+        // ================== CREATE ==================
+
         // GET: AdminHome/Categories/Create
         public ActionResult Create()
         {
-            return View();
+            var vm = new CategoryWithBrandsViewModel
+            {
+                Category = new Category()
+            };
+            return View(vm);
         }
 
         // POST: AdminHome/Categories/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,CategoryName,Description,CreatedAt")] Category category)
+        public ActionResult Create(CategoryWithBrandsViewModel model)
         {
-            if (!ModelState.IsValid) return View(category);
+            if (!ModelState.IsValid) return View(model);
 
-            db.Categories.Add(category);
-            db.SaveChanges();
+            // Lưu Category
+            model.Category.CreatedAt = DateTime.Now;
+            db.Categories.Add(model.Category);
+            db.SaveChanges(); // Có CategoryID
+
+            // Lưu danh sách Brand nếu có
+            if (!string.IsNullOrWhiteSpace(model.BrandNames))
+            {
+                var names = model.BrandNames
+                    .Split(new[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(n => n.Trim())
+                    .Where(n => n.Length > 0)
+                    .Distinct();
+
+                foreach (var name in names)
+                {
+                    var brand = new Brand
+                    {
+                        BrandName = name,
+                        CategoryID = model.Category.CategoryID,
+                        IsActive = true
+                    };
+                    db.Brands.Add(brand);
+                }
+
+                db.SaveChanges();
+            }
+
             return RedirectToAction("Index");
         }
+
+        // ================== EDIT ==================
 
         // GET: AdminHome/Categories/Edit/5
         public ActionResult Edit(int? id)
@@ -72,20 +107,63 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             var category = db.Categories.Find(id);
             if (category == null) return HttpNotFound();
 
-            return View(category);
+            // Lấy danh sách brand hiện tại của Category
+            var brands = db.Brands
+                           .Where(b => b.CategoryID == category.CategoryID)
+                           .OrderBy(b => b.BrandName)
+                           .Select(b => b.BrandName)
+                           .ToList();
+
+            var vm = new CategoryWithBrandsViewModel
+            {
+                Category = category,
+                // ví dụ: "iPhone, Samsung, Xiaomi"
+                BrandNames = string.Join(", ", brands)
+            };
+
+            return View(vm);
         }
 
         // POST: AdminHome/Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryID,CategoryName,Description,CreatedAt")] Category category)
+        public ActionResult Edit(CategoryWithBrandsViewModel model)
         {
-            if (!ModelState.IsValid) return View(category);
+            if (!ModelState.IsValid) return View(model);
 
-            db.Entry(category).State = EntityState.Modified;
+            // Cập nhật Category
+            db.Entry(model.Category).State = EntityState.Modified;
+
+            // Xóa các Brand cũ thuộc Category này
+            var oldBrands = db.Brands.Where(b => b.CategoryID == model.Category.CategoryID);
+            db.Brands.RemoveRange(oldBrands);
+
+            // Thêm lại các Brand mới nhập
+            if (!string.IsNullOrWhiteSpace(model.BrandNames))
+            {
+                var names = model.BrandNames
+                    .Split(new[] { ',', ';', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(n => n.Trim())
+                    .Where(n => n.Length > 0)
+                    .Distinct();
+
+                foreach (var name in names)
+                {
+                    var brand = new Brand
+                    {
+                        BrandName = name,
+                        CategoryID = model.Category.CategoryID,
+                        IsActive = true
+                    };
+                    db.Brands.Add(brand);
+                }
+            }
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        // ================== DELETE ==================
 
         // GET: AdminHome/Categories/Delete/5
         public ActionResult Delete(int? id)
@@ -106,6 +184,10 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             var category = db.Categories.Find(id);
             if (category != null)
             {
+                // (option) có thể xóa luôn brand thuộc category này nếu cần
+                var brands = db.Brands.Where(b => b.CategoryID == category.CategoryID);
+                db.Brands.RemoveRange(brands);
+
                 db.Categories.Remove(category);
                 db.SaveChanges();
             }

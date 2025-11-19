@@ -158,6 +158,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Brand.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Cart.cs">
       <DependentUpon>WebBanDTModel.tt</DependentUpon>
     </Compile>
@@ -179,12 +182,19 @@
     <Compile Include="Models\Product.cs">
       <DependentUpon>WebBanDTModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductColor.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductVersion.cs">
+      <DependentUpon>WebBanDTModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>WebBanDTModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserAccount.cs">
       <DependentUpon>WebBanDTModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\viewmodels\CategoryWithBrandsViewModel.cs" />
     <Compile Include="Models\viewmodels\CheckoutViewModel.cs" />
     <Compile Include="Models\viewmodels\CustomerHomeVM.cs" />
     <Compile Include="Models\viewmodels\Metadata.cs" />
@@ -239,6 +249,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\account.css" />
+    <Content Include="Image\Database.html" />
     <Content Include="Image\facebook.jpg" />
     <Content Include="Image\FB.png" />
     <Content Include="Image\GooD Phone.png" />

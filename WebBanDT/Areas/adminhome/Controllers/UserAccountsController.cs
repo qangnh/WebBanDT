@@ -149,22 +149,35 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserAccount userAccount = db.UserAccounts.Find(id);
-            if (userAccount != null)
-            {
-                // Kiểm tra xem có Customer liên kết không
-                bool hasCustomer = db.Customers.Any(c => c.UserID == id);
-                if (hasCustomer)
-                {
-                    TempData["ErrorMessage"] = "User đang được liên kết với Customer, không thể xóa!";
-                    return RedirectToAction("Index");
-                }
+            var userAccount = db.UserAccounts.Find(id);
+            if (userAccount == null)
+                return HttpNotFound();
 
-                db.UserAccounts.Remove(userAccount);
-                db.SaveChanges();
+            // 1️⃣ XÓA CART CỦA USER TRƯỚC
+            // Lưu ý: nếu DbSet tên khác (vd: db.Cart), sửa lại cho đúng với WebBanDTEntities của bạn
+            var carts = db.Carts.Where(c => c.UserID == id).ToList();
+            if (carts.Any())
+            {
+                db.Carts.RemoveRange(carts);
             }
+
+            // 2️⃣ (TUỲ CHỌN) XÓA CUSTOMER LIÊN KẾT USER NÀY
+            var customers = db.Customers.Where(c => c.UserID == id).ToList();
+            if (customers.Any())
+            {
+                db.Customers.RemoveRange(customers);
+            }
+
+            // 3️⃣ CUỐI CÙNG XÓA USER
+            db.UserAccounts.Remove(userAccount);
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Xóa tài khoản thành công!";
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

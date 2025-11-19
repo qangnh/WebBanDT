@@ -11,24 +11,42 @@ namespace WebBanDT.Controllers
     {
         private WebBanDTEntities db = new WebBanDTEntities();
 
-        // 🔹 Hàm dùng chung để lấy sản phẩm theo danh mục
-        private List<ProductVM> GetProductsByCategory(string categoryName, string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Hàm dùng chung để lấy sản phẩm theo danh mục + thương hiệu + giá
+        private List<ProductVM> GetProductsByCategory(
+            string categoryName,
+            string keyword,
+            decimal? minPrice,
+            decimal? maxPrice,
+            int? brandId
+        )
         {
             var query = db.Products
-                .Where(p => p.Category.CategoryName == categoryName && p.IsActive == true);
+                          .Where(p => p.Category.CategoryName == categoryName &&
+                                      p.IsActive == true);
 
+            // ⭐ Lọc theo thương hiệu (BrandID)
+            if (brandId.HasValue)
+            {
+                query = query.Where(p => p.BrandID == brandId.Value);
+            }
+
+            // Tìm kiếm theo từ khóa trong tên / mô tả
             if (!string.IsNullOrEmpty(keyword))
             {
                 string lowerKeyword = keyword.ToLower();
-                query = query.Where(p => p.ProductName.ToLower().Contains(lowerKeyword) ||
-                                         p.ProductDescription.ToLower().Contains(lowerKeyword));
+                query = query.Where(p =>
+                    (p.ProductName != null && p.ProductName.ToLower().Contains(lowerKeyword)) ||
+                    (p.ProductDescription != null && p.ProductDescription.ToLower().Contains(lowerKeyword))
+                );
             }
 
+            // Lọc theo giá từ
             if (minPrice.HasValue)
             {
                 query = query.Where(p => p.ProductPrice >= minPrice.Value);
             }
 
+            // Lọc theo giá đến
             if (maxPrice.HasValue)
             {
                 query = query.Where(p => p.ProductPrice <= maxPrice.Value);
@@ -47,46 +65,78 @@ namespace WebBanDT.Controllers
                     StockQuantity = p.StockQuantity,
                     CreatedAt = p.CreatedAt,
                     IsActive = p.IsActive
+                    // Nếu ProductVM có BrandName thì thêm:
+                    // BrandName = p.Brand.BrandName
                 })
                 .ToList();
         }
 
-        // 🔹 Các action danh mục
-        public ActionResult Phones(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Hàm dùng chung đổ Category + Brand xuống ViewBag
+        private void LoadCategoryInfoToViewBag(string categoryName)
         {
-            var products = GetProductsByCategory("Điện thoại", keyword, minPrice, maxPrice);
+            var category = db.Categories.FirstOrDefault(c => c.CategoryName == categoryName);
+            if (category != null)
+            {
+                ViewBag.CategoryId = category.CategoryID;
+                ViewBag.CategoryName = category.CategoryName;
+
+                var brands = db.Brands
+                               .Where(b => b.CategoryID == category.CategoryID && b.IsActive)
+                               .OrderBy(b => b.BrandName)
+                               .ToList();
+                ViewBag.Brands = brands;
+            }
+        }
+
+        // 🔹 Điện thoại
+        public ActionResult Phones(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
+        {
+            var products = GetProductsByCategory("Điện thoại", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Điện thoại");
             return View(products);
         }
 
-        public ActionResult Laptop(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Laptop
+        public ActionResult Laptop(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
-            var products = GetProductsByCategory("Laptop", keyword, minPrice, maxPrice);
+            var products = GetProductsByCategory("Laptop", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Laptop");
             return View(products);
         }
 
-        public ActionResult Screen(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Màn hình
+        public ActionResult Screen(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
-            var products = GetProductsByCategory("Màn hình", keyword, minPrice, maxPrice);
+            var products = GetProductsByCategory("Màn hình", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Màn hình");
             return View(products);
         }
 
-        public ActionResult Tablet(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Tablet
+        public ActionResult Tablet(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
-            var products = GetProductsByCategory("Tablet", keyword, minPrice, maxPrice);
+            var products = GetProductsByCategory("Tablet", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Tablet");
             return View(products);
         }
 
-        public ActionResult Sound(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Âm thanh
+        public ActionResult Sound(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
-            var products = GetProductsByCategory("Âm thanh", keyword, minPrice, maxPrice);
+            var products = GetProductsByCategory("Âm thanh", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Âm thanh");
             return View(products);
         }
 
-        public ActionResult Watch(string keyword, decimal? minPrice, decimal? maxPrice)
+        // 🔹 Đồng hồ
+        public ActionResult Watch(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
-            var products = GetProductsByCategory("Đồng hồ", keyword, minPrice, maxPrice);
+            var products = GetProductsByCategory("Đồng hồ", keyword, minPrice, maxPrice, brandId);
+            LoadCategoryInfoToViewBag("Đồng hồ");
             return View(products);
         }
+
+        // 🔹 Tất cả sản phẩm (không lọc theo category, bạn có thể thêm brandId nếu thích)
         public ActionResult FullProduct(string keyword, decimal? minPrice, decimal? maxPrice)
         {
             // Lấy tất cả sản phẩm đang active, không lọc theo category
@@ -96,8 +146,10 @@ namespace WebBanDT.Controllers
             if (!string.IsNullOrEmpty(keyword))
             {
                 string lowerKeyword = keyword.ToLower();
-                query = query.Where(p => p.ProductName.ToLower().Contains(lowerKeyword) ||
-                                         p.ProductDescription.ToLower().Contains(lowerKeyword));
+                query = query.Where(p =>
+                    (p.ProductName != null && p.ProductName.ToLower().Contains(lowerKeyword)) ||
+                    (p.ProductDescription != null && p.ProductDescription.ToLower().Contains(lowerKeyword))
+                );
             }
 
             // Lọc theo giá tối thiểu
@@ -145,8 +197,10 @@ namespace WebBanDT.Controllers
 
             var query = db.Products
                 .Where(p => p.IsActive == true)
-                .Where(p => p.ProductName.ToLower().Contains(lowerKeyword) ||
-                            p.ProductDescription.ToLower().Contains(lowerKeyword));
+                .Where(p =>
+                    (p.ProductName != null && p.ProductName.ToLower().Contains(lowerKeyword)) ||
+                    (p.ProductDescription != null && p.ProductDescription.ToLower().Contains(lowerKeyword))
+                );
 
             if (minPrice.HasValue)
             {
@@ -190,8 +244,10 @@ namespace WebBanDT.Controllers
 
             var suggestions = db.Products
                 .Where(p => p.IsActive == true)
-                .Where(p => p.ProductName.ToLower().Contains(lowerKeyword) ||
-                            p.ProductDescription.ToLower().Contains(lowerKeyword))
+                .Where(p =>
+                    (p.ProductName != null && p.ProductName.ToLower().Contains(lowerKeyword)) ||
+                    (p.ProductDescription != null && p.ProductDescription.ToLower().Contains(lowerKeyword))
+                )
                 .Take(8)
                 .Select(p => new
                 {

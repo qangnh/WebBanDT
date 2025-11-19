@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e43dfe6b70c2472dbf4f0fbcf3d12551" Name="Diagram1" ZoomLevel="115">
-        <EntityTypeShape EntityType="WebBanDTModel.Cart" Width="1.5" PointX="4" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.CartItem" Width="1.5" PointX="6.625" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.Category" Width="1.5" PointX="11.375" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.Customer" Width="1.5" PointX="5.5" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.OrderDetail" Width="1.5" PointX="13.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.Order" Width="1.5" PointX="13.375" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.Product" Width="1.5" PointX="9.125" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.sysdiagram" Width="1.5" PointX="0.5" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="WebBanDTModel.UserAccount" Width="1.5" PointX="0.625" PointY="5.125" IsExpanded="true" />
+      <Diagram DiagramId="e43dfe6b70c2472dbf4f0fbcf3d12551" Name="Diagram1" ZoomLevel="63">
+        <EntityTypeShape EntityType="WebBanDTModel.Cart" Width="1.5" PointX="3.625" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.CartItem" Width="1.5" PointX="6.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.Category" Width="1.5" PointX="8.875" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.Customer" Width="1.5" PointX="4.125" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.OrderDetail" Width="1.5" PointX="14.625" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.Order" Width="1.5" PointX="13.625" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.Product" Width="1.5" PointX="8.875" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.sysdiagram" Width="1.5" PointX="0.5" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebBanDTModel.UserAccount" Width="1.5" PointX="1" PointY="2.875" IsExpanded="true" />
         <AssociationConnector Association="WebBanDTModel.FK_CartItem_Cart" ManuallyRouted="false" />
         <AssociationConnector Association="WebBanDTModel.FK_Carts_UserAccount" ManuallyRouted="false" />
         <AssociationConnector Association="WebBanDTModel.FK_CartItem_Product" ManuallyRouted="false" />
@@ -22,6 +22,17 @@
         <AssociationConnector Association="WebBanDTModel.FK_OrderDetail_Order" ManuallyRouted="false" />
         <AssociationConnector Association="WebBanDTModel.FK_OrderDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="WebBanDTModel.FK_Customer_UserAccount" />
+        <EntityTypeShape EntityType="WebBanDTModel.ProductColor" Width="1.5" PointX="11.75" PointY="1.75" />
+        <EntityTypeShape EntityType="WebBanDTModel.ProductVersion" Width="1.5" PointX="16.625" PointY="5.875" />
+        <AssociationConnector Association="WebBanDTModel.FK__ProductCo__Produ__3F115E1A" />
+        <AssociationConnector Association="WebBanDTModel.FK__ProductVe__Produ__3C34F16F" />
+        <AssociationConnector Association="WebBanDTModel.FK_CartItem_ProductColor" />
+        <AssociationConnector Association="WebBanDTModel.FK_CartItem_ProductVersion" />
+        <AssociationConnector Association="WebBanDTModel.FK_OrderDetail_ProductColor" />
+        <AssociationConnector Association="WebBanDTModel.FK_OrderDetail_ProductVersion" />
+        <EntityTypeShape EntityType="WebBanDTModel.Brand" Width="1.5" PointX="12" PointY="5.75" />
+        <AssociationConnector Association="WebBanDTModel.FK_Brand_Category" />
+        <AssociationConnector Association="WebBanDTModel.FK_Product_Brand" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

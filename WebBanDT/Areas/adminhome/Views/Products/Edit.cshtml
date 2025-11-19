@@ -12,16 +12,24 @@
         </div>
 
         <div class="card-body">
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { area = "AdminHome" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.ProductID)
                 @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
+                <!-- Danh mục -->
                 <div class="mb-3">
                     @Html.LabelFor(model => model.CategoryID, "Danh mục", htmlAttributes: new { @class = "form-label" })
-                    @Html.DropDownList("CategoryID", null, "-- Chọn danh mục --", new { @class = "form-select" })
+                    @Html.DropDownList("CategoryID", (SelectList)ViewBag.CategoryID, "-- Chọn danh mục --", new { @class = "form-select", id = "CategoryID" })
                     @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Thương hiệu -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.BrandID, "Thương hiệu", htmlAttributes: new { @class = "form-label" })
+                    @Html.DropDownList("BrandID", (SelectList)ViewBag.BrandID, "-- Chọn thương hiệu --", new { @class = "form-select", id = "BrandID" })
+                    @Html.ValidationMessageFor(model => model.BrandID, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="mb-3">
@@ -54,16 +62,45 @@
                     @Html.ValidationMessageFor(model => model.ProductImage, "", new { @class = "text-danger" })
                 </div>
 
+                <!-- ✅ PHIÊN BẢN SẢN PHẨM -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Phiên bản sản phẩm</label>
+                    <small class="text-muted d-block mb-1">
+                        Mỗi dòng là một phiên bản:
+                        <br />- Chỉ tên: <code>128GB</code>
+                        <br />- Tên kèm giá: <code>128GB|25990000</code>
+                    </small>
+                    <textarea name="VersionInput" class="form-control" rows="3"
+                              placeholder="Nếu đổi lại phiên bản, nhập lại như khi tạo:
+128GB|25990000
+256GB|28990000">@ViewBag.VersionInput</textarea>
+                </div>
+
+                <!-- ✅ MÀU SẮC SẢN PHẨM -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Màu sắc sản phẩm</label>
+                    <small class="text-muted d-block mb-1">
+                        Mỗi dòng là một màu. Ví dụ: <code>Đen</code>, <code>Trắng</code>, <code>Xanh lá</code>...
+                    </small>
+                    <textarea name="ColorInput" class="form-control" rows="3"
+                              placeholder="Nếu đổi lại màu, nhập lại:
+Đen
+Trắng
+Xanh lá">@ViewBag.ColorInput</textarea>
+                </div>
+
                 <div class="mb-3">
                     @Html.LabelFor(model => model.CreatedAt, "Ngày tạo", htmlAttributes: new { @class = "form-label" })
                     @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
                     @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
                 </div>
+
                 <div class="form-check mb-4">
                     @Html.CheckBox("IsActive", Model.IsActive ?? false, new { @class = "form-check-input", id = "IsActive" })
                     <label class="form-check-label" for="IsActive">Hiển thị sản phẩm</label>
                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                 </div>
+
                 <div class="d-flex justify-content-start">
                     <button type="submit" class="btn btn-success me-2">
                         <i class="bi bi-save"></i> Lưu thay đổi
@@ -77,4 +114,41 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+        $(function () {
+
+            function loadBrandsByCategory(categoryId, selectedBrandId) {
+                var $brand = $("#BrandID");
+                $brand.empty();
+                $brand.append($("<option>").val("").text("-- Chọn thương hiệu --"));
+
+                if (!categoryId) return;
+
+                $.getJSON('@Url.Action("GetBrandsByCategory", "Products", new { area = "AdminHome" })',
+                    { categoryId: categoryId },
+                    function (data) {
+                        $.each(data, function (i, brand) {
+                            var opt = $("<option>").val(brand.BrandID).text(brand.BrandName);
+                            if (selectedBrandId && brand.BrandID == selectedBrandId) {
+                                opt.attr("selected", "selected");
+                            }
+                            $brand.append(opt);
+                        });
+                    });
+            }
+
+            $("#CategoryID").change(function () {
+                var catId = $(this).val();
+                loadBrandsByCategory(catId, null);
+            });
+
+            // Load sẵn Brand khi vừa vào trang Edit
+            var initCategoryId = $("#CategoryID").val();
+            var initBrandId = '@Model.BrandID';
+            if (initCategoryId) {
+                loadBrandsByCategory(initCategoryId, initBrandId);
+            }
+        });
+    </script>
 }

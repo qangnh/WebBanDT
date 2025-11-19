@@ -73,8 +73,17 @@
 
                             <div class="item-col left">
                                 <div class="thumb">
-                                    <img src="@item.Product.ProductImage" alt="@item.Product.ProductName" />
+                                    @{
+                                        var thumbImg = item.Product.ProductImage;
+
+                                        if (item.ProductColor != null && !string.IsNullOrEmpty(item.ProductColor.ColorImage))
+                                        {
+                                            thumbImg = item.ProductColor.ColorImage; // 🔥 ưu tiên ảnh màu đã chọn
+                                        }
+                                    }
+                                    <img src="@thumbImg" alt="@item.Product.ProductName" />
                                 </div>
+
 
                                 <div class="meta">
                                     <div class="row-1">

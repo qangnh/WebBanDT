@@ -16,27 +16,47 @@
         <p class="search-result-count">Tìm thấy <strong>@resultCount</strong> sản phẩm</p>
     </div>
 
-    <!-- Filter form -->
-    @using (Html.BeginForm("SearchAll", "Category", FormMethod.Get))
-    {
-        <input type="hidden" name="keyword" value="@keyword" />
+    @{
+        var keywordFromRequest = Request["keyword"] ?? (keyword ?? "");
+        var minPrice = Request["minPrice"];
+        var maxPrice = Request["maxPrice"];
+    }
 
+    @using (Html.BeginForm("SearchAll", "Category", FormMethod.Get, new { @class = "search-filter-form" }))
+    {
+        <!-- HÀNG TRÊN: THANH TÌM KIẾM -->
+        <div class="search-row">
+            <input type="text"
+                   name="keyword"
+                   placeholder="Tìm sản phẩm theo tên, hãng..."
+                   value="@keywordFromRequest" />
+
+            <button type="submit" class="btn-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!-- HÀNG DƯỚI: LỌC GIÁ -->
         <div class="filter-form">
             <input type="number"
                    name="minPrice"
                    placeholder="Giá từ"
                    min="0"
-                   value="@Request.QueryString["minPrice"]" />
+                   value="@minPrice" />
+
             <input type="number"
                    name="maxPrice"
                    placeholder="Đến"
                    min="0"
-                   value="@Request.QueryString["maxPrice"]" />
-            <button type="submit">
-                <i class="fa-solid fa-filter"></i> Lọc giá
+                   value="@maxPrice" />
+
+            <button type="submit" class="btn-filter">
+                <i class="fa-solid fa-filter"></i> Lọc
             </button>
         </div>
     }
+
+
 
     <!-- Results -->
     @if (Model != null && Model.Any())
@@ -61,86 +81,59 @@
 </div>
 
 <style>
-    .search-result-header {
-        text-align: center;
-        padding: 30px 20px 20px;
-        background: white;
-        border-radius: 10px;
-        margin-bottom: 20px;
+    .search-filter-form {
+        max-width: 700px;
+        margin: 0 auto 20px;
     }
 
-    .search-result-title {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 10px;
-        font-weight: 600;
+    .search-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
     }
 
-        .search-result-title i {
-            color: #FF8C00;
-            margin-right: 10px;
+        .search-row input[type="text"] {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 6px 0 0 6px;
         }
 
-        .search-result-title .keyword {
-            color: #d70018;
-            font-weight: 700;
-        }
-
-    .search-result-count {
-        font-size: 16px;
-        color: #666;
-        margin: 0;
+    .btn-search {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 0 6px 6px 0;
+        background: #fff;
+        cursor: pointer;
     }
 
-        .search-result-count strong {
-            color: #d70018;
-            font-weight: 700;
-        }
-
-    .no-results {
-        text-align: center;
-        padding: 80px 20px;
-        background: white;
-        border-radius: 10px;
-    }
-
-        .no-results i {
-            font-size: 80px;
-            color: #e0e0e0;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .no-results h3 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .no-results p {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-    .btn-back-home {
-        display: inline-block;
-        padding: 12px 30px;
-        background-color: #FF8C00;
-        color: white;
-        text-decoration: none;
+    .filter-form {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        padding: 8px 12px;
         border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0,0,0,.05);
     }
 
-        .btn-back-home:hover {
-            background-color: #d70018;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        .filter-form input[type="number"] {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
         }
 
-        .btn-back-home i {
-            margin-right: 8px;
-        }
+    .btn-filter {
+        padding: 8px 16px;
+        background: #ff8c00;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+
 </style>

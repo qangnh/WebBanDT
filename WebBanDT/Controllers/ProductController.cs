@@ -5,21 +5,28 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanDT.Models;
 using WebBanDT.Models.ViewModels;
+using System.Data.Entity;
+
 
 namespace WebBanDT.Controllers
 {
     public class ProductController : Controller
     {
-        // GET: Product
+        // GET: /Product/
         public ActionResult Product()
         {
             return View();
         }
+
+        // GET: /Product/Details/5
         public ActionResult Details(int id)
         {
             using (var db = new WebBanDTEntities())
             {
                 var product = db.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.ProductColors)
+                    .Include(p => p.ProductVersions)
                     .Where(p => p.ProductID == id && p.IsActive == true)
                     .Select(p => new ProductVM
                     {
@@ -31,8 +38,15 @@ namespace WebBanDT.Controllers
                         CategoryName = p.Category.CategoryName,
                         StockQuantity = p.StockQuantity,
                         CreatedAt = p.CreatedAt,
-                        IsActive = p.IsActive
-                    }).FirstOrDefault();
+                        IsActive = p.IsActive,
+
+                        // ✅ list phiên bản (dùng luôn entity ProductVersion)
+                        Versions = p.ProductVersions.ToList(),
+
+                        // ✅ list màu sắc (dùng luôn entity ProductColor, có ColorImage)
+                        Colors = p.ProductColors.ToList()
+                    })
+                    .FirstOrDefault();
 
                 if (product == null)
                 {
@@ -42,6 +56,5 @@ namespace WebBanDT.Controllers
                 return View(product);
             }
         }
-
     }
 }

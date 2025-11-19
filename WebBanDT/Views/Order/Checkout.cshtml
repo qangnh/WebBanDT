@@ -8,8 +8,10 @@
     if (cart != null && cart.CartItems != null)
     {
         Model.Cart = cart;
-        Model.TotalAmount = cart.CartItems.Sum(i => i.Product.ProductPrice * i.Quantity);
+        // ✅ Dùng UnitPrice (giá thực tế trong giỏ)
+        Model.TotalAmount = cart.CartItems.Sum(i => i.UnitPrice * i.Quantity);
     }
+
 }
 
 <h2>Thanh toán</h2>
@@ -34,12 +36,36 @@ else
             @foreach (var item in Model.Cart.CartItems)
             {
                 <tr>
-                    <td>@item.Product.ProductName</td>
-                    <td>@item.Product.ProductPrice.ToString("N0") ₫</td>
+                    <td>
+                        @item.Product.ProductName
+
+                        @* ✅ Nếu có Phiên bản *@
+                        @if (item.ProductVersion != null)
+                        {
+                            <div style="font-size:12px;color:#555;">
+                                Phiên bản: @item.ProductVersion.VersionName
+                            </div>
+                        }
+
+                        @* ✅ Nếu có Màu *@
+                        @if (item.ProductColor != null)
+                        {
+                            <div style="font-size:12px;color:#555;">
+                                Màu: @item.ProductColor.ColorName
+                            </div>
+                        }
+                    </td>
+
+                    @* ✅ Đơn giá: dùng UnitPrice *@
+                    <td>@item.UnitPrice.ToString("N0") ₫</td>
+
                     <td>@item.Quantity</td>
-                    <td>@(item.Product.ProductPrice * item.Quantity).ToString("N0") ₫</td>
+
+                    @* ✅ Thành tiền: UnitPrice * Quantity *@
+                    <td>@(item.UnitPrice * item.Quantity).ToString("N0") ₫</td>
                 </tr>
             }
+
         </tbody>
         <tfoot>
             <tr>

@@ -12,37 +12,24 @@ namespace WebBanDT.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class ProductColor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public ProductColor()
         {
             this.CartItems = new HashSet<CartItem>();
             this.OrderDetails = new HashSet<OrderDetail>();
-            this.ProductColors = new HashSet<ProductColor>();
-            this.ProductVersions = new HashSet<ProductVersion>();
         }
     
+        public int ColorID { get; set; }
         public int ProductID { get; set; }
-        public int CategoryID { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
-        public decimal ProductPrice { get; set; }
-        public Nullable<int> StockQuantity { get; set; }
-        public string ProductImage { get; set; }
-        public Nullable<System.DateTime> CreatedAt { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-        public Nullable<int> BrandID { get; set; }
+        public string ColorName { get; set; }
+        public string ColorImage { get; set; }
     
+        public virtual Product Product { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CartItem> CartItems { get; set; }
-        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductColor> ProductColors { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ProductVersion> ProductVersions { get; set; }
-        public virtual Brand Brand { get; set; }
     }
 }

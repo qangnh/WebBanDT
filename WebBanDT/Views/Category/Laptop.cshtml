@@ -1,38 +1,204 @@
 ﻿@model IEnumerable<WebBanDT.Models.ViewModels.ProductVM>
 @{
-    ViewBag.Title = "Laptop";
+    ViewBag.Title = ViewBag.CategoryName ?? "Laptop";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+
+    var brands = ViewBag.Brands as IEnumerable<WebBanDT.Models.Brand>;
+    var selectedBrandId = Request.QueryString["brandId"];
+    var categoryId = Request.QueryString["categoryId"] ?? ViewBag.CategoryId?.ToString();
+
+    // 🔹 TÍNH SẴN TIÊU ĐỀ HIỂN THỊ
+    string pageTitle;
+    if (!string.IsNullOrEmpty(selectedBrandId) && brands != null)
+    {
+        var selectedBrand = brands.FirstOrDefault(b => b.BrandID.ToString() == selectedBrandId);
+        if (selectedBrand != null)
+        {
+            pageTitle = $"{(ViewBag.CategoryName ?? "Laptop")} {selectedBrand.BrandName}";
+        }
+        else
+        {
+            pageTitle = ViewBag.CategoryName ?? "Laptop";
+        }
+    }
+    else
+    {
+        pageTitle = ViewBag.CategoryName ?? "Laptop";
+    }
 }
 
 <br />
-
+<br />
 
 <div id="content">
-    @using (Html.BeginForm("Laptop", "Category", FormMethod.Get))
-    {
-        
 
-        <div class="filter-form">
-            <input type="number" name="minPrice" placeholder="Giá từ" min="0" value="@Request.QueryString["minPrice"]" />
-            <input type="number" name="maxPrice" placeholder="Đến" min="0" value="@Request.QueryString["maxPrice"]" />
-            <button type="submit">Lọc</button>
+    <!-- 🔹 DẢI LOGO THƯƠNG HIỆU -->
+    @if (brands != null && brands.Any())
+    {
+        <div class="brands-section">
+            <div class="brands-title">@ViewBag.CategoryName</div>
+            <div class="brands-grid">
+                @{
+                    var allRoute = new System.Web.Routing.RouteValueDictionary();
+                    if (!string.IsNullOrEmpty(categoryId))
+                    {
+                        allRoute.Add("categoryId", categoryId);
+                    }
+                }
+                <a href="@Url.Action("Laptop", "Category", allRoute)"
+                   class="brand-item @(string.IsNullOrEmpty(selectedBrandId) ? "active" : "")">
+                    <div class="brand-name">Tất cả</div>
+                </a>
+
+                @foreach (var brand in brands)
+                {
+                    var isActive = selectedBrandId == brand.BrandID.ToString();
+
+                    var routeValues = new System.Web.Routing.RouteValueDictionary
+                    {
+                        { "brandId", brand.BrandID }
+                    };
+                    if (!string.IsNullOrEmpty(categoryId))
+                    {
+                        routeValues.Add("categoryId", categoryId);
+                    }
+
+                    var logoUrl = GetBrandLogoUrl(brand.BrandName);
+
+                    <a href="@Url.Action("Laptop", "Category", routeValues)"
+                       class="brand-item @(isActive ? "active" : "")">
+                        @if (!string.IsNullOrEmpty(logoUrl))
+                        {
+                            <img src="@logoUrl" alt="@brand.BrandName"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                            <div class="brand-name" style="display:none">@brand.BrandName</div>
+                        }
+                        else
+                        {
+                            <div class="brand-name">@brand.BrandName</div>
+                        }
+                    </a>
+                }
+            </div>
         </div>
     }
 
+    <!-- 🔹 THÔNG TIN HÃNG ĐANG CHỌN -->
+    @if (!string.IsNullOrEmpty(selectedBrandId) && brands != null)
+    {
+        var selectedBrand = brands.FirstOrDefault(b => b.BrandID.ToString() == selectedBrandId);
+        if (selectedBrand != null)
+        {
+            var clearBrandRoute = new System.Web.Routing.RouteValueDictionary();
+            if (!string.IsNullOrEmpty(categoryId))
+            {
+                clearBrandRoute.Add("categoryId", categoryId);
+            }
+
+            <div class="active-brand-info">
+                <span>Đang xem sản phẩm của hãng: <strong>@selectedBrand.BrandName</strong></span>
+                <a href="@Url.Action("Laptop", "Category", clearBrandRoute)"
+                   class="clear-filter">Xem tất cả</a>
+            </div>
+        }
+    }
+
+    <!-- 🔹 FORM LỌC THEO HÃNG + GIÁ -->
+    @using (Html.BeginForm("Laptop", "Category", FormMethod.Get))
+    {
+        if (!string.IsNullOrEmpty(categoryId))
+        {
+            <input type="hidden" name="categoryId" value="@categoryId" />
+        }
+
+        <div class="filter-form">
+            <select name="brandId" class="brand-select">
+                <option value="">Tất cả hãng</option>
+                @if (brands != null)
+                {
+                    foreach (var b in brands)
+                    {
+                        <option value="@b.BrandID" @(selectedBrandId == b.BrandID.ToString() ? "selected" : "")>
+                            @b.BrandName
+                        </option>
+                    }
+                }
+            </select>
+
+            <input type="number"
+                   name="minPrice"
+                   placeholder="Giá từ"
+                   min="0"
+                   value="@Request.QueryString["minPrice"]" />
+
+            <input type="number"
+                   name="maxPrice"
+                   placeholder="Đến"
+                   min="0"
+                   value="@Request.QueryString["maxPrice"]" />
+
+            <button type="submit">Lọc</button>
+
+            @if (!string.IsNullOrEmpty(Request.QueryString["minPrice"]) ||
+                 !string.IsNullOrEmpty(Request.QueryString["maxPrice"]))
+            {
+                var clearRouteValues = new System.Web.Routing.RouteValueDictionary();
+
+                if (!string.IsNullOrEmpty(selectedBrandId))
+                {
+                    clearRouteValues.Add("brandId", selectedBrandId);
+                }
+                if (!string.IsNullOrEmpty(categoryId))
+                {
+                    clearRouteValues.Add("categoryId", categoryId);
+                }
+
+                <a href="@Url.Action("Laptop", "Category", clearRouteValues)"
+                   class="clear-filter">Xóa lọc giá</a>
+            }
+        </div>
+    }
+
+    <!-- 🔹 TIÊU ĐỀ + SỐ LƯỢNG -->
     <div class="category-header">
-        <h2 class="category-title">LAPTOP</h2>
+        <h2 class="category-title">@pageTitle</h2>
     </div>
 
-    @if (!Model.Any())
+    @if (Model != null && Model.Any())
+    {
+        <div class="product-count">
+            Tìm thấy <strong>@Model.Count()</strong> sản phẩm
+        </div>
+    }
+
+    @if (Model != null && !Model.Any())
     {
         <div style="text-align: center; padding: 40px; color: #999; font-size: 16px;">
             <i class="fa-solid fa-box-open" style="font-size: 48px; margin-bottom: 15px; display: block;"></i>
             <p>Không tìm thấy sản phẩm phù hợp.</p>
-            <p style="font-size: 14px; margin-top: 10px;">Vui lòng thử lại với từ khóa hoặc khoảng giá khác.</p>
+            <p style="font-size: 14px; margin-top: 10px;">Vui lòng thử lại với hãng hoặc khoảng giá khác.</p>
         </div>
     }
-
-    <!-- Danh sách sản phẩm -->
-    @* giữ nguyên phần danh sách sản phẩm như Phones.cshtml *@
-    @Html.Partial("_ProductList", Model)
+    else if (Model != null)
+    {
+        @Html.Partial("_ProductList", Model)
+    }
 </div>
+
+@functions {
+    string GetBrandLogoUrl(string brandName)
+    {
+        var brandLogos = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+            { "Apple", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-iphone-220x48.png" },
+            { "Asus", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-asus-220x48.png" },
+            { "Dell", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-dell-220x48.png" },
+            { "HP", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-hp-220x48.png" },
+            { "Lenovo", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-lenovo-220x48.png" },
+            { "MSI", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-msi-220x48.png" },
+            { "Acer", "https://cdn2.cellphones.com.vn/x35,webp/media/catalog/product/logo-acer-220x48.png" }
+        };
+
+        return brandLogos.ContainsKey(brandName) ? brandLogos[brandName] : "";
+    }
+}

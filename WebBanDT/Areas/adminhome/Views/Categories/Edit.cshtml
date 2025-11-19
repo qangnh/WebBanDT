@@ -1,4 +1,4 @@
-﻿@model WebBanDT.Models.Category
+﻿@model WebBanDT.Models.viewmodels.CategoryWithBrandsViewModel
 
 @{
     ViewBag.Title = "Chỉnh sửa danh mục";
@@ -15,26 +15,37 @@
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
-                @Html.HiddenFor(model => model.CategoryID)
+                @Html.HiddenFor(model => model.Category.CategoryID)
 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
 
+                <!-- Tên danh mục -->
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.CategoryName, "Tên danh mục", htmlAttributes: new { @class = "form-label" })
-                    @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên danh mục..." } })
-                    @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Category.CategoryName, "Tên danh mục", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Category.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên danh mục..." } })
+                    @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class = "text-danger" })
                 </div>
 
+                <!-- Mô tả -->
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.Description, "Mô tả", htmlAttributes: new { @class = "form-label" })
-                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 3, placeholder = "Mô tả ngắn gọn về danh mục..." })
-                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.Category.Description, "Mô tả", htmlAttributes: new { @class = "form-label" })
+                    @Html.TextAreaFor(model => model.Category.Description, new { @class = "form-control", rows = 3, placeholder = "Mô tả ngắn gọn về danh mục..." })
+                    @Html.ValidationMessageFor(model => model.Category.Description, "", new { @class = "text-danger" })
                 </div>
 
+                <!-- Thương hiệu -->
                 <div class="mb-3">
-                    @Html.LabelFor(model => model.CreatedAt, "Ngày tạo", htmlAttributes: new { @class = "form-label" })
-                    @Html.EditorFor(model => model.CreatedAt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
-                    @Html.ValidationMessageFor(model => model.CreatedAt, "", new { @class = "text-danger" })
+                    @Html.Label("Thương hiệu", new { @class = "form-label" })
+                    @Html.TextAreaFor(model => model.BrandNames,
+                        new { @class = "form-control", rows = 3 })
+                    <small class="text-muted">Nhập nhiều thương hiệu, cách nhau bằng dấu phẩy (,)</small>
+                </div>
+
+                <!-- Ngày tạo -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Category.CreatedAt, "Ngày tạo", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Category.CreatedAt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.Category.CreatedAt, "", new { @class = "text-danger" })
                 </div>
 
                 <div class="d-flex justify-content-start mt-4">

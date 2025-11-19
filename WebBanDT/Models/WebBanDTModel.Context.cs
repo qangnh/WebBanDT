@@ -34,5 +34,8 @@ namespace WebBanDT.Models
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
+        public virtual DbSet<ProductColor> ProductColors { get; set; }
+        public virtual DbSet<ProductVersion> ProductVersions { get; set; }
+        public virtual DbSet<Brand> Brands { get; set; }
     }
 }

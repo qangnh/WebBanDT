@@ -2,11 +2,17 @@
 @{
     ViewBag.Title = Model.ProductName;
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+
+    // ✅ Nếu có màu nào có ảnh riêng thì dùng ảnh màu đầu tiên làm ảnh chính
+    string mainImage = Model.ProductImage;
+    if (Model.Colors != null && Model.Colors.Any(c => !string.IsNullOrEmpty(c.ColorImage)))
+    {
+        mainImage = Model.Colors.First(c => !string.IsNullOrEmpty(c.ColorImage)).ColorImage;
+    }
 }
 
 <br />
 <br />
-
 
 <div class="product-page">
     <div class="container">
@@ -22,13 +28,13 @@
 
             <!-- GALLERY -->
             <section class="gal">
-                <img id="mainImg" class="gal-main" src="@Model.ProductImage" alt="@Model.ProductName">
+                <img id="mainImg" class="gal-main" src="@mainImage" alt="@Model.ProductName">
                 @if (Model.ProductImages != null && Model.ProductImages.Any())
                 {
                     <div class="gal-thumbs" id="thumbs">
                         @foreach (var img in Model.ProductImages)
                         {
-                            <button class="gal-thumb @(img == Model.ProductImage ? "is-active" : "")">
+                            <button class="gal-thumb @(img == mainImage ? "is-active" : "")">
                                 <img data-src="@img" src="@img" alt="@Model.ProductName" />
                             </button>
                         }
@@ -56,11 +62,21 @@
 
                 <div class="price-card">
                     <div style="display:flex;align-items:center">
-                        <div class="price-now">@Model.ProductPrice.ToString("N0")<sup>đ</sup></div>
+                        <div class="price-now">
+                            <span id="priceNowValue"
+                                  data-base-price="@Model.ProductPrice.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                                @Model.ProductPrice.ToString("N0")
+                            </span><sup>đ</sup>
+                        </div>
                         @if (Model.OldPrice != null)
                         {
-                            <div class="price-old">@Model.OldPrice?.ToString("N0")<sup>đ</sup></div>
-                            <div class="price-off">
+                            <div class="price-old">
+                                <span id="priceOldValue"
+                                      data-old-price="@Model.OldPrice.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                                    @Model.OldPrice.Value.ToString("N0")
+                                </span><sup>đ</sup>
+                            </div>
+                            <div class="price-off" id="priceOff">
                                 @Math.Round((1 - (double)(Model.ProductPrice / Model.OldPrice.Value)) * 100)%
                             </div>
                         }
@@ -71,12 +87,82 @@
                     </div>
                 </div>
 
-                <div class="pickers" style="grid-template-columns:120px auto">
+
+                <!-- ✅ PHIÊN BẢN SẢN PHẨM -->
+                @if (Model.Versions != null && Model.Versions.Any())
+                {
+                    <div class="pickers" style="grid-template-columns:120px auto;margin-top:12px;">
+                        <div class="label">Phiên bản</div>
+                        <div>
+                            @foreach (var ver in Model.Versions.OrderBy(v => v.VersionName))
+                            {
+                                // Nếu VersionPrice null → dùng giá gốc sản phẩm
+                                var effectivePrice = ver.VersionPrice ?? Model.ProductPrice;
+
+                                <label class="btn btn-outline-secondary me-2 mb-2 js-version-option"
+                                       style="font-size:13px;border-width:1px;"
+                                       data-id="@ver.VersionID"
+                                       data-price="@effectivePrice.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                                    <input type="radio" name="SelectedVersion" value="@ver.VersionID" class="d-none" />
+                                    <span>@ver.VersionName</span><br />
+                                    <small class="text-muted">
+                                        @String.Format("{0:N0} đ", effectivePrice)
+                                    </small>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+
+
+                <!-- ✅ MÀU SẮC SẢN PHẨM (mỗi màu một ảnh) -->
+                @if (Model.Colors != null && Model.Colors.Any())
+                {
+                    <div class="pickers" style="grid-template-columns:120px auto;margin-top:12px;">
+                        <div class="label">Màu sắc</div>
+                        <div class="d-flex flex-wrap" style="gap:8px;">
+                            @foreach (var color in Model.Colors.OrderBy(c => c.ColorName))
+                            {
+                                var hasImg = !string.IsNullOrEmpty(color.ColorImage);
+                                <label class="js-color-option"
+                                       data-id="@color.ColorID"
+                                       data-image="@(hasImg ? color.ColorImage : "")"
+                                       style="cursor:pointer;border:1px solid #ddd;border-radius:6px;padding:6px 8px;display:inline-flex;flex-direction:column;align-items:center;min-width:70px;">
+
+                                    <!-- Không cần dùng radio nữa cũng được -->
+                                    @* <input type="radio"
+                                        name="SelectedColor"
+                                        value="@color.ColorID"
+                                        class="d-none" /> *@
+
+                                    @if (hasImg)
+                                    {
+                                        <img src="@color.ColorImage"
+                                             alt="@color.ColorName"
+                                             style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-bottom:4px;" />
+                                    }
+                                    else
+                                    {
+                                        <div style="width:40px;height:40px;border-radius:4px;border:1px dashed #ccc;
+                                    display:flex;align-items:center;justify-content:center;
+                                    font-size:11px;color:#999;margin-bottom:4px;">
+                                            No Img
+                                        </div>
+                                    }
+                                    <span style="font-size:12px;">@color.ColorName</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+
+
+                <div class="pickers" style="grid-template-columns:120px auto;margin-top:12px;">
                     <div class="label">Số lượng còn</div>
                     <div class="qty">@Model.StockQuantity</div>
                 </div>
 
-                <div class="cta" style="display:flex;gap:10px;align-items:center">
+                <div class="cta" style="display:flex;gap:10px;align-items:center;margin-top:12px;">
                     <!-- CHỌN SỐ LƯỢNG -->
                     <div class="qty-wrapper" style="display:flex;align-items:center;border:1px solid #ccc;border-radius:8px;overflow:hidden;width:110px;">
                         <button type="button" class="qty-btn" onclick="changeQty(-1)"
@@ -95,19 +181,24 @@
                     <form action="@Url.Action("AddToCart", "Cart")" method="post" style="margin:0;">
                         <input type="hidden" name="productId" value="@Model.ProductID" />
                         <input type="hidden" name="quantity" id="addToCartQty" value="1" />
+                        <input type="hidden" name="versionId" id="selectedVersionIdForCart" />
+                        <input type="hidden" name="colorId" id="selectedColorIdForCart" />   <!-- 🔴 THÊM -->
                         <button type="submit" class="btn-outline">
                             <i class="fa-solid fa-cart-shopping" style="margin-right:6px"></i>
                             Thêm Vào Giỏ Hàng
                         </button>
                     </form>
 
-                    <!-- MUA NGAY -->
-                    <form action="@Url.Action("MuaNgay", "Order")" method="post" style="margin:0;">
+                    <form action="@Url.Action("BuyNow", "Cart")" method="post" style="margin:0;">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="productId" value="@Model.ProductID" />
                         <input type="hidden" name="quantity" id="buyNowQty" value="1" />
+                        <input type="hidden" name="versionId" id="selectedVersionIdForBuy" />
+                        <input type="hidden" name="colorId" id="selectedColorIdForBuy" />
                         <button type="submit" class="btn-buy">Mua Ngay</button>
                     </form>
+
+
 
                 </div>
 
@@ -128,19 +219,18 @@
                     }
                 </script>
 
-
                 <script>
-    // Đồng bộ số lượng với 2 form
-    const qtyInput = document.getElementById('productQty');
-    const addToCartQty = document.getElementById('addToCartQty');
-    const buyNowQty = document.getElementById('buyNowQty');
+                    // Đồng bộ số lượng với 2 form
+                    const qtyInput = document.getElementById('productQty');
+                    const addToCartQty = document.getElementById('addToCartQty');
+                    const buyNowQty = document.getElementById('buyNowQty');
 
-    qtyInput.addEventListener('input', () => {
-        let val = Math.max(1, Math.min(parseInt(qtyInput.value) || 1, @Model.StockQuantity));
-        qtyInput.value = val;
-        addToCartQty.value = val;
-        buyNowQty.value = val;
-    });
+                    qtyInput.addEventListener('input', () => {
+                        let val = Math.max(1, Math.min(parseInt(qtyInput.value) || 1, @Model.StockQuantity));
+                        qtyInput.value = val;
+                        addToCartQty.value = val;
+                        buyNowQty.value = val;
+                    });
                 </script>
 
             </section>
@@ -156,19 +246,6 @@
                     <div class="line">
                         <i class="fa-solid fa-truck-fast"></i>
                         <span>Giao hàng nhanh, miễn phí toàn quốc</span>
-                    </div>
-                </div>
-
-                <div class="card promo">
-                    <strong>Khuyến mãi hấp dẫn</strong>
-                    <ul style="margin-top:8px">
-                        <li>Giảm 5% tối đa 200.000đ khi thanh toán Kredivo</li>
-                        <li>Tặng Sim/Esim VNSKY miễn phí 30 ngày đầu</li>
-                        <li>Ưu đãi Smember (tuỳ sản phẩm)</li>
-                    </ul>
-                    <div style="display:flex;gap:10px;margin-top:10px">
-                        <button class="btn-buy" style="flex:1">Mua ngay</button>
-                        <button class="btn-outline" style="flex:1">Thêm vào giỏ</button>
                     </div>
                 </div>
             </aside>
@@ -242,12 +319,100 @@
 </div>
 
 <script>
-    // Đổi ảnh chính khi chọn thumbnail
-    document.querySelectorAll('#thumbs img').forEach(img => {
-        img.addEventListener('click', () => {
-            document.getElementById('mainImg').src = img.dataset.src || img.src;
-            document.querySelectorAll('.gal-thumb').forEach(b => b.classList.remove('is-active'));
-            img.closest('.gal-thumb').classList.add('is-active');
+    // ✅ Đổi ảnh + set colorId khi chọn màu
+    (function () {
+        var colorOptions = document.querySelectorAll('.js-color-option');
+        var mainImg = document.getElementById('mainImg');
+
+        // hidden để gửi lên server
+        var colorIdCart = document.getElementById('selectedColorIdForCart');
+        var colorIdBuy = document.getElementById('selectedColorIdForBuy');
+
+        if (!colorOptions.length) return;
+
+        colorOptions.forEach(function (opt) {
+            opt.addEventListener('click', function () {
+                var imgUrl = this.getAttribute('data-image');
+                var colorId = this.getAttribute('data-id'); // 🔥 LẤY TỪ data-id
+
+                // Đổi ảnh chính theo màu
+                if (imgUrl && mainImg) {
+                    mainImg.src = imgUrl;
+                }
+
+                // Gán ColorID vào 2 hidden input
+                if (colorIdCart) colorIdCart.value = colorId;
+                if (colorIdBuy) colorIdBuy.value = colorId;
+
+                // Highlight màu đang chọn
+                colorOptions.forEach(function (o) {
+                    o.style.borderColor = '#ddd';
+                });
+                this.style.borderColor = '#f53d2f';
+            });
         });
-    });
+    })();
+</script>
+
+
+<script>
+    // ====== CẬP NHẬT GIÁ KHI CHỌN PHIÊN BẢN ======
+    (function () {
+        var priceNowEl = document.getElementById('priceNowValue');
+        if (!priceNowEl) return;
+
+        // Giá gốc (khi chưa chọn phiên bản nào hoặc phiên bản không có giá riêng)
+        var basePrice = parseFloat(priceNowEl.dataset.basePrice.replace(',', '.'));
+
+        var oldPriceEl = document.getElementById('priceOldValue');
+        var oldPrice = null;
+        if (oldPriceEl && oldPriceEl.dataset.oldPrice) {
+            oldPrice = parseFloat(oldPriceEl.dataset.oldPrice.replace(',', '.'));
+        }
+
+        var versionInputs = document.querySelectorAll('.js-version-option');
+        var versionIdCart = document.getElementById('selectedVersionIdForCart');
+        var versionIdBuy = document.getElementById('selectedVersionIdForBuy');
+
+        function formatVND(value) {
+            return value.toLocaleString('vi-VN');
+        }
+
+        function updatePriceDisplay(newPrice) {
+            if (!newPrice || isNaN(newPrice)) newPrice = basePrice;
+            priceNowEl.textContent = formatVND(newPrice);
+
+            // Cập nhật % giảm nếu có giá cũ
+            var offEl = document.getElementById('priceOff');
+            if (offEl && oldPrice && !isNaN(oldPrice) && oldPrice > 0) {
+                var percent = Math.round((1 - (newPrice / oldPrice)) * 100);
+                offEl.textContent = percent + '%';
+            }
+        }
+
+        versionInputs.forEach(function (opt) {
+            opt.addEventListener('click', function () {
+                var priceStr = this.getAttribute('data-price') || '';
+                var verId = this.getAttribute('data-id');
+
+                var newPrice = parseFloat(priceStr.replace(',', '.'));
+                if (!newPrice || isNaN(newPrice)) {
+                    newPrice = basePrice;
+                }
+
+                // Đổi giá hiển thị
+                updatePriceDisplay(newPrice);
+
+                // Highlight ô được chọn
+                versionInputs.forEach(function (o) {
+                    o.style.borderColor = '#ddd';
+                });
+                this.style.borderColor = '#f53d2f';
+
+                // Gán versionId vào hidden (nếu có)
+                if (versionIdCart) versionIdCart.value = verId;
+                if (versionIdBuy) versionIdBuy.value = verId;
+            });
+        });
+    })();
 </script>

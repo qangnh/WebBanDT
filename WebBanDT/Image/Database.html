@@ -1,0 +1,468 @@
+﻿/* =========================================================
+   TẠO LẠI DATABASE WebBanDT
+   (Từ các script bạn đã gửi)
+   ========================================================= */
+
+IF DB_ID('WebBanDT') IS NOT NULL
+BEGIN
+    ALTER DATABASE WebBanDT SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE WebBanDT;
+END
+GO
+
+CREATE DATABASE WebBanDT;
+GO
+
+USE [WebBanDT]
+GO
+
+/*==========================================================*/
+/*  TABLE: UserAccount                                      */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[UserAccount](
+	 NOT NULL,
+	 NOT NULL,
+	 NOT NULL,
+	[CreatedAt] [datetime] NULL,
+	 NOT NULL,
+	 NULL,
+	[UserID] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_UserAccount] PRIMARY KEY CLUSTERED
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UQ_UserAccount_UserID] UNIQUE NONCLUSTERED
+(
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+ CONSTRAINT [UQ_UserAccount_Username] UNIQUE NONCLUSTERED
+(
+	[Username] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[UserAccount] ADD  CONSTRAINT [DF_UserAccount_UserRole]  DEFAULT ('User') FOR [UserRole]
+GO
+
+ALTER TABLE [dbo].[UserAccount] ADD  CONSTRAINT [DF__UserAccou__Creat__38996AB5]  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+ALTER TABLE [dbo].[UserAccount]  WITH CHECK ADD  CONSTRAINT [CK_UserRole] CHECK  (([UserRole]='Manager' OR [UserRole]='Customer' OR [UserRole]='Admin' OR [UserRole]='User'))
+GO
+
+ALTER TABLE [dbo].[UserAccount] CHECK CONSTRAINT [CK_UserRole]
+GO
+
+/*==========================================================*/
+/*  TABLE: Category                                         */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Category](
+	[CategoryID] [int] IDENTITY(1,1) NOT NULL,
+	 NOT NULL,
+	 NULL,
+	[CreatedAt] [datetime] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[CategoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Category] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+/*==========================================================*/
+/*  TABLE: Brand                                            */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Brand](
+	[BrandID] [int] IDENTITY(1,1) NOT NULL,
+	 NOT NULL,
+	[CategoryID] [int] NOT NULL,
+	[IsActive] [bit] NOT NULL,
+PRIMARY KEY CLUSTERED
+(
+	[BrandID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Brand] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+
+ALTER TABLE [dbo].[Brand]  WITH CHECK ADD  CONSTRAINT [FK_Brand_Category] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[Category] ([CategoryID])
+GO
+
+ALTER TABLE [dbo].[Brand] CHECK CONSTRAINT [FK_Brand_Category]
+GO
+
+/*==========================================================*/
+/*  TABLE: Product                                          */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Product](
+	[ProductID] [int] IDENTITY(1,1) NOT NULL,
+	[CategoryID] [int] NOT NULL,
+	 NOT NULL,
+	[ProductDescription] [nvarchar](max) NULL,
+	[ProductPrice] [decimal](18, 2) NOT NULL,
+	[StockQuantity] [int] NULL,
+	 NULL,
+	[CreatedAt] [datetime] NULL,
+	[IsActive] [bit] NULL,
+	[BrandID] [int] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Product] ADD  DEFAULT ((0)) FOR [StockQuantity]
+GO
+
+ALTER TABLE [dbo].[Product] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+ALTER TABLE [dbo].[Product] ADD  DEFAULT ((1)) FOR [IsActive]
+GO
+
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_Brand] FOREIGN KEY([BrandID])
+REFERENCES [dbo].[Brand] ([BrandID])
+GO
+
+ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_Brand]
+GO
+
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD  CONSTRAINT [FK_Product_Category] FOREIGN KEY([CategoryID])
+REFERENCES [dbo].[Category] ([CategoryID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Product] CHECK CONSTRAINT [FK_Product_Category]
+GO
+
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD CHECK  (([ProductPrice]>=(0)))
+GO
+
+ALTER TABLE [dbo].[Product]  WITH CHECK ADD CHECK  (([StockQuantity]>=(0)))
+GO
+
+/*==========================================================*/
+/*  TABLE: ProductColor                                     */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductColor](
+	[ColorID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductID] [int] NOT NULL,
+	 NULL,
+	 NULL,
+PRIMARY KEY CLUSTERED
+(
+	[ColorID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[ProductColor]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([ProductID])
+GO
+
+/*==========================================================*/
+/*  TABLE: ProductVersion                                   */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[ProductVersion](
+	[VersionID] [int] IDENTITY(1,1) NOT NULL,
+	[ProductID] [int] NOT NULL,
+	 NULL,
+	[VersionPrice] [decimal](18, 2) NULL,
+PRIMARY KEY CLUSTERED
+(
+	[VersionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[ProductVersion]  WITH CHECK ADD FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([ProductID])
+GO
+
+/*==========================================================*/
+/*  TABLE: Customer                                         */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Customer](
+	[CustomerID] [int] IDENTITY(1,1) NOT NULL,
+	 NOT NULL,
+	 NOT NULL,
+	 NULL,
+	 NULL,
+	 NOT NULL,
+	[CreatedAt] [datetime] NULL,
+	[UserID] [int] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[CustomerID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Customer] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+ALTER TABLE [dbo].[Customer]  WITH CHECK ADD  CONSTRAINT [FK_Customer_UserAccount] FOREIGN KEY([UserID])
+REFERENCES [dbo].[UserAccount] ([UserID])
+GO
+
+ALTER TABLE [dbo].[Customer] CHECK CONSTRAINT [FK_Customer_UserAccount]
+GO
+
+/*==========================================================*/
+/*  TABLE: Cart                                             */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Cart](
+	[CartID] [int] IDENTITY(1,1) NOT NULL,
+	[CreatedAt] [datetime] NULL,
+	[UpdatedAt] [datetime] NULL,
+	[IsCheckedOut] [bit] NULL,
+	[CheckedOutAt] [datetime] NULL,
+	[UserID] [int] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[CartID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Cart] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+
+ALTER TABLE [dbo].[Cart] ADD  DEFAULT (getdate()) FOR [UpdatedAt]
+GO
+
+ALTER TABLE [dbo].[Cart] ADD  DEFAULT ((0)) FOR [IsCheckedOut]
+GO
+
+ALTER TABLE [dbo].[Cart]  WITH CHECK ADD  CONSTRAINT [FK_Cart_UserAccount] FOREIGN KEY([UserID])
+REFERENCES [dbo].[UserAccount] ([UserID])
+GO
+
+ALTER TABLE [dbo].[Cart] CHECK CONSTRAINT [FK_Cart_UserAccount]
+GO
+
+/*==========================================================*/
+/*  TABLE: Orders                                           */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Orders](
+	[OrderID] [int] IDENTITY(1,1) NOT NULL,
+	[CustomerID] [int] NOT NULL,
+	[OrderDate] [datetime] NULL,
+	[TotalAmount] [decimal](18, 2) NOT NULL,
+	 NULL,
+	 NOT NULL,
+	 NULL,
+PRIMARY KEY CLUSTERED
+(
+	[OrderID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Orders] ADD  DEFAULT (getdate()) FOR [OrderDate]
+GO
+
+ALTER TABLE [dbo].[Orders] ADD  DEFAULT (N'Chưa thanh toán') FOR [PaymentStatus]
+GO
+
+ALTER TABLE [dbo].[Orders] ADD  DEFAULT (N'Đang xử lý') FOR [OrderStatus]
+GO
+
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Order_Customer] FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Customer] ([CustomerID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Order_Customer]
+GO
+
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD CHECK  (([TotalAmount]>=(0)))
+GO
+
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD CHECK  (([TotalAmount]>=(0)))
+GO
+
+/*==========================================================*/
+/*  TABLE: CartItem                                         */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[CartItem](
+	[CartItemID] [int] IDENTITY(1,1) NOT NULL,
+	[CartID] [int] NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[UnitPrice] [decimal](18, 2) NOT NULL,
+	[AddedAt] [datetime] NULL,
+	[VersionID] [int] NULL,
+	[ColorID] [int] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[CartItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[CartItem] ADD  DEFAULT (getdate()) FOR [AddedAt]
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Cart] FOREIGN KEY([CartID])
+REFERENCES [dbo].[Cart] ([CartID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[CartItem] CHECK CONSTRAINT [FK_CartItem_Cart]
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_Product] FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([ProductID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[CartItem] CHECK CONSTRAINT [FK_CartItem_Product]
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_ProductColor] FOREIGN KEY([ColorID])
+REFERENCES [dbo].[ProductColor] ([ColorID])
+GO
+
+ALTER TABLE [dbo].[CartItem] CHECK CONSTRAINT [FK_CartItem_ProductColor]
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD  CONSTRAINT [FK_CartItem_ProductVersion] FOREIGN KEY([VersionID])
+REFERENCES [dbo].[ProductVersion] ([VersionID])
+GO
+
+ALTER TABLE [dbo].[CartItem] CHECK CONSTRAINT [FK_CartItem_ProductVersion]
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD CHECK  (([Quantity]>(0)))
+GO
+
+ALTER TABLE [dbo].[CartItem]  WITH CHECK ADD CHECK  (([UnitPrice]>=(0)))
+GO
+
+/*==========================================================*/
+/*  TABLE: OrderDetail                                      */
+/*==========================================================*/
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[OrderDetail](
+	[OrderDetailID] [int] IDENTITY(1,1) NOT NULL,
+	[OrderID] [int] NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[UnitPrice] [decimal](18, 2) NOT NULL,
+	[VersionID] [int] NULL,
+	[ColorID] [int] NULL,
+PRIMARY KEY CLUSTERED
+(
+	[OrderDetailID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_Order] FOREIGN KEY([OrderID])
+REFERENCES [dbo].[Orders] ([OrderID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_Order]
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_Product] FOREIGN KEY([ProductID])
+REFERENCES [dbo].[Product] ([ProductID])
+ON DELETE CASCADE
+GO
+
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_Product]
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_ProductColor] FOREIGN KEY([ColorID])
+REFERENCES [dbo].[ProductColor] ([ColorID])
+GO
+
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_ProductColor]
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_ProductVersion] FOREIGN KEY([VersionID])
+REFERENCES [dbo].[ProductVersion] ([VersionID])
+GO
+
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_ProductVersion]
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD CHECK  (([Quantity]>(0)))
+GO
+
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD CHECK  (([UnitPrice]>=(0)))
+GO

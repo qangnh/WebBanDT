@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebBanDT.Models;
 
 namespace WebBanDT.Models.ViewModels
 {
@@ -35,5 +36,8 @@ namespace WebBanDT.Models.ViewModels
 
         // 🔹 Danh sách sản phẩm liên quan
         public List<ProductVM> RelatedProducts { get; set; } = new List<ProductVM>();
+
+        public List<ProductVersion> Versions { get; set; } = new List<ProductVersion>();
+        public List<ProductColor> Colors { get; set; } = new List<ProductColor>();
     }
 }

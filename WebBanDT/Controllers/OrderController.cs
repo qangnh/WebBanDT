@@ -27,7 +27,7 @@ namespace WebBanDT.Controllers
 
             Cart cart = Session["Cart"] as Cart;
 
-            // Nếu bấm Mua ngay từ ProductList/Details
+            // Nếu bấm Mua ngay từ Product Detail
             if (productId.HasValue)
             {
                 var product = db.Products.Find(productId.Value);
@@ -37,7 +37,6 @@ namespace WebBanDT.Controllers
                     return RedirectToAction("Index", "CustomerHome");
                 }
 
-                // Nếu session cart trống hoặc không phải mua ngay, tạo mới
                 if (cart == null || cart.CartItems == null || !cart.CartItems.Any())
                 {
                     cart = new Cart
@@ -63,14 +62,34 @@ namespace WebBanDT.Controllers
                 return RedirectToAction("GioHang", "Cart");
             }
 
+            // 🔥 GÁN ẢNH THEO MÀU CHO CART TRONG SESSION
+            foreach (var item in cart.CartItems)
+            {
+                if (item.Product == null) continue;
+
+                // Nếu có ColorID => ưu tiên ảnh màu
+                if (item.ColorID.HasValue)
+                {
+                    var color = db.ProductColors
+                                 .FirstOrDefault(c => c.ColorID == item.ColorID.Value);
+
+                    if (color != null && !string.IsNullOrEmpty(color.ColorImage))
+                    {
+                        // Chỉ đổi ảnh đang hiển thị, KHÔNG SaveChanges => DB không bị đổi
+                        item.Product.ProductImage = color.ColorImage;
+                    }
+                }
+            }
+
             var model = new CheckoutViewModel
             {
                 Cart = cart,
-                TotalAmount = cart.CartItems.Sum(i => i.Quantity * i.UnitPrice)
+                TotalAmount = cart.CartItems.Sum(i => i.Quantity * i.UnitPrice) // ✅ dùng UnitPrice
             };
 
             return View(model);
         }
+
 
         // POST: Order/ThongTin
         [HttpPost]
@@ -136,10 +155,13 @@ namespace WebBanDT.Controllers
                     OrderID = order.OrderID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
-                    UnitPrice = item.UnitPrice
+                    UnitPrice = item.UnitPrice,   // ✅ giá theo phiên bản đã lưu trong CartItem
+                    VersionID = item.VersionID,   // ✅ lưu phiên bản
+                    ColorID = item.ColorID      // ✅ lưu màu
                 });
             }
             db.SaveChanges();
+
 
             // Xóa giỏ hàng tạm trong session
             Session["Cart"] = null;
@@ -230,22 +252,21 @@ namespace WebBanDT.Controllers
                 return RedirectToAction("GioHang", "Cart");
             }
 
-            var userId = Session["UserID"];
-            if (userId == null)
+            var userIdObj = Session["UserID"];
+            if (userIdObj == null)
             {
                 TempData["ErrorMessage"] = "Vui lòng đăng nhập để tiếp tục.";
                 return RedirectToAction("Login", "Account");
             }
+            int userId = Convert.ToInt32(userIdObj);
 
-            // ✅ Dùng duy nhất 1 biến intUserId (ép kiểu 1 lần)
-            int intUserId = Convert.ToInt32(userId);
-
-            var customer = db.Customers.FirstOrDefault(c => c.UserID == intUserId);
+            // =========== CUSTOMER ===========
+            var customer = db.Customers.FirstOrDefault(c => c.UserID == userId);
             if (customer == null)
             {
                 customer = new Customer
                 {
-                    UserID = intUserId,
+                    UserID = userId,
                     CustomerName = model.FullName,
                     CustomerPhone = model.Phone,
                     CustomerAddress = model.DeliveryAddress,
@@ -261,58 +282,64 @@ namespace WebBanDT.Controllers
                 customer.CustomerAddress = model.DeliveryAddress;
                 db.SaveChanges();
             }
+            // ✅ TỔNG TIỀN DÙNG GIÁ ĐÃ CHỌN (UnitPrice)
+            var subTotal = cart.CartItems.Sum(i => i.UnitPrice * i.Quantity);
+            var vat = subTotal * 0.10m;           // 10% VAT
+            var total = subTotal + vat;           // Tổng + VAT
 
             var order = new Order
             {
                 CustomerID = customer.CustomerID,
                 OrderDate = DateTime.Now,
                 DeliveryAddress = model.DeliveryAddress,
-                TotalAmount = cart.CartItems.Sum(i => i.Product.ProductPrice * i.Quantity),
+                TotalAmount = total,                 // ✅ GIÁ ĐÃ CỘNG VAT
                 PaymentStatus = "Chưa thanh toán",
                 OrderStatus = "Chờ xử lý"
             };
+
             db.Orders.Add(order);
             db.SaveChanges();
 
+            // ✅ LƯU CHI TIẾT ĐƠN HÀNG ĐÚNG PHIÊN BẢN + MÀU
             foreach (var item in cart.CartItems)
             {
                 db.OrderDetails.Add(new OrderDetail
                 {
                     OrderID = order.OrderID,
-                    ProductID = item.Product.ProductID,
+                    ProductID = item.ProductID,
                     Quantity = item.Quantity,
-                    UnitPrice = item.Product.ProductPrice
+
+                    UnitPrice = item.UnitPrice,   // ✅ giá theo phiên bản
+                    VersionID = item.VersionID,   // ✅ lưu phiên bản
+                    ColorID = item.ColorID      // ✅ lưu màu
                 });
             }
             db.SaveChanges();
 
-            // ✅ Sau khi lưu đơn hàng, đánh dấu giỏ hàng cũ là đã thanh toán
+            // =========== DỌN GIỎ HÀNG DB + SESSION ===========
             var oldCart = db.Carts.FirstOrDefault(c =>
-                c.UserID.HasValue && c.UserID.Value == intUserId &&
+                c.UserID.HasValue && c.UserID.Value == userId &&
                 (c.IsCheckedOut == false || c.IsCheckedOut == null));
 
             if (oldCart != null)
             {
-                // Xóa tất cả sản phẩm trong giỏ hàng cũ
                 var oldItems = db.CartItems.Where(ci => ci.CartID == oldCart.CartID).ToList();
                 if (oldItems.Any())
                 {
                     db.CartItems.RemoveRange(oldItems);
                 }
 
-                // Đánh dấu giỏ hàng này đã checkout
                 oldCart.IsCheckedOut = true;
                 db.SaveChanges();
             }
 
-            // ✅ Xóa giỏ hàng tạm trong session
             Session["Cart"] = null;
-
-            // ✅ Thông báo thành công và chuyển sang trang thông báo
             TempData["SuccessMessage"] = "Đặt hàng thành công! Giỏ hàng đã được làm trống.";
 
             return RedirectToAction("OrderSuccess", new { orderId = order.OrderID });
         }
+
+
 
 
         // GET: Order/OrderSuccess
@@ -322,6 +349,8 @@ namespace WebBanDT.Controllers
             var order = db.Orders
                           .Include(o => o.Customer)
                           .Include(o => o.OrderDetails.Select(od => od.Product))
+                          .Include(o => o.OrderDetails.Select(od => od.ProductVersion)) // ✅
+                          .Include(o => o.OrderDetails.Select(od => od.ProductColor))   // ✅
                           .FirstOrDefault(o => o.OrderID == orderId);
 
             if (order == null)
@@ -332,6 +361,8 @@ namespace WebBanDT.Controllers
 
             return View(order);
         }
+
+
         [HttpGet]
         public ActionResult LichSuDonHang()
         {

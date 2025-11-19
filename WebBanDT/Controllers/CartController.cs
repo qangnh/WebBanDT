@@ -34,15 +34,18 @@ namespace WebBanDT.Controllers
 
             var cartItems = db.CartItems
                               .Include(ci => ci.Product)
+                              .Include(ci => ci.ProductVersion)  // 🔥 thêm
+                              .Include(ci => ci.ProductColor)    // 🔥 thêm
                               .Where(ci => ci.CartID == cart.CartID)
                               .ToList();
 
             return View(cartItems);
         }
 
+
         // ➕ Thêm sản phẩm vào giỏ
         [HttpPost]
-        public ActionResult AddToCart(int productId, int quantity = 1)
+        public ActionResult AddToCart(int productId, int quantity = 1, int? versionId = null, int? colorId = null)
         {
             if (Session["UserID"] == null)
             {
@@ -59,6 +62,19 @@ namespace WebBanDT.Controllers
                 return RedirectToAction("Index", "CustomerHome");
             }
 
+            // ✅ Tính đúng giá theo phiên bản
+            decimal unitPrice = product.ProductPrice;
+            if (versionId.HasValue)
+            {
+                var ver = db.ProductVersions.FirstOrDefault(v => v.VersionID == versionId.Value
+                                                                 && v.ProductID == productId);
+                if (ver != null && ver.VersionPrice.HasValue)
+                {
+                    unitPrice = ver.VersionPrice.Value;
+                }
+            }
+
+            // Lấy / tạo giỏ
             var cart = db.Carts.FirstOrDefault(c =>
                 c.UserID.HasValue && c.UserID.Value == userId &&
                 (c.IsCheckedOut == false || c.IsCheckedOut == null));
@@ -75,7 +91,14 @@ namespace WebBanDT.Controllers
                 db.SaveChanges();
             }
 
-            var cartItem = db.CartItems.FirstOrDefault(ci => ci.CartID == cart.CartID && ci.ProductID == productId);
+            // ✅ Ghép theo: product + version + color
+            var cartItem = db.CartItems.FirstOrDefault(ci =>
+                ci.CartID == cart.CartID &&
+                ci.ProductID == productId &&
+                ci.VersionID == versionId &&
+                ci.ColorID == colorId
+            );
+
             if (cartItem == null)
             {
                 cartItem = new CartItem
@@ -83,8 +106,10 @@ namespace WebBanDT.Controllers
                     CartID = cart.CartID,
                     ProductID = productId,
                     Quantity = quantity,
-                    UnitPrice = product.ProductPrice,
-                    AddedAt = DateTime.Now
+                    UnitPrice = unitPrice,
+                    AddedAt = DateTime.Now,
+                    VersionID = versionId,
+                    ColorID = colorId
                 };
                 db.CartItems.Add(cartItem);
             }
@@ -92,6 +117,7 @@ namespace WebBanDT.Controllers
             {
                 cartItem.Quantity += quantity;
                 cartItem.AddedAt = DateTime.Now;
+                cartItem.UnitPrice = unitPrice; // nếu muốn update luôn giá mới
             }
 
             db.SaveChanges();
@@ -100,9 +126,65 @@ namespace WebBanDT.Controllers
             return RedirectToAction("GioHang");
         }
 
+
+        // 🛒 MUA NGAY 1 SẢN PHẨM TRONG GIỎ HÀNG
+        [HttpPost]
+        public ActionResult BuyFromCart(int cartItemId)
+        {
+            if (Session["UserID"] == null)
+            {
+                TempData["ErrorMessage"] = "Bạn cần đăng nhập để mua sản phẩm!";
+                return RedirectToAction("Login", "Account", new { returnUrl = Request.RawUrl });
+            }
+
+            int userId = Convert.ToInt32(Session["UserID"]);
+
+            // lấy cartItem + Product + kiểm tra có thuộc giỏ của user không
+            var cartItem = db.CartItems
+                             .Include(ci => ci.Product)
+                             .Include(ci => ci.Cart)
+                             .FirstOrDefault(ci =>
+                                 ci.CartItemID == cartItemId &&
+                                 ci.Cart.UserID == userId &&
+                                 (ci.Cart.IsCheckedOut ?? false) == false);
+
+            if (cartItem == null || cartItem.Product == null || !(cartItem.Product.IsActive ?? true))
+            {
+                TempData["ErrorMessage"] = "Sản phẩm không hợp lệ hoặc đã bị xóa!";
+                return RedirectToAction("GioHang");
+            }
+
+            // Tạo 1 Cart tạm thời chỉ chứa item này để đưa sang Order/ThongTin
+            var cartMuaNgay = new Cart
+            {
+                UserID = userId,
+                CreatedAt = DateTime.Now,
+                IsCheckedOut = false,
+                CartItems = new List<CartItem>
+        {
+            new CartItem
+            {
+                ProductID  = cartItem.ProductID,
+                Quantity   = cartItem.Quantity,
+                UnitPrice  = cartItem.UnitPrice,   // ✔ dùng giá đã lưu trong giỏ
+                Product    = cartItem.Product,
+                AddedAt    = DateTime.Now,
+                VersionID  = cartItem.VersionID,   // ✔ giữ phiên bản
+                ColorID    = cartItem.ColorID      // ✔ giữ màu
+            }
+        }
+            };
+
+            // Lưu vào session dùng chung với BuyAll / BuySelected
+            Session["Cart"] = cartMuaNgay;
+
+            // Chuyển sang trang thông tin đặt hàng
+            return RedirectToAction("ThongTin", "Order");
+        }
+
         // 🛍️ Mua ngay
         [HttpPost]
-        public ActionResult BuyNow(int productId, int quantity = 1)
+        public ActionResult BuyNow(int productId, int quantity = 1, int? versionId = null, int? colorId = null)
         {
             if (Session["UserID"] == null)
             {
@@ -119,78 +201,42 @@ namespace WebBanDT.Controllers
                 return RedirectToAction("Index", "CustomerHome");
             }
 
+            // ✅ Tính giá theo phiên bản
+            decimal unitPrice = product.ProductPrice;
+            if (versionId.HasValue)
+            {
+                var ver = db.ProductVersions.FirstOrDefault(v => v.VersionID == versionId.Value
+                                                                 && v.ProductID == productId);
+                if (ver != null && ver.VersionPrice.HasValue)
+                {
+                    unitPrice = ver.VersionPrice.Value;
+                }
+            }
+
             var cart = new Cart
             {
                 UserID = userId,
                 CreatedAt = DateTime.Now,
                 IsCheckedOut = false,
                 CartItems = new List<CartItem>
-                {
-                    new CartItem
-                    {
-                        ProductID = product.ProductID,
-                        Quantity = quantity,
-                        UnitPrice = product.ProductPrice,
-                        Product = product,
-                        AddedAt = DateTime.Now
-                    }
-                }
-            };
-
-            Session["Cart"] = cart;
-            return RedirectToAction("ThongTin", "Order");
-        }
-
-        [HttpPost]
-        public ActionResult BuyFromCart(int cartItemId)
         {
-            if (Session["UserID"] == null)
+            new CartItem
             {
-                TempData["ErrorMessage"] = "Bạn cần đăng nhập!";
-                return RedirectToAction("Login", "Account");
+                ProductID = product.ProductID,
+                Quantity = quantity,
+                UnitPrice = unitPrice,
+                Product = product,
+                AddedAt = DateTime.Now,
+                VersionID = versionId,
+                ColorID = colorId
             }
-
-            int userId = Convert.ToInt32(Session["UserID"]);
-
-            var cartItem = db.CartItems
-                             .Include(ci => ci.Product)
-                             .FirstOrDefault(ci => ci.CartItemID == cartItemId);
-
-            if (cartItem == null)
-            {
-                TempData["ErrorMessage"] = "Sản phẩm không tồn tại trong giỏ hàng!";
-                return RedirectToAction("GioHang");
-            }
-
-            var product = db.Products.Find(cartItem.ProductID);
-
-            if (product == null)
-            {
-                TempData["ErrorMessage"] = "Sản phẩm không tồn tại!";
-                return RedirectToAction("GioHang");
-            }
-
-            var cart = new Cart
-            {
-                UserID = userId,
-                CreatedAt = DateTime.Now,
-                IsCheckedOut = false,
-                CartItems = new List<CartItem>
-                {
-                    new CartItem
-                    {
-                        ProductID = product.ProductID,
-                        Quantity = cartItem.Quantity,
-                        UnitPrice = product.ProductPrice,
-                        Product = product,
-                        AddedAt = DateTime.Now
-                    }
-                }
+        }
             };
 
             Session["Cart"] = cart;
             return RedirectToAction("ThongTin", "Order");
         }
+
 
         // 🛒 MUA TẤT CẢ SẢN PHẨM TRONG GIỎ HÀNG
         [HttpPost]
@@ -241,12 +287,15 @@ namespace WebBanDT.Controllers
                     {
                         ProductID = product.ProductID,
                         Quantity = item.Quantity,
-                        UnitPrice = product.ProductPrice,
+                        UnitPrice = item.UnitPrice,          // ✅ dùng giá đã lưu trong cart
                         Product = product,
-                        AddedAt = DateTime.Now
+                        AddedAt = DateTime.Now,
+                        VersionID = item.VersionID,          // ✅ giữ đúng version
+                        ColorID = item.ColorID               // ✅ giữ đúng color
                     });
                 }
             }
+
 
             if (!cartMuaNgay.CartItems.Any())
             {
@@ -317,12 +366,15 @@ namespace WebBanDT.Controllers
                     {
                         ProductID = cartItem.Product.ProductID,
                         Quantity = cartItem.Quantity,
-                        UnitPrice = cartItem.Product.ProductPrice,
+                        UnitPrice = cartItem.UnitPrice,       // ✅ không lấy lại từ Product
                         Product = cartItem.Product,
-                        AddedAt = DateTime.Now
+                        AddedAt = DateTime.Now,
+                        VersionID = cartItem.VersionID,       // ✅
+                        ColorID = cartItem.ColorID            // ✅
                     });
                 }
             }
+
 
             if (!cartMuaNgay.CartItems.Any())
             {

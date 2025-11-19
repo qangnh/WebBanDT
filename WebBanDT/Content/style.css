@@ -839,17 +839,52 @@ ul, li {
         color: #d70018;
     }
 
-.footer-top-media img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    margin-right: 10px;
-    transition: transform 0.3s ease;
+/* Phần icon mạng xã hội */
+.footer-top-media .social-links {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-    .footer-top-media img:hover {
-        transform: scale(1.1);
+    .footer-top-media .social-links a {
+        display: inline-block;
+        margin-top: 0;
     }
+
+    .footer-top-media .social-links img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+        .footer-top-media .social-links img:hover {
+            transform: scale(1.1);
+        }
+
+/* Phần phương thức thanh toán */
+.footer-top-media .payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+    .footer-top-media .payment-methods a {
+        display: inline-block;
+        margin-top: 0;
+    }
+
+    .footer-top-media .payment-methods img {
+        width: 50px;
+        height: 35px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+        .footer-top-media .payment-methods img:hover {
+            transform: scale(1.1);
+        }
 
 .footer-bottom {
     text-align: center;
@@ -890,3 +925,204 @@ ul, li {
         flex-direction: column;
     }
 }
+.brands-section {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.brands-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.brands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+}
+
+.brand-item {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+    .brand-item:hover {
+        border-color: #ff6600;
+        box-shadow: 0 2px 8px rgba(255, 102, 0, 0.15);
+        transform: translateY(-2px);
+    }
+
+    .brand-item.active {
+        border-color: #ff6600;
+        background-color: #fff5f0;
+        box-shadow: 0 2px 8px rgba(255, 102, 0, 0.2);
+    }
+
+    .brand-item img {
+        max-width: 80px;
+        max-height: 35px;
+        object-fit: contain;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .brand-item .brand-name {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #333;
+    }
+
+/* 🔹 FORM LỌC GIÁ + HÃNG */
+.filter-form {
+    background-color: #fff;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+    /* input số + select brand cùng style */
+    .filter-form input[type="number"],
+    .filter-form select.brand-select {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        min-width: 120px;
+        font-size: 14px;
+    }
+
+    /* nút Lọc */
+    .filter-form button {
+        padding: 8px 18px;
+        border-radius: 8px;
+        border: none;
+        background: #ff7700;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-form button:hover {
+            background-color: #e55a00;
+        }
+
+/* nút Xóa lọc / link */
+.clear-filter {
+    padding: 8px 18px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+    .clear-filter:hover {
+        background-color: #5a6268;
+        text-decoration: none;
+        color: white;
+    }
+
+/* Header danh mục */
+.category-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.category-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #ff6600;
+    text-transform: uppercase;
+}
+
+/* Thanh thông báo brand đang chọn */
+.active-brand-info {
+    background-color: #fff5f0;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ff6600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+    .active-brand-info span {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .active-brand-info strong {
+        color: #ff6600;
+        font-size: 16px;
+    }
+
+.product-count {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .brands-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+    }
+
+    .brand-item {
+        padding: 8px 4px;
+    }
+
+        .brand-item img {
+            max-width: 60px;
+            max-height: 28px;
+        }
+
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+        .filter-form input[type="number"],
+        .filter-form select.brand-select {
+            width: 100%;
+        }
+
+    .active-brand-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
+

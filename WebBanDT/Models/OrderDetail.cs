@@ -19,8 +19,12 @@ namespace WebBanDT.Models
         public int ProductID { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
+        public Nullable<int> VersionID { get; set; }
+        public Nullable<int> ColorID { get; set; }
     
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
+        public virtual ProductColor ProductColor { get; set; }
+        public virtual ProductVersion ProductVersion { get; set; }
     }
 }
