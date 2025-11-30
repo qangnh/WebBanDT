@@ -152,3 +152,20 @@ Xanh lá">@ViewBag.ColorInput</textarea>
         });
     </script>
 }
+<script>
+    $(document).ready(function () {
+        $("#CreatedAt").on("change", function () {
+            const selectedDate = new Date($(this).val());
+            const today = new Date();
+
+            // Xóa giờ phút giây để so đúng ngày
+            selectedDate.setHours(0, 0, 0, 0);
+            today.setHours(0, 0, 0, 0);
+
+            if (selectedDate > today) {
+                alert("Ngày tạo không được vượt quá ngày hiện tại.");
+                $(this).val(""); // reset giá trị
+            }
+        });
+    });
+</script>

@@ -5,25 +5,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - GOOD PHONE</title>
-
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/style.css" rel="stylesheet" />
     <link href="~/Content/productlist.css" rel="stylesheet" />
     <link href="~/Content/productdetail.css" rel="stylesheet" />
     <link href="~/Content/users.css" rel="stylesheet" />
-
-    <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
-
-    @RenderSection("styles", required: false)
+    <link href="~/Content/stylecart.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <!-- HEADER -->
     @Html.Partial("_Header")
 
     <!-- BODY -->
-    <main class="container mt-4">
-        @RenderBody()
-    </main>
+    @RenderBody()
 
     <!-- FOOTER -->
     @Html.Partial("_Footer")
@@ -33,19 +28,20 @@
         <i class="fa-solid fa-chevron-up"></i>
     </button>
 
+    <script src="https://kit.fontawesome.com/7cc90e9c3e.js" crossorigin="anonymous"></script>
     <script src="~/Scripts/jquery-3.6.0.min.js"></script>
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/js/phones.js"></script>
+    <script src="~/Scripts/cart.js"></script>
     <script>
         window.onscroll = function () {
             document.getElementById("upBtn").style.display =
                 document.documentElement.scrollTop > 200 ? "block" : "none";
         };
-
         function topFunction() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

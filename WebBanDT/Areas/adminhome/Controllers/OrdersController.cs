@@ -44,12 +44,19 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Order order = db.Orders.Find(id);
+            var order = db.Orders
+                          .Include(o => o.Customer)
+                          .Include(o => o.OrderDetails.Select(od => od.Product))
+                          .Include(o => o.OrderDetails.Select(od => od.ProductVersion))
+                          .Include(o => o.OrderDetails.Select(od => od.ProductColor))
+                          .FirstOrDefault(o => o.OrderID == id);
+
             if (order == null)
                 return HttpNotFound();
 
             return View(order);
         }
+
 
         // GET: AdminHome/Orders/Create
         public ActionResult Create()
@@ -85,28 +92,19 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Order order = db.Orders.Find(id);
-            if (order == null)
-                return HttpNotFound();
-
-            PopulateDropdowns(order);
-            return View(order);
+            TempData["ErrorMessage"] = "Đơn hàng không thể chỉnh sửa.";
+            return RedirectToAction("Details", new { id = id.Value });
         }
 
         // POST: AdminHome/Orders/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderID,CustomerID,OrderDate,TotalAmount,PaymentStatus,DeliveryAddress,OrderStatus")] Order order)
+        public ActionResult Edit(
+            [Bind(Include = "OrderID,CustomerID,OrderDate,TotalAmount,PaymentStatus,DeliveryAddress,OrderStatus")]
+    Order order)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            PopulateDropdowns(order);
-            return View(order);
+            TempData["ErrorMessage"] = "Đơn hàng không thể chỉnh sửa.";
+            return RedirectToAction("Details", new { id = order.OrderID });
         }
 
         // GET: AdminHome/Orders/Delete/5
@@ -115,11 +113,8 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Order order = db.Orders.Find(id);
-            if (order == null)
-                return HttpNotFound();
-
-            return View(order);
+            TempData["ErrorMessage"] = "Đơn hàng không thể xóa.";
+            return RedirectToAction("Details", new { id = id.Value });
         }
 
         // POST: AdminHome/Orders/Delete/5
@@ -127,10 +122,8 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.Orders.Find(id);
-            db.Orders.Remove(order);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            TempData["ErrorMessage"] = "Đơn hàng không thể xóa.";
+            return RedirectToAction("Details", new { id });
         }
 
         protected override void Dispose(bool disposing)
@@ -160,5 +153,26 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 new { Value = "Hủy", Text = "Hủy" }
             }, "Value", "Text", order?.OrderStatus);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateStatus(int id, string paymentStatus, string orderStatus)
+        {
+            var order = db.Orders.Find(id);
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Không tìm thấy đơn hàng cần cập nhật.";
+                return RedirectToAction("Index");
+            }
+
+            // (Có thể giới hạn các giá trị hợp lệ nếu muốn)
+            order.PaymentStatus = paymentStatus;
+            order.OrderStatus = orderStatus;
+
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Cập nhật trạng thái đơn hàng thành công.";
+            return RedirectToAction("Index");
+        }
+
     }
 }

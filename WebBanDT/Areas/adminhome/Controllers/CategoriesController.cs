@@ -17,7 +17,8 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         public ActionResult Index(string searchString, int? page)
         {
             var categories = db.Categories
-                               .Include(c => c.Brands)   // 👈 thêm dòng này
+                               .Include(c => c.Brands)
+                               .Include(c => c.Products) // 👈 thêm dòng này
                                .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
@@ -173,8 +174,13 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             var category = db.Categories.Find(id);
             if (category == null) return HttpNotFound();
 
+            // ✅ Kiểm tra danh mục đã được sử dụng chưa (ví dụ có sản phẩm)
+            bool hasProducts = db.Products.Any(p => p.CategoryID == category.CategoryID);
+            ViewBag.CanDelete = !hasProducts;   // true = xóa được, false = không cho xóa
+
             return View(category);
         }
+
 
         // POST: AdminHome/Categories/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -182,18 +188,32 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var category = db.Categories.Find(id);
-            if (category != null)
+            if (category == null)
             {
-                // (option) có thể xóa luôn brand thuộc category này nếu cần
-                var brands = db.Brands.Where(b => b.CategoryID == category.CategoryID);
-                db.Brands.RemoveRange(brands);
-
-                db.Categories.Remove(category);
-                db.SaveChanges();
+                TempData["ErrorMessage"] = "Danh mục không tồn tại.";
+                return RedirectToAction("Index");
             }
 
+            // ✅ Kiểm tra lại lần nữa trước khi xóa
+            bool hasProducts = db.Products.Any(p => p.CategoryID == category.CategoryID);
+            if (hasProducts)
+            {
+                TempData["ErrorMessage"] = "Danh mục này đang được sử dụng cho sản phẩm trên web, không thể xóa.";
+                return RedirectToAction("Index");
+            }
+
+            // Nếu muốn có thể xóa luôn brand con
+            var brands = db.Brands.Where(b => b.CategoryID == category.CategoryID);
+            db.Brands.RemoveRange(brands);
+
+            db.Categories.Remove(category);
+            db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Xóa danh mục thành công.";
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {

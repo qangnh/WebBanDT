@@ -37,8 +37,23 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
             db.Configuration.ProxyCreationEnabled = false;
 
+            // 🔹 TÍNH DANH SÁCH USER KHÔNG ĐƯỢC PHÉP XÓA
+            // Giả sử bảng Customer có cột UserID và Order có CustomerID (đúng với pattern bạn đang dùng)
+            var userCannotDelete = db.Orders
+                                     .Select(o => o.CustomerID)
+                                     .Distinct()
+                                     .Join(db.Customers,
+                                           orderCustomerId => orderCustomerId,
+                                           c => c.CustomerID,
+                                           (orderCustomerId, c) => c.UserID)
+                                     .Distinct()
+                                     .ToList();
+
+            ViewBag.UserCannotDelete = userCannotDelete;
+
             return View(users.ToPagedList(pageNumber, pageSize));
         }
+
 
         // GET: AdminHome/UserAccounts/Details/5
         public ActionResult Details(int? id)
@@ -137,12 +152,30 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             if (!id.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            UserAccount userAccount = db.UserAccounts.Find(id.Value);
+            var userAccount = db.UserAccounts.Find(id.Value);
             if (userAccount == null)
                 return HttpNotFound();
 
+            // Tìm customer liên kết với user này
+            var customers = db.Customers
+                              .Where(c => c.UserID == id.Value)
+                              .ToList();
+
+            bool hasOrders = false;
+            if (customers.Any())
+            {
+                var customerIds = customers.Select(c => c.CustomerID).ToList();
+                hasOrders = db.Orders.Any(o => customerIds.Contains(o.CustomerID));
+            }
+
+            // ❗ Không được xóa admin, hoặc user đang có đơn hàng
+            bool isAdmin = string.Equals(userAccount.UserRole, "Admin", StringComparison.OrdinalIgnoreCase);
+            ViewBag.CanDelete = !(hasOrders || isAdmin);
+
             return View(userAccount);
         }
+
+
 
         // POST: AdminHome/UserAccounts/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -153,29 +186,54 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             if (userAccount == null)
                 return HttpNotFound();
 
-            // 1️⃣ XÓA CART CỦA USER TRƯỚC
-            // Lưu ý: nếu DbSet tên khác (vd: db.Cart), sửa lại cho đúng với WebBanDTEntities của bạn
+            // ❗ Chặn xóa tài khoản Admin
+            if (string.Equals(userAccount.UserRole, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                TempData["ErrorMessage"] = "Không thể xóa tài khoản Admin.";
+                return RedirectToAction("Index");
+            }
+
+            // Tìm customer gắn với user này
+            var customers = db.Customers
+                              .Where(c => c.UserID == id)
+                              .ToList();
+
+            // Kiểm tra có đơn hàng không
+            bool hasOrders = false;
+            if (customers.Any())
+            {
+                var customerIds = customers.Select(c => c.CustomerID).ToList();
+                hasOrders = db.Orders.Any(o => customerIds.Contains(o.CustomerID));
+            }
+
+            if (hasOrders)
+            {
+                TempData["ErrorMessage"] = "Tài khoản này đang được sử dụng bởi khách hàng đã phát sinh đơn hàng, không thể xóa.";
+                return RedirectToAction("Index");
+            }
+
+            // 1️⃣ Xóa Cart
             var carts = db.Carts.Where(c => c.UserID == id).ToList();
             if (carts.Any())
             {
                 db.Carts.RemoveRange(carts);
             }
 
-            // 2️⃣ (TUỲ CHỌN) XÓA CUSTOMER LIÊN KẾT USER NÀY
-            var customers = db.Customers.Where(c => c.UserID == id).ToList();
+            // 2️⃣ Xóa Customers (chỉ khi chưa có đơn hàng)
             if (customers.Any())
             {
                 db.Customers.RemoveRange(customers);
             }
 
-            // 3️⃣ CUỐI CÙNG XÓA USER
+            // 3️⃣ Xóa User
             db.UserAccounts.Remove(userAccount);
-
             db.SaveChanges();
 
             TempData["SuccessMessage"] = "Xóa tài khoản thành công!";
             return RedirectToAction("Index");
         }
+
+
 
 
 
@@ -199,8 +257,6 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 return BitConverter.ToString(hash).Replace("-", "").ToLower();
             }
         }
-        // GET: AdminHome/UserAccounts/UserProfile/5
-        // GET: AdminHome/UserAccounts/UserProfile/5
       
     }
 }

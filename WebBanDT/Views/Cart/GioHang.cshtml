@@ -13,7 +13,7 @@
 <div class="cart-page">
     <div class="cart-header-wrap">
         <div class="cart-header">
-            <a class="back" href="@Url.Action("TrangChu","Home")">
+            <a class="back" href="@Url.Action("Index","customerhome")">
                 <i class="fa-solid fa-angle-left"></i>
                 Mua thêm sản phẩm khác
             </a>
@@ -43,6 +43,10 @@
     {
         <div class="wrap">
             <div class="cart-items-section">
+                <br />
+                <a href="@Url.Action("Index","customerhome")" class="btn-back-arrow" title="Quay lại trang chủ">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
                 <!-- FORM MUA SẢN PHẨM ĐÃ CHỌN -->
                 <form id="buySelectedForm" action="@Url.Action("BuySelected", "Cart")" method="post">
                     <input type="hidden" name="selectedItems" id="selectedItemsInput" />

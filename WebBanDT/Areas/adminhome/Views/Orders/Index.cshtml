@@ -8,16 +8,30 @@
 
 <h2>Danh sách đơn hàng</h2>
 
+<!-- Thông báo -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <!-- Form tìm kiếm -->
 @using (Html.BeginForm("Index", "Orders", FormMethod.Get, new { @class = "d-flex mb-3" }))
 {
-    <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control me-2" placeholder="🔍 Nhập mã đơn hoặc tên khách..." />
+    <input type="text"
+           name="searchString"
+           value="@ViewBag.SearchString"
+           class="form-control me-2"
+           placeholder="🔍 Nhập mã đơn hoặc tên khách..." />
     <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
 }
-
-<p>
-    @Html.ActionLink("Tạo đơn hàng mới", "Create", null, new { @class = "btn btn-primary mb-3" })
-</p>
 
 <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark text-center">
@@ -28,6 +42,7 @@
             <th>Địa chỉ giao hàng</th>
             <th>Trạng thái đơn hàng</th>
             <th>Tên khách hàng</th>
+            <th>Cập nhật trạng thái</th>
             <th>Thao tác</th>
         </tr>
     </thead>
@@ -38,18 +53,74 @@
             {
                 <tr>
                     <td class="text-center">
-                        @(item.OrderDate.HasValue ? item.OrderDate.Value.ToString("dd/MM/yyyy") : "Chưa có")
+                        @(item.OrderDate.HasValue
+                            ? item.OrderDate.Value.ToString("dd/MM/yyyy")
+                            : "Chưa có")
                     </td>
-                    <td class="text-end">@String.Format("{0:N0} đ", item.TotalAmount)</td>
-                    <td class="text-center">@Html.DisplayFor(modelItem => item.PaymentStatus)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DeliveryAddress)</td>
-                    <td class="text-center">@Html.DisplayFor(modelItem => item.OrderStatus)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Customer.CustomerName)</td>
+
+                    <td class="text-end">
+                        @String.Format("{0:N0} đ", item.TotalAmount)
+                    </td>
+
+                    <td class="text-center">
+                        @item.PaymentStatus
+                    </td>
+
+                    <td>@item.DeliveryAddress</td>
+
+                    <td class="text-center">
+                        @item.OrderStatus
+                    </td>
+
+                    <td>@item.Customer.CustomerName</td>
+
+                    <!-- Form cập nhật trạng thái -->
+                    <td>
+                        @using (Html.BeginForm("UpdateStatus", "Orders", FormMethod.Post,
+                                               new { @class = "d-flex flex-column gap-1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", item.OrderID)
+
+                            <select name="paymentStatus" class="form-select form-select-sm mb-1">
+                                <option value="Chưa thanh toán"
+                                        @(item.PaymentStatus == "Chưa thanh toán" ? "selected=\"selected\"" : "")>
+                                    Chưa thanh toán
+                                </option>
+                                <option value="Đã thanh toán"
+                                        @(item.PaymentStatus == "Đã thanh toán" ? "selected=\"selected\"" : "")>
+                                    Đã thanh toán
+                                </option>
+                            </select>
+
+                            <select name="orderStatus" class="form-select form-select-sm mb-1">
+                                <option value="Đang xử lý"
+                                        @(item.OrderStatus == "Đang xử lý" ? "selected=\"selected\"" : "")>
+                                    Đang xử lý
+                                </option>
+                                <option value="Đã giao"
+                                        @(item.OrderStatus == "Đã giao" ? "selected=\"selected\"" : "")>
+                                    Đã giao
+                                </option>
+                                <option value="Hủy"
+                                        @(item.OrderStatus == "Hủy" ? "selected=\"selected\"" : "")>
+                                    Hủy
+                                </option>
+                            </select>
+
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                Lưu
+                            </button>
+                        }
+                    </td>
+
+                    <!-- Thao tác -->
                     <td class="text-center">
                         <div class="btn-group" role="group">
-                            @Html.ActionLink("Sửa", "Edit", new { id = item.OrderID }, new { @class = "btn btn-sm btn-warning me-1" })
-                            @Html.ActionLink("Chi tiết", "Details", new { id = item.OrderID }, new { @class = "btn btn-sm btn-info me-1" })
-                            @Html.ActionLink("Xóa", "Delete", new { id = item.OrderID }, new { @class = "btn btn-sm btn-danger", onclick = "return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?');" })
+                            @* Edit/Delete đã bị chặn trong controller, nên chỉ để Chi tiết *@
+                            @Html.ActionLink("Chi tiết", "Details",
+                                new { id = item.OrderID },
+                                new { @class = "btn btn-sm btn-info text-white" })
                         </div>
                     </td>
                 </tr>
@@ -58,7 +129,7 @@
         else
         {
             <tr>
-                <td colspan="7" class="text-center text-muted py-4">
+                <td colspan="8" class="text-center text-muted py-4">
                     <i class="fa fa-circle-exclamation"></i> Không có đơn hàng nào để hiển thị.
                 </td>
             </tr>
@@ -80,7 +151,6 @@
             MaximumPageNumbersToDisplay = 5,
             UlElementClasses = new[] { "pagination", "justify-content-center" },
             LiElementClasses = new[] { "page-item" },
-            ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
             DisplayEllipsesWhenNotShowingAllPageNumbers = true,
             LinkToPreviousPageFormat = "«",
             LinkToNextPageFormat = "»",

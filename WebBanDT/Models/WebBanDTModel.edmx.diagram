@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e43dfe6b70c2472dbf4f0fbcf3d12551" Name="Diagram1" ZoomLevel="63">
+      <Diagram DiagramId="e43dfe6b70c2472dbf4f0fbcf3d12551" Name="Diagram1" ZoomLevel="62">
         <EntityTypeShape EntityType="WebBanDTModel.Cart" Width="1.5" PointX="3.625" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanDTModel.CartItem" Width="1.5" PointX="6.25" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="WebBanDTModel.Category" Width="1.5" PointX="8.875" PointY="9.25" IsExpanded="true" />
@@ -23,7 +23,7 @@
         <AssociationConnector Association="WebBanDTModel.FK_OrderDetail_Product" ManuallyRouted="false" />
         <AssociationConnector Association="WebBanDTModel.FK_Customer_UserAccount" />
         <EntityTypeShape EntityType="WebBanDTModel.ProductColor" Width="1.5" PointX="11.75" PointY="1.75" />
-        <EntityTypeShape EntityType="WebBanDTModel.ProductVersion" Width="1.5" PointX="16.625" PointY="5.875" />
+        <EntityTypeShape EntityType="WebBanDTModel.ProductVersion" Width="1.5" PointX="16.625" PointY="4.25" />
         <AssociationConnector Association="WebBanDTModel.FK__ProductCo__Produ__3F115E1A" />
         <AssociationConnector Association="WebBanDTModel.FK__ProductVe__Produ__3C34F16F" />
         <AssociationConnector Association="WebBanDTModel.FK_CartItem_ProductColor" />

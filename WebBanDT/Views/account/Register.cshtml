@@ -1,10 +1,13 @@
-﻿@{ ViewBag.Title = "Đăng ký"; Layout = "~/Views/Shared/_LayoutLogin.cshtml"; }
+﻿@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
 
 <div class="wrapper">
     <div class="form-box register">
         <h2>Tạo tài khoản</h2>
 
-        <!-- Hiển thị lỗi nếu có -->
+        <!-- Hiển thị lỗi server-side nếu có -->
         @if (!ViewData.ModelState.IsValid)
         {
             <div class="alert alert-danger" style="margin-bottom:10px; border-radius:8px; padding:10px;">
@@ -15,7 +18,13 @@
             </div>
         }
 
-        <form method="post" action="/Account/Register">
+        <!-- Hộp lỗi client-side -->
+        <div id="clientErrorBox"
+             class="alert alert-danger"
+             style="display:none; margin-bottom:10px; border-radius:8px; padding:10px;">
+        </div>
+
+        <form method="post" action="/Account/Register" id="registerForm">
             @Html.AntiForgeryToken()
 
             <div class="input-box">
@@ -26,7 +35,7 @@
 
             <div class="input-box">
                 <span class="icon"><ion-icon name="call"></ion-icon></span>
-                <input type="text" name="Phone" required>
+                <input type="text" name="Phone" id="Phone" required>
                 <label>Số điện thoại</label>
             </div>
 
@@ -38,7 +47,7 @@
 
             <div class="input-box">
                 <span class="icon"><ion-icon name="mail"></ion-icon></span>
-                <input type="email" name="Email" required>
+                <input type="email" name="Email" id="Email" required>
                 <label>Email</label>
             </div>
 

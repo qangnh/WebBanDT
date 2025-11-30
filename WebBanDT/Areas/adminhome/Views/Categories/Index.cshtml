@@ -57,16 +57,31 @@
                                    class="btn btn-warning btn-sm me-1">
                                     <i class="fa fa-edit"></i> Sửa
                                 </a>
+
                                 <a href="@Url.Action("Details", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
                                    class="btn btn-info btn-sm me-1 text-white">
-                                    <i class="fa fa-eye"></i> Xem chi tiết
+                                    <i class="fa fa-eye"></i> Chi tiết
                                 </a>
-                                <a href="@Url.Action("Delete", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
-                                    <i class="fa fa-trash"></i> Xóa
-                                </a>
+
+                                @if (item.Products != null && item.Products.Any())
+                                {
+                                    <!-- ❌ Không thể xóa vì đang được sử dụng -->
+                                    <button class="btn btn-secondary btn-sm" disabled
+                                            title="Danh mục này đang có sản phẩm, không thể xóa">
+                                        <i class="fa fa-ban"></i> Không thể xóa
+                                    </button>
+                                }
+                                else
+                                {
+                                    <!-- ✔️ Cho phép xóa -->
+                                    <a href="@Url.Action("Delete", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
+                                        <i class="fa fa-trash"></i> Xóa
+                                    </a>
+                                }
                             </td>
+
                         </tr>
                     }
                 </tbody>

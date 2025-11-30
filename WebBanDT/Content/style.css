@@ -94,11 +94,6 @@ ul, li {
     display: inline-block;
 }
 
-.header-taskbar-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
 .header-taskbar-dropdown-button {
     display: inline-flex;
     align-items: center;
@@ -140,7 +135,7 @@ ul, li {
     top: 100%;
     left: 0;
     font-size: 16px;
-    display: none; /* Hidden by default, toggle with JS */
+    display: none;
     background-color: #ffffff;
     min-width: 200px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
@@ -149,37 +144,40 @@ ul, li {
     margin-top: 8px;
 }
 
-/* Remove hover effect - only JS toggle now */
-/* .header-taskbar-dropdown:hover .header-taskbar-dropdown-list - REMOVED */
-
 .header-taskbar-dropdown-list-ul {
+    list-style: none;
     padding: 8px 0;
+    margin: 0;
 }
 
 .header-taskbar-dropdown-list li {
     padding: 12px 15px;
     transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
 }
 
     .header-taskbar-dropdown-list li:hover {
         background-color: #f5f5f5;
     }
 
+    .header-taskbar-dropdown-list li i,
+    .header-taskbar-dropdown-list li img {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
 .header-taskbar-dropdown-list-ul a {
     color: #0b0b0b;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: inline;
+    flex: 1;
 }
 
-.header-taskbar-dropdown-list li > a:hover {
+.header-taskbar-dropdown-list li:hover a {
     color: #d70018;
-}
-
-.header-taskbar-dropdown-list img {
-    width: 18px;
-    height: 18px;
 }
 
 /* ========== LOCATION ========== */

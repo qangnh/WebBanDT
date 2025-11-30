@@ -7,14 +7,44 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div class="alert alert-danger">
-    Bạn có chắc muốn xóa khách hàng <strong>@Model.CustomerName</strong> không?
-</div>
+<dl class="dl-horizontal">
+    <dt>Tên khách hàng:</dt>
+    <dd>@Model.CustomerName</dd>
 
-@using (Html.BeginForm())
+    <dt>Email:</dt>
+    <dd>@Model.CustomerEmail</dd>
+
+    <dt>SĐT:</dt>
+    <dd>@Model.CustomerPhone</dd>
+</dl>
+
+<hr />
+
+@if (ViewBag.CanDelete == false)
 {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.CustomerID)
-    <input type="submit" value="Xóa" class="btn btn-danger" />
-    @Html.ActionLink("Hủy", "Index", "Customers", new { area = "AdminHome" }, new { @class = "btn btn-secondary" })
+    <div class="alert alert-warning">
+        <strong>Không thể xóa!</strong> Khách hàng này đã có đơn hàng.
+    </div>
+
+    @Html.ActionLink("Quay lại", "Index", "Customers",
+        new { area = "AdminHome" },
+        new { @class = "btn btn-secondary" })
 }
+else
+{
+    <div class="alert alert-danger">
+        Bạn có chắc muốn xóa khách hàng <strong>@Model.CustomerName</strong> không?
+    </div>
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.CustomerID)
+
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        @Html.ActionLink("Hủy", "Index", "Customers",
+            new { area = "AdminHome" },
+            new { @class = "btn btn-secondary" })
+    }
+}
+

@@ -29,15 +29,19 @@ namespace WebBanDT.Controllers
             if (cart == null)
             {
                 ViewBag.Message = "Giỏ hàng của bạn hiện đang trống.";
+                ViewBag.CartCount = 0; // ⭐ Thêm dòng này
                 return View(new List<CartItem>());
             }
 
             var cartItems = db.CartItems
                               .Include(ci => ci.Product)
-                              .Include(ci => ci.ProductVersion)  // 🔥 thêm
-                              .Include(ci => ci.ProductColor)    // 🔥 thêm
+                              .Include(ci => ci.ProductVersion)
+                              .Include(ci => ci.ProductColor)
                               .Where(ci => ci.CartID == cart.CartID)
                               .ToList();
+
+            // ⭐ CẬP NHẬT SỐ LƯỢNG GIỎ HÀNG
+            ViewBag.CartCount = cartItems.Sum(c => c.Quantity);
 
             return View(cartItems);
         }
@@ -512,6 +516,101 @@ namespace WebBanDT.Controllers
             }
 
             return RedirectToAction("GioHang");
+        }
+        // ➕ Thêm sản phẩm vào giỏ (AJAX)
+        [HttpPost]
+        public JsonResult AddToCartAjax(int productId, int quantity = 1, int? versionId = null, int? colorId = null)
+        {
+            try
+            {
+                if (Session["UserID"] == null)
+                {
+                    return Json(new { success = false, message = "Bạn cần đăng nhập để thêm sản phẩm!" });
+                }
+
+                int userId = Convert.ToInt32(Session["UserID"]);
+
+                var product = db.Products.Find(productId);
+                if (product == null || (product.IsActive.HasValue && !product.IsActive.Value))
+                {
+                    return Json(new { success = false, message = "Sản phẩm không tồn tại hoặc đã bị vô hiệu." });
+                }
+
+                // Tính giá theo phiên bản
+                decimal unitPrice = product.ProductPrice;
+                if (versionId.HasValue)
+                {
+                    var ver = db.ProductVersions.FirstOrDefault(v => v.VersionID == versionId.Value && v.ProductID == productId);
+                    if (ver != null && ver.VersionPrice.HasValue)
+                    {
+                        unitPrice = ver.VersionPrice.Value;
+                    }
+                }
+
+                // Lấy / tạo giỏ
+                var cart = db.Carts.FirstOrDefault(c =>
+                    c.UserID.HasValue && c.UserID.Value == userId &&
+                    (c.IsCheckedOut == false || c.IsCheckedOut == null));
+
+                if (cart == null)
+                {
+                    cart = new Cart
+                    {
+                        UserID = userId,
+                        CreatedAt = DateTime.Now,
+                        IsCheckedOut = false
+                    };
+                    db.Carts.Add(cart);
+                    db.SaveChanges();
+                }
+
+                // Ghép theo: product + version + color
+                var cartItem = db.CartItems.FirstOrDefault(ci =>
+                    ci.CartID == cart.CartID &&
+                    ci.ProductID == productId &&
+                    ci.VersionID == versionId &&
+                    ci.ColorID == colorId
+                );
+
+                if (cartItem == null)
+                {
+                    cartItem = new CartItem
+                    {
+                        CartID = cart.CartID,
+                        ProductID = productId,
+                        Quantity = quantity,
+                        UnitPrice = unitPrice,
+                        AddedAt = DateTime.Now,
+                        VersionID = versionId,
+                        ColorID = colorId
+                    };
+                    db.CartItems.Add(cartItem);
+                }
+                else
+                {
+                    cartItem.Quantity += quantity;
+                    cartItem.AddedAt = DateTime.Now;
+                    cartItem.UnitPrice = unitPrice;
+                }
+
+                db.SaveChanges();
+
+                // Tính tổng số lượng trong giỏ
+                int totalQuantity = db.CartItems
+                    .Where(ci => ci.CartID == cart.CartID)
+                    .Sum(ci => ci.Quantity);
+
+                return Json(new
+                {
+                    success = true,
+                    message = $"Đã thêm \"{product.ProductName}\" vào giỏ hàng!",
+                    cartCount = totalQuantity
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Có lỗi xảy ra: " + ex.Message });
+            }
         }
 
         protected override void Dispose(bool disposing)

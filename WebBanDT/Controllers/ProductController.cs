@@ -53,6 +53,20 @@ namespace WebBanDT.Controllers
                     return HttpNotFound();
                 }
 
+                // ⭐ TÍNH TỔNG SỐ LƯỢNG TRONG GIỎ HÀNG ĐỂ HIỂN THỊ LÊN HEADER
+                int cartCount = 0;
+                if (Session["UserID"] != null)
+                {
+                    int userId = Convert.ToInt32(Session["UserID"]);
+
+                    cartCount = db.CartItems
+                                  .Where(ci => ci.Cart.UserID == userId &&
+                                               (ci.Cart.IsCheckedOut == false || ci.Cart.IsCheckedOut == null))
+                                  .Sum(ci => (int?)ci.Quantity) ?? 0;
+                }
+
+                ViewBag.CartCount = cartCount;
+
                 return View(product);
             }
         }

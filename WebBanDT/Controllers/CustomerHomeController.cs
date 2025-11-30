@@ -124,16 +124,20 @@ namespace WebBanDT.Controllers
                     .ToList()
             };
 
-            // --- Tính cartCount ---
+            // --- TÍNH cartCount: TỔNG SỐ LƯỢNG SẢN PHẨM TRONG GIỎ ---
             int cartCount = 0;
             if (Session["UserID"] != null)
             {
                 int userId = Convert.ToInt32(Session["UserID"]);
+
                 cartCount = db.CartItems
-                              .Count(ci => ci.Cart.UserID == userId && (ci.Cart.IsCheckedOut == false || ci.Cart.IsCheckedOut == null));
+                              .Where(ci => ci.Cart.UserID == userId &&
+                                           (ci.Cart.IsCheckedOut == false || ci.Cart.IsCheckedOut == null))
+                              .Sum(ci => (int?)ci.Quantity) ?? 0;
             }
-            // Đưa sang ViewBag
+
             ViewBag.CartCount = cartCount;
+
             return View(vm);
         }
 

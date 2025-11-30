@@ -37,6 +37,13 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
+            // Danh sách CustomerID đã có đơn hàng
+            var customerHasOrders = db.Orders
+                                      .Select(o => o.CustomerID)
+                                      .Distinct()
+                                      .ToList();
+            ViewBag.CustomerHasOrders = customerHasOrders;
+
             return View(customers.ToPagedList(pageNumber, pageSize));
         }
 
@@ -45,7 +52,9 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         {
             if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var customer = db.Customers.Find(id);
+            var customer = db.Customers
+                             .Include(c => c.UserAccount)
+                             .FirstOrDefault(c => c.CustomerID == id);
             if (customer == null) return HttpNotFound();
 
             return View(customer);
@@ -61,7 +70,9 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         // POST: AdminHome/Customers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,CreatedAt")] Customer customer)
+        public ActionResult Create(
+            [Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,CreatedAt")]
+            Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +85,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                     var newUser = new UserAccount
                     {
                         Username = customer.Username,
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"), // Mật khẩu mặc định, có thể thay đổi
+                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("123456"), // Mật khẩu mặc định
                         UserRole = "Customer",
                         Email = customer.CustomerEmail,
                         CreatedAt = DateTime.Now
@@ -90,6 +101,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 db.Customers.Add(customer);
                 db.SaveChanges();
 
+                TempData["SuccessMessage"] = "Thêm khách hàng thành công.";
                 return RedirectToAction("Index");
             }
 
@@ -112,12 +124,15 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         // POST: AdminHome/Customers/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,CreatedAt")] Customer customer)
+        public ActionResult Edit(
+            [Bind(Include = "CustomerID,CustomerName,CustomerPhone,CustomerEmail,CustomerAddress,Username,CreatedAt")]
+            Customer customer)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "Cập nhật thông tin khách hàng thành công.";
                 return RedirectToAction("Index");
             }
             PopulateUserDropdown(customer.Username);
@@ -132,6 +147,10 @@ namespace WebBanDT.Areas.AdminHome.Controllers
             var customer = db.Customers.Find(id);
             if (customer == null) return HttpNotFound();
 
+            // Kiểm tra xem khách hàng này đã có đơn hàng chưa
+            bool hasOrders = db.Orders.Any(o => o.CustomerID == id);
+            ViewBag.CanDelete = !hasOrders;
+
             return View(customer);
         }
 
@@ -141,8 +160,34 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                TempData["ErrorMessage"] = "Khách hàng không tồn tại.";
+                return RedirectToAction("Index");
+            }
+
+            // Nếu khách hàng đã có đơn hàng thì không cho xóa
+            bool hasOrders = db.Orders.Any(o => o.CustomerID == id);
+            if (hasOrders)
+            {
+                TempData["ErrorMessage"] = "Khách hàng này đã có đơn hàng, không thể xóa.";
+                return RedirectToAction("Index");
+            }
+
+            // Xóa luôn UserAccount liên quan (nếu muốn)
+            if (!string.IsNullOrEmpty(customer.Username))
+            {
+                var user = db.UserAccounts.FirstOrDefault(u => u.Username == customer.Username);
+                if (user != null)
+                {
+                    db.UserAccounts.Remove(user);
+                }
+            }
+
             db.Customers.Remove(customer);
             db.SaveChanges();
+
+            TempData["SuccessMessage"] = "Xóa khách hàng thành công.";
             return RedirectToAction("Index");
         }
 
@@ -154,7 +199,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                           {
                               Value = u.Username,
                               Text = u.Username,
-                              Selected = u.Username == selectedUsername
+                              Selected = (u.Username == selectedUsername)
                           }).ToList();
 
             ViewBag.UserList = users;

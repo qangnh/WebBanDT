@@ -11,6 +11,24 @@ namespace WebBanDT.Controllers
     {
         private WebBanDTEntities db = new WebBanDTEntities();
 
+        // ✅ HÀM DÙNG CHUNG: TÍNH TỔNG SỐ LƯỢNG TRONG GIỎ HÀNG VÀ ĐỔ VÀO ViewBag.CartCount
+        private void SetCartCount()
+        {
+            int cartCount = 0;
+
+            if (Session["UserID"] != null)
+            {
+                int userId = Convert.ToInt32(Session["UserID"]);
+
+                cartCount = db.CartItems
+                              .Where(ci => ci.Cart.UserID == userId &&
+                                           (ci.Cart.IsCheckedOut == false || ci.Cart.IsCheckedOut == null))
+                              .Sum(ci => (int?)ci.Quantity) ?? 0;
+            }
+
+            ViewBag.CartCount = cartCount;
+        }
+
         // 🔹 Hàm dùng chung để lấy sản phẩm theo danh mục + thương hiệu + giá
         private List<ProductVM> GetProductsByCategory(
             string categoryName,
@@ -91,6 +109,7 @@ namespace WebBanDT.Controllers
         // 🔹 Điện thoại
         public ActionResult Phones(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐ THÊM DÒNG NÀY
             var products = GetProductsByCategory("Điện thoại", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Điện thoại");
             return View(products);
@@ -99,6 +118,7 @@ namespace WebBanDT.Controllers
         // 🔹 Laptop
         public ActionResult Laptop(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐
             var products = GetProductsByCategory("Laptop", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Laptop");
             return View(products);
@@ -107,6 +127,7 @@ namespace WebBanDT.Controllers
         // 🔹 Màn hình
         public ActionResult Screen(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐
             var products = GetProductsByCategory("Màn hình", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Màn hình");
             return View(products);
@@ -115,6 +136,7 @@ namespace WebBanDT.Controllers
         // 🔹 Tablet
         public ActionResult Tablet(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐
             var products = GetProductsByCategory("Tablet", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Tablet");
             return View(products);
@@ -123,6 +145,7 @@ namespace WebBanDT.Controllers
         // 🔹 Âm thanh
         public ActionResult Sound(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐
             var products = GetProductsByCategory("Âm thanh", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Âm thanh");
             return View(products);
@@ -131,18 +154,19 @@ namespace WebBanDT.Controllers
         // 🔹 Đồng hồ
         public ActionResult Watch(string keyword, decimal? minPrice, decimal? maxPrice, int? brandId)
         {
+            SetCartCount();                             // ⭐
             var products = GetProductsByCategory("Đồng hồ", keyword, minPrice, maxPrice, brandId);
             LoadCategoryInfoToViewBag("Đồng hồ");
             return View(products);
         }
 
-        // 🔹 Tất cả sản phẩm (không lọc theo category, bạn có thể thêm brandId nếu thích)
+        // 🔹 Tất cả sản phẩm (không lọc theo category)
         public ActionResult FullProduct(string keyword, decimal? minPrice, decimal? maxPrice)
         {
-            // Lấy tất cả sản phẩm đang active, không lọc theo category
+            SetCartCount();                             // ⭐
+
             var query = db.Products.Where(p => p.IsActive == true);
 
-            // Tìm kiếm theo từ khóa
             if (!string.IsNullOrEmpty(keyword))
             {
                 string lowerKeyword = keyword.ToLower();
@@ -152,19 +176,16 @@ namespace WebBanDT.Controllers
                 );
             }
 
-            // Lọc theo giá tối thiểu
             if (minPrice.HasValue)
             {
                 query = query.Where(p => p.ProductPrice >= minPrice.Value);
             }
 
-            // Lọc theo giá tối đa
             if (maxPrice.HasValue)
             {
                 query = query.Where(p => p.ProductPrice <= maxPrice.Value);
             }
 
-            // Lấy danh sách sản phẩm và sắp xếp
             var products = query
                 .OrderByDescending(p => p.CreatedAt)
                 .Select(p => new ProductVM
@@ -187,6 +208,8 @@ namespace WebBanDT.Controllers
         // 🔹 Tìm kiếm tất cả sản phẩm
         public ActionResult SearchAll(string keyword, decimal? minPrice, decimal? maxPrice)
         {
+            SetCartCount();                             // ⭐
+
             if (string.IsNullOrWhiteSpace(keyword))
             {
                 return RedirectToAction("Index", "CustomerHome");

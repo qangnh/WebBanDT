@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using WebBanDT.Models;
 using PagedList;
@@ -18,7 +17,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         {
             var products = db.Products
                              .Include(p => p.Category)
-                             .Include(p => p.Brand)             // 👈 thêm Brand
+                             .Include(p => p.Brand)
                              .Include(p => p.ProductVersions)
                              .Include(p => p.ProductColors)
                              .AsQueryable();
@@ -29,6 +28,13 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 products = products.Where(p => p.ProductName.ToLower().Contains(keyword));
                 ViewBag.SearchString = searchString;
             }
+
+            // Lấy danh sách ProductID đã có trong OrderDetail (đã từng được mua)
+            var purchasedProductIds = db.OrderDetails
+                                        .Select(od => od.ProductID)
+                                        .Distinct()
+                                        .ToList();
+            ViewBag.PurchasedProductIds = purchasedProductIds;
 
             products = products.OrderByDescending(p => p.CreatedAt);
 
@@ -46,7 +52,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
             var product = db.Products
                             .Include(p => p.Category)
-                            .Include(p => p.Brand)             // 👈 thêm Brand
+                            .Include(p => p.Brand)
                             .Include(p => p.ProductColors)
                             .Include(p => p.ProductVersions)
                             .FirstOrDefault(p => p.ProductID == id);
@@ -67,21 +73,26 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         }
 
         // POST: AdminHome/Products/Create
+        // POST: AdminHome/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
             [Bind(Include = "ProductID,CategoryID,BrandID,ProductName,ProductDescription,ProductPrice,StockQuantity,ProductImage,CreatedAt,IsActive")]
-            Product product,
+    Product product,
             string ColorInput,
             string VersionInput
         )
         {
+            // ==== VALIDATE CreatedAt không được lớn hơn ngày hiện tại ====
+            if (product.CreatedAt.HasValue && product.CreatedAt.Value.Date > DateTime.Now.Date)
+            {
+                ModelState.AddModelError("CreatedAt", "Ngày tạo không thể lớn hơn ngày hiện tại.");
+            }
+
             if (ModelState.IsValid)
             {
                 if (!product.CreatedAt.HasValue)
-                {
                     product.CreatedAt = DateTime.Now;
-                }
 
                 db.Products.Add(product);
                 db.SaveChanges(); // ProductID đã có
@@ -89,8 +100,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 // ================== LƯU MÀU SẮC ==================
                 if (!string.IsNullOrWhiteSpace(ColorInput))
                 {
-                    var colorLines = ColorInput
-                        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    var colorLines = ColorInput.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var line in colorLines)
                     {
@@ -104,9 +114,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                         colorName = parts[0].Trim();
 
                         if (parts.Length > 1)
-                        {
                             colorImage = parts[1].Trim();
-                        }
 
                         if (!string.IsNullOrEmpty(colorName) && colorName.Length > 50)
                             colorName = colorName.Substring(0, 50);
@@ -116,13 +124,12 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
                         if (!string.IsNullOrEmpty(colorName))
                         {
-                            var color = new ProductColor
+                            db.ProductColors.Add(new ProductColor
                             {
                                 ProductID = product.ProductID,
                                 ColorName = colorName,
                                 ColorImage = colorImage
-                            };
-                            db.ProductColors.Add(color);
+                            });
                         }
                     }
                 }
@@ -130,8 +137,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 // ================== LƯU PHIÊN BẢN ==================
                 if (!string.IsNullOrWhiteSpace(VersionInput))
                 {
-                    var versionLines = VersionInput
-                        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    var versionLines = VersionInput.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var line in versionLines)
                     {
@@ -144,29 +150,19 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                         var parts = raw.Split('|');
                         versionName = parts[0].Trim();
 
-                        if (parts.Length > 1)
-                        {
-                            decimal parsedPrice;
-                            if (decimal.TryParse(parts[1].Trim(), out parsedPrice))
-                            {
-                                versionPrice = parsedPrice;
-                            }
-                        }
+                        if (parts.Length > 1 && decimal.TryParse(parts[1].Trim(), out decimal parsedPrice))
+                            versionPrice = parsedPrice;
 
-                        if (!string.IsNullOrEmpty(versionName))
+                        db.ProductVersions.Add(new ProductVersion
                         {
-                            var ver = new ProductVersion
-                            {
-                                ProductID = product.ProductID,
-                                VersionName = versionName,
-                                VersionPrice = versionPrice
-                            };
-                            db.ProductVersions.Add(ver);
-                        }
+                            ProductID = product.ProductID,
+                            VersionName = versionName,
+                            VersionPrice = versionPrice
+                        });
                     }
                 }
 
-                db.SaveChanges(); // lưu color + version
+                db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
@@ -183,6 +179,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
             return View(product);
         }
+
 
         // GET: AdminHome/Products/Edit/5
         public ActionResult Edit(int? id)
@@ -232,11 +229,17 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(
             [Bind(Include = "ProductID,CategoryID,BrandID,ProductName,ProductDescription,ProductPrice,StockQuantity,ProductImage,CreatedAt,IsActive")]
-            Product product,
+    Product product,
             string VersionInput,
             string ColorInput
         )
         {
+            // ==== VALIDATE CreatedAt không được lớn hơn ngày hiện tại ====
+            if (product.CreatedAt.HasValue && product.CreatedAt.Value.Date > DateTime.Now.Date)
+            {
+                ModelState.AddModelError("CreatedAt", "Ngày tạo không thể lớn hơn ngày hiện tại.");
+            }
+
             if (ModelState.IsValid)
             {
                 var existing = db.Products
@@ -263,27 +266,20 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
                 if (!string.IsNullOrWhiteSpace(VersionInput))
                 {
-                    var versionLines = VersionInput
-                        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    var versionLines = VersionInput.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var line in versionLines)
                     {
                         var raw = line.Trim();
                         if (string.IsNullOrEmpty(raw)) continue;
 
-                        string versionName;
+                        string versionName = raw.Split('|')[0].Trim();
                         decimal? versionPrice = null;
 
-                        var parts = raw.Split('|');
-                        versionName = parts[0].Trim();
-
-                        if (parts.Length > 1)
+                        if (raw.Split('|').Length > 1 &&
+                            decimal.TryParse(raw.Split('|')[1].Trim(), out decimal parsedPrice))
                         {
-                            decimal parsedPrice;
-                            if (decimal.TryParse(parts[1].Trim(), out parsedPrice))
-                            {
-                                versionPrice = parsedPrice;
-                            }
+                            versionPrice = parsedPrice;
                         }
 
                         db.ProductVersions.Add(new ProductVersion
@@ -300,24 +296,15 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
                 if (!string.IsNullOrWhiteSpace(ColorInput))
                 {
-                    var colorLines = ColorInput
-                        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    var colorLines = ColorInput.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var line in colorLines)
                     {
                         var raw = line.Trim();
                         if (string.IsNullOrEmpty(raw)) continue;
 
-                        string colorName;
-                        string colorImage = null;
-
-                        var parts = raw.Split('|');
-                        colorName = parts[0].Trim();
-
-                        if (parts.Length > 1)
-                        {
-                            colorImage = parts[1].Trim();
-                        }
+                        string colorName = raw.Split('|')[0].Trim();
+                        string colorImage = raw.Split('|').Length > 1 ? raw.Split('|')[1].Trim() : null;
 
                         if (!string.IsNullOrEmpty(colorName) && colorName.Length > 50)
                             colorName = colorName.Substring(0, 50);
@@ -325,15 +312,12 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                         if (!string.IsNullOrEmpty(colorImage) && colorImage.Length > 200)
                             colorImage = colorImage.Substring(0, 200);
 
-                        if (!string.IsNullOrEmpty(colorName))
+                        db.ProductColors.Add(new ProductColor
                         {
-                            db.ProductColors.Add(new ProductColor
-                            {
-                                ProductID = existing.ProductID,
-                                ColorName = colorName,
-                                ColorImage = colorImage
-                            });
-                        }
+                            ProductID = existing.ProductID,
+                            ColorName = colorName,
+                            ColorImage = colorImage
+                        });
                     }
                 }
 
@@ -341,7 +325,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 return RedirectToAction("Index");
             }
 
-            // ModelState lỗi → load lại dropdown
+            // Nếu lỗi → load lại dropdown
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "CategoryName", product.CategoryID);
 
             var brandsReload = db.Brands
@@ -352,6 +336,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
 
             return View(product);
         }
+
 
         // GET: AdminHome/Products/Delete/5
         public ActionResult Delete(int? id)
@@ -375,6 +360,16 @@ namespace WebBanDT.Areas.AdminHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Kiểm tra xem sản phẩm đã từng được đặt trong đơn hàng chưa
+            bool hasOrders = db.OrderDetails.Any(od => od.ProductID == id);
+
+            if (hasOrders)
+            {
+                TempData["ErrorMessage"] = "Sản phẩm này đã được khách hàng mua, không thể xóa.";
+                return RedirectToAction("Index");
+            }
+
+            // Nếu chưa từng nằm trong đơn hàng thì cho phép xóa như cũ
             var product = db.Products
                             .Include(p => p.ProductVersions)
                             .Include(p => p.ProductColors)
@@ -389,6 +384,7 @@ namespace WebBanDT.Areas.AdminHome.Controllers
                 db.SaveChanges();
             }
 
+            TempData["SuccessMessage"] = "Xóa sản phẩm thành công.";
             return RedirectToAction("Index");
         }
 

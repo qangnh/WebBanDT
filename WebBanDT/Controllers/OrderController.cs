@@ -15,7 +15,6 @@ namespace WebBanDT.Controllers
         private WebBanDTEntities db = new WebBanDTEntities();
 
         // GET: Order/ThongTin
-        // GET: Order/ThongTin
         [HttpGet]
         public ActionResult ThongTin(int? productId, int? quantity)
         {
@@ -27,7 +26,7 @@ namespace WebBanDT.Controllers
 
             Cart cart = Session["Cart"] as Cart;
 
-            // Nếu bấm Mua ngay từ Product Detail
+            // Nếu bấm Mua ngay từ trang chi tiết sản phẩm
             if (productId.HasValue)
             {
                 var product = db.Products.Find(productId.Value);
@@ -62,12 +61,11 @@ namespace WebBanDT.Controllers
                 return RedirectToAction("GioHang", "Cart");
             }
 
-            // 🔥 GÁN ẢNH THEO MÀU CHO CART TRONG SESSION
+            // GÁN ẢNH THEO MÀU CHO CART TRONG SESSION
             foreach (var item in cart.CartItems)
             {
                 if (item.Product == null) continue;
 
-                // Nếu có ColorID => ưu tiên ảnh màu
                 if (item.ColorID.HasValue)
                 {
                     var color = db.ProductColors
@@ -75,7 +73,6 @@ namespace WebBanDT.Controllers
 
                     if (color != null && !string.IsNullOrEmpty(color.ColorImage))
                     {
-                        // Chỉ đổi ảnh đang hiển thị, KHÔNG SaveChanges => DB không bị đổi
                         item.Product.ProductImage = color.ColorImage;
                     }
                 }
@@ -84,11 +81,37 @@ namespace WebBanDT.Controllers
             var model = new CheckoutViewModel
             {
                 Cart = cart,
-                TotalAmount = cart.CartItems.Sum(i => i.Quantity * i.UnitPrice) // ✅ dùng UnitPrice
+                TotalAmount = cart.CartItems.Sum(i => i.Quantity * i.UnitPrice)
             };
+
+            // ✅ TỰ ĐỘNG LẤY THÔNG TIN KHÁCH HÀNG ĐÃ ĐĂNG KÝ
+            int userId = Convert.ToInt32(Session["UserID"]);
+
+            // Nếu Customer có navigation đến UserAccount thì dùng Include, nếu không thì dùng 2 query tách
+            var customer = db.Customers.FirstOrDefault(c => c.UserID == userId);
+            var userAccount = db.UserAccounts.FirstOrDefault(u => u.UserID == userId);
+
+            if (customer != null)
+            {
+                model.FullName = customer.CustomerName;
+                model.Phone = customer.CustomerPhone;
+                model.DeliveryAddress = customer.CustomerAddress;
+
+                // Ưu tiên email trong Customer, nếu null thì lấy từ UserAccount
+                model.Email = !string.IsNullOrEmpty(customer.CustomerEmail)
+                                ? customer.CustomerEmail
+                                : (userAccount != null ? userAccount.Email : null);
+            }
+            else if (userAccount != null)
+            {
+                // Trường hợp chưa có Customer nhưng đã có UserAccount
+                model.Email = userAccount.Email;
+            }
 
             return View(model);
         }
+
+
 
 
         // POST: Order/ThongTin
@@ -121,6 +144,7 @@ namespace WebBanDT.Controllers
                     CustomerName = model.FullName,
                     CustomerPhone = model.Phone,
                     CustomerAddress = model.DeliveryAddress,
+                    CustomerEmail = model.Email,
                     CreatedAt = DateTime.Now
                 };
                 db.Customers.Add(customer);
@@ -131,10 +155,32 @@ namespace WebBanDT.Controllers
                 customer.CustomerName = model.FullName;
                 customer.CustomerPhone = model.Phone;
                 customer.CustomerAddress = model.DeliveryAddress;
+                customer.CustomerEmail = model.Email;
                 db.SaveChanges();
             }
 
             // Tạo order từ cart
+            // ========= 1. KIỂM TRA TỒN KHO TRƯỚC =========
+            foreach (var item in cart.CartItems)
+            {
+                var product = db.Products.Find(item.ProductID);
+                if (product == null)
+                {
+                    TempData["ErrorMessage"] = "Có sản phẩm không tồn tại.";
+                    return RedirectToAction("GioHang", "Cart");
+                }
+
+                int currentStock = product.StockQuantity ?? 0;
+
+                if (currentStock < item.Quantity)
+                {
+                    TempData["ErrorMessage"] =
+                        $"Sản phẩm \"{product.ProductName}\" chỉ còn {currentStock} sản phẩm, không đủ số lượng bạn đặt.";
+                    return RedirectToAction("GioHang", "Cart");
+                }
+            }
+
+            // ========= 2. TẠO ORDER =========
             var order = new Order
             {
                 CustomerID = customer.CustomerID,
@@ -147,19 +193,27 @@ namespace WebBanDT.Controllers
             db.Orders.Add(order);
             db.SaveChanges();
 
-            // Thêm chi tiết đơn hàng
+            // ========= 3. THÊM CHI TIẾT + TRỪ TỒN KHO =========
             foreach (var item in cart.CartItems)
             {
+                var product = db.Products.Find(item.ProductID);
+                if (product != null)
+                {
+                    int currentStock = product.StockQuantity ?? 0;
+                    product.StockQuantity = currentStock - item.Quantity; // 🔥 TRỪ TỒN KHO
+                }
+
                 db.OrderDetails.Add(new OrderDetail
                 {
                     OrderID = order.OrderID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
-                    UnitPrice = item.UnitPrice,   // ✅ giá theo phiên bản đã lưu trong CartItem
-                    VersionID = item.VersionID,   // ✅ lưu phiên bản
-                    ColorID = item.ColorID      // ✅ lưu màu
+                    UnitPrice = item.UnitPrice,
+                    VersionID = item.VersionID,
+                    ColorID = item.ColorID
                 });
             }
+
             db.SaveChanges();
 
 
@@ -287,34 +341,88 @@ namespace WebBanDT.Controllers
             var vat = subTotal * 0.10m;           // 10% VAT
             var total = subTotal + vat;           // Tổng + VAT
 
+            // ✅ Xác định trạng thái thanh toán theo phương thức
+            string paymentStatus;
+            switch ((model.PaymentMethod ?? "").Trim())
+            {
+                case "COD":
+                    paymentStatus = "Thanh toán khi nhận hàng (COD)";
+                    break;
+                case "Bank":
+                    paymentStatus = "Đã thanh toán (Chuyển khoản ngân hàng)";
+                    break;
+                case "Momo":
+                    paymentStatus = "Đã thanh toán (Ví MoMo)";
+                    break;
+                case "VNPay":
+                    paymentStatus = "Đã thanh toán (VNPay)";
+                    break;
+                case "ZaloPay":
+                    paymentStatus = "Đã thanh toán (ZaloPay)";
+                    break;
+                default:
+                    paymentStatus = "Chưa thanh toán";
+                    break;
+            }
+
             var order = new Order
             {
                 CustomerID = customer.CustomerID,
                 OrderDate = DateTime.Now,
                 DeliveryAddress = model.DeliveryAddress,
-                TotalAmount = total,                 // ✅ GIÁ ĐÃ CỘNG VAT
-                PaymentStatus = "Chưa thanh toán",
+                TotalAmount = total,
+                PaymentStatus = paymentStatus,   // ✅ dùng status theo phương thức
                 OrderStatus = "Chờ xử lý"
             };
+
 
             db.Orders.Add(order);
             db.SaveChanges();
 
             // ✅ LƯU CHI TIẾT ĐƠN HÀNG ĐÚNG PHIÊN BẢN + MÀU
+            // ========= 1. KIỂM TRA TỒN KHO TRƯỚC =========
             foreach (var item in cart.CartItems)
             {
+                var product = db.Products.Find(item.ProductID);
+                if (product == null)
+                {
+                    TempData["ErrorMessage"] = "Có sản phẩm không tồn tại.";
+                    return RedirectToAction("GioHang", "Cart");
+                }
+
+                int currentStock = product.StockQuantity ?? 0;
+
+                if (currentStock < item.Quantity)
+                {
+                    TempData["ErrorMessage"] =
+                        $"Sản phẩm \"{product.ProductName}\" chỉ còn {currentStock} sản phẩm, không đủ số lượng bạn đặt.";
+                    return RedirectToAction("GioHang", "Cart");
+                }
+            }
+
+            // ========= 2. THÊM CHI TIẾT + TRỪ TỒN KHO =========
+            foreach (var item in cart.CartItems)
+            {
+                var product = db.Products.Find(item.ProductID);
+                if (product != null)
+                {
+                    int currentStock = product.StockQuantity ?? 0;
+                    product.StockQuantity = currentStock - item.Quantity; // 🔥 TRỪ TỒN KHO
+                }
+
                 db.OrderDetails.Add(new OrderDetail
                 {
                     OrderID = order.OrderID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
-
-                    UnitPrice = item.UnitPrice,   // ✅ giá theo phiên bản
-                    VersionID = item.VersionID,   // ✅ lưu phiên bản
-                    ColorID = item.ColorID      // ✅ lưu màu
+                    UnitPrice = item.UnitPrice,
+                    VersionID = item.VersionID,
+                    ColorID = item.ColorID
                 });
             }
+
             db.SaveChanges();
+
 
             // =========== DỌN GIỎ HÀNG DB + SESSION ===========
             var oldCart = db.Carts.FirstOrDefault(c =>

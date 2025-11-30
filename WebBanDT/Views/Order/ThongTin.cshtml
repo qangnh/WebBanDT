@@ -13,6 +13,11 @@
     var vat = totalAmount * 0.1m;
     var grandTotal = totalAmount + vat;
     var itemCount = cartItems.Count;
+
+    // ✅ Phương thức thanh toán hiện tại (default: COD)
+    var selectedMethod = string.IsNullOrEmpty(Model.PaymentMethod)
+        ? "COD"
+        : Model.PaymentMethod;
 }
 
 @section Styles {
@@ -208,7 +213,6 @@
                 Sản phẩm trong đơn hàng (@itemCount)
             </div>
 
-
             @foreach (var item in cartItems)
             {
                 if (item.Product != null)
@@ -268,27 +272,51 @@
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-user"></i> Họ và tên</label>
-                        <input type="text" name="FullName" value="@Model.FullName" placeholder="Nhập họ tên của bạn" required />
+                        @Html.TextBoxFor(m => m.FullName, new
+                        {
+                            placeholder = "Nhập họ tên của bạn",
+                            required = "required"
+                        })
+                        @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-phone"></i> Số điện thoại</label>
-                        <input type="tel" name="Phone" value="@Model.Phone" placeholder="Nhập số điện thoại" required />
+                        @Html.TextBoxFor(m => m.Phone, new
+                        {
+                            type = "tel",
+                            placeholder = "Nhập số điện thoại",
+                            required = "required"
+                        })
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-envelope"></i> Email</label>
-                        <input type="email" name="Email" value="@Model.Email" placeholder="Nhập email của bạn" />
+                        @Html.TextBoxFor(m => m.Email, new
+                        {
+                            type = "email",
+                            placeholder = "Nhập email của bạn"
+                        })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-location-dot"></i> Địa chỉ giao hàng</label>
-                        <textarea name="DeliveryAddress" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố" required>@Model.DeliveryAddress</textarea>
+                        @Html.TextAreaFor(m => m.DeliveryAddress, new
+                        {
+                            placeholder = "Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố",
+                            required = "required"
+                        })
+                        @Html.ValidationMessageFor(m => m.DeliveryAddress, "", new { @class = "text-danger" })
                     </div>
 
                     <div class="form-group">
                         <label><i class="fa-solid fa-comment"></i> Ghi chú đơn hàng</label>
-                        <textarea name="OrderNote" placeholder="Ghi chú về đơn hàng (tùy chọn)">@Model.OrderNote</textarea>
+                        @Html.TextAreaFor(m => m.OrderNote, new
+                        {
+                            placeholder = "Ghi chú về đơn hàng (tùy chọn)"
+                        })
                     </div>
 
                     <!-- Phương thức thanh toán -->
@@ -299,40 +327,42 @@
 
                     <div class="payment-methods">
                         <div class="payment-option">
-                            <input type="radio" id="cod" name="PaymentMethod" value="COD" checked />
+                            @Html.RadioButtonFor(m => m.PaymentMethod, "COD", new { id = "cod" })
                             <i class="fa-solid fa-hand-holding-dollar"></i>
                             <label for="cod">Thanh toán khi nhận hàng (COD)</label>
                         </div>
 
                         <div class="payment-option">
-                            <input type="radio" id="bank" name="PaymentMethod" value="Bank" />
+                            @Html.RadioButtonFor(m => m.PaymentMethod, "Bank", new { id = "bank" })
                             <i class="fa-solid fa-building-columns"></i>
                             <label for="bank">Chuyển khoản ngân hàng</label>
                         </div>
 
                         <div class="payment-option">
-                            <input type="radio" id="momo" name="PaymentMethod" value="Momo" />
+                            @Html.RadioButtonFor(m => m.PaymentMethod, "Momo", new { id = "momo" })
                             <i class="fa-solid fa-mobile-screen-button"></i>
                             <label for="momo">Ví MoMo</label>
                         </div>
 
                         <div class="payment-option">
-                            <input type="radio" id="vnpay" name="PaymentMethod" value="VNPay" />
+                            @Html.RadioButtonFor(m => m.PaymentMethod, "VNPay", new { id = "vnpay" })
                             <i class="fa-solid fa-credit-card"></i>
                             <label for="vnpay">VNPay</label>
                         </div>
 
                         <div class="payment-option">
-                            <input type="radio" id="zalopay" name="PaymentMethod" value="ZaloPay" />
+                            @Html.RadioButtonFor(m => m.PaymentMethod, "ZaloPay", new { id = "zalopay" })
                             <i class="fa-brands fa-android"></i>
                             <label for="zalopay">ZaloPay</label>
                         </div>
                     </div>
 
+                    @Html.ValidationMessageFor(m => m.PaymentMethod, "", new { @class = "text-danger" })
+
                     <!-- Payment Details Sections -->
                     <div id="payment-details-container">
-                        <!-- COD - No additional info needed -->
-                        <div id="details-cod" class="payment-details">
+                        <!-- COD -->
+                        <div id="details-COD" class="payment-details">
                             <h3><i class="fa-solid fa-hand-holding-dollar"></i> Thanh toán khi nhận hàng</h3>
                             <div class="payment-instruction">
                                 <p><strong>Hướng dẫn:</strong></p>
@@ -348,7 +378,7 @@
                         </div>
 
                         <!-- Bank Transfer -->
-                        <div id="details-bank" class="payment-details">
+                        <div id="details-Bank" class="payment-details">
                             <h3><i class="fa-solid fa-building-columns"></i> Chuyển khoản ngân hàng</h3>
                             <div class="bank-info">
                                 <div class="bank-info-row">
@@ -388,7 +418,9 @@
                             </div>
                             <div class="qr-container" style="margin-top: 15px;">
                                 <div class="qr-code">
-                                    <img src="https://img.vietqr.io/image/STB-060292041163-compact2.jpg?amount=@grandTotal&addInfo=DH@DateTime.Now.ToString(" yyyyMMddHHmmss")&accountName=BUI TRUNG DAT" alt="QR Code" style="width: 100%; height: 100%; object-fit: contain;" />
+                                    <img src="https://img.vietqr.io/image/STB-060292041163-compact2.jpg?amount=@grandTotal&addInfo=DH@DateTime.Now.ToString(" yyyyMMddHHmmss")&accountName=BUI TRUNG DAT"
+                                         alt="QR Code"
+                                         style="width: 100%; height: 100%; object-fit: contain;" />
                                 </div>
                                 <p style="color: #666; font-size: 14px;">Quét mã QR để chuyển khoản nhanh</p>
                             </div>
@@ -399,7 +431,7 @@
                         </div>
 
                         <!-- MoMo -->
-                        <div id="details-momo" class="payment-details">
+                        <div id="details-Momo" class="payment-details">
                             <h3><i class="fa-solid fa-mobile-screen-button"></i> Thanh toán qua Ví MoMo</h3>
                             <div class="momo-container">
                                 <div class="payment-amount">
@@ -443,7 +475,7 @@
                         </div>
 
                         <!-- VNPay -->
-                        <div id="details-vnpay" class="payment-details">
+                        <div id="details-VNPay" class="payment-details">
                             <h3><i class="fa-solid fa-credit-card"></i> Thanh toán qua VNPay</h3>
                             <div class="vnpay-container">
                                 <div class="payment-logo vnpay-logo">
@@ -454,7 +486,8 @@
                                 </div>
                                 <div class="qr-container">
                                     <div class="qr-code">
-                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=VNPay|@grandTotal|DH@DateTime.Now.ToString(" yyyyMMddHHmmss")" alt="VNPay QR" />
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=230x230&data=VNPay|@grandTotal|DH@DateTime.Now.ToString(" yyyyMMddHHmmss")"
+                                             alt="VNPay QR" />
                                     </div>
                                     <p style="color: #666;">Quét mã QR bằng ứng dụng VNPay</p>
                                 </div>
@@ -471,7 +504,7 @@
                         </div>
 
                         <!-- ZaloPay -->
-                        <div id="details-zalopay" class="payment-details">
+                        <div id="details-ZaloPay" class="payment-details">
                             <h3><i class="fa-brands fa-android"></i> Thanh toán qua ZaloPay</h3>
                             <div class="zalopay-container">
                                 <div class="payment-amount">
@@ -584,7 +617,7 @@
             });
 
             // Show selected payment details
-            const detailsId = 'details-' + method.toLowerCase();
+            const detailsId = 'details-' + method;
             const selectedDetails = document.getElementById(detailsId);
             if (selectedDetails) {
                 selectedDetails.classList.add('active');
@@ -600,8 +633,8 @@
             });
         });
 
-        // Initialize with COD selected
-        showPaymentDetails('COD');
+        // ✅ Initialize with current selectedMethod from server
+        showPaymentDetails('@selectedMethod');
 
         // Copy to clipboard function
         function copyToClipboard(elementId, button) {
@@ -633,7 +666,7 @@
                 input.style.animation = 'shake 0.5s';
                 setTimeout(() => input.style.animation = '', 500);
             } else {
-                alert('Mã giảm giá sẽ được áp dụng!');
+                alert('Mã giảm giá sẽ được áp dụng! (chưa xử lý logic backend)');
             }
         });
 

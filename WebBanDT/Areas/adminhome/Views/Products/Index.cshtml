@@ -1,14 +1,39 @@
-﻿@model PagedList.IPagedList<WebBanDT.Models.Product>
+﻿@using System.Collections.Generic
+@model PagedList.IPagedList<WebBanDT.Models.Product>
 @using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Quản lý sản phẩm";
     Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+
+    // Danh sách ProductID đã từng được mua (từ ViewBag)
+    var purchasedIds = ViewBag.PurchasedProductIds as List<int> ?? new List<int>();
 }
 
 <div class="card-body">
-    <!-- ✅ Form tìm kiếm -->
-    @using (Html.BeginForm("Index", "Products", FormMethod.Get, new { area = "AdminHome", @class = "d-flex mb-3" }))
+    @* Thông báo lỗi / thành công *@
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @* ✅ Form tìm kiếm *@
+    @using (Html.BeginForm(
+                "Index",
+                "Products",
+                new { area = "AdminHome" },           // route values
+                FormMethod.Get,
+                new { @class = "d-flex mb-3" }        // html attributes
+           ))
     {
         <input type="text" name="searchString" value="@ViewBag.SearchString"
                class="form-control me-2" placeholder="🔍 Nhập tên sản phẩm..." />
@@ -96,7 +121,7 @@
                                     @(item.Brand != null ? item.Brand.BrandName : "Không có")
                                 </td>
 
-                                <!-- ✅ Số lượng phiên bản -->
+                                @* ✅ Số lượng phiên bản *@
                                 <td class="text-center">
                                     @{
                                         var verCount = (item.ProductVersions != null)
@@ -113,7 +138,7 @@
                                     }
                                 </td>
 
-                                <!-- ✅ Số lượng màu sắc -->
+                                @* ✅ Số lượng màu sắc *@
                                 <td class="text-center">
                                     @{
                                         var colorCount = (item.ProductColors != null)
@@ -140,11 +165,24 @@
                                            class="btn btn-sm btn-info text-white" title="Xem chi tiết">
                                             <i class="fa fa-eye"></i>
                                         </a>
-                                        <a href="@Url.Action("Delete", "Products", new { id = item.ProductID, area = "AdminHome" })"
-                                           class="btn btn-sm btn-danger" title="Xóa sản phẩm"
-                                           onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
+
+                                        @* ✅ ĐÃ TỪNG ĐƯỢC MUA → KHÔNG THỂ XÓA *@
+                                        @if (purchasedIds.Contains(item.ProductID))
+                                        {
+                                            <button class="btn btn-sm btn-secondary"
+                                                    title="Sản phẩm này đã được khách hàng mua, không thể xóa"
+                                                    disabled>
+                                                <i class="fa fa-ban"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Delete", "Products", new { id = item.ProductID, area = "AdminHome" })"
+                                               class="btn btn-sm btn-danger" title="Xóa sản phẩm"
+                                               onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        }
                                     </div>
                                 </td>
                             </tr>

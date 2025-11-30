@@ -1,25 +1,33 @@
 ﻿@model WebBanDT.Models.viewmodels.ProfileOverviewViewModel
+
 @{
     ViewBag.Title = "Tổng quan";
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
+
 <br />
 <br />
 <br />
+
 @section Styles {
     <link rel="stylesheet" href="~/Content/profile.css" />
 }
 
 <div class="wrap">
-    <!-- KPI Row -->
+    <!-- ===== KPI HÀNG TRÊN CÙNG ===== -->
     <div class="kpi">
+        <!-- User info -->
         <div class="kpi-card">
             <div class="avatar">👤</div>
             <div>
                 <div class="title">@ViewBag.CustomerName</div>
-                <small class="muted">@ViewBag.Phone · Cập nhật lại sau @ViewBag.UpdateDate</small>
+                <small class="muted">
+                    @ViewBag.Phone · Cập nhật lại sau @ViewBag.UpdateDate
+                </small>
             </div>
         </div>
+
+        <!-- Tổng số đơn hàng -->
         <div class="kpi-card">
             <div style="font-size:28px">🛒</div>
             <div>
@@ -27,6 +35,8 @@
                 <small class="muted">Tổng số đơn hàng đã mua</small>
             </div>
         </div>
+
+        <!-- Tổng tiền tích lũy -->
         <div class="kpi-card">
             <div style="font-size:28px">💰</div>
             <div>
@@ -34,6 +44,8 @@
                 <small class="muted">Tổng tiền tích luỹ · Từ 01/01/2024</small>
             </div>
         </div>
+
+        <!-- Channel -->
         <div class="kpi-card right">
             <div>
                 <small class="muted">Bạn đang ở kênh thành viên</small>
@@ -42,8 +54,9 @@
         </div>
     </div>
 
+    <!-- ===== MAIN LAYOUT: SIDEBAR + CONTENT ===== -->
     <div class="layout">
-        <!-- Sidebar -->
+        <!-- Sidebar trái -->
         <aside class="sidebar">
             <ul class="nav" id="profileMenu">
                 <li>
@@ -74,80 +87,107 @@
             </ul>
         </aside>
 
-        <!-- Content - Overview Section -->
-        <div class="panel">
-            <div class="grid grid-2">
-                <div class="panel">
-                    <div class="title">Thêm địa chỉ</div>
-                    <p class="muted">Giúp đặt đơn nhanh hơn.</p>
-                    <a href="@Url.Action("Info", "Users")" class="btn light" style="margin-top: 12px;">Thêm địa chỉ</a>
-                </div>
-            </div>
+        <!-- Cột phải: GRID 2 CỘT -->
+        <div class="panel profile-main">
 
-            <div class="grid grid-2" style="margin-top:12px">
-                <div class="panel">
-                    <div class="title">Đơn hàng gần đây</div>
-                    @if (Model.RecentOrders != null && Model.RecentOrders.Any())
-                    {
-                        <div class="grid" style="margin-top: 12px;">
-                            @foreach (var order in Model.RecentOrders)
-                            {
-                                <div class="panel" style="border:1px solid var(--line); padding: 12px;">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <strong>@order.OrderCode</strong>
-                                        <span>@order.OrderDate.ToString("dd/MM/yyyy")</span>
-                                    </div>
-                                    <div style="margin-top: 4px;">
-                                        <strong>@order.TotalAmount.ToString("N0")₫</strong>
-                                    </div>
-                                    <div style="margin-top: 8px;">
-                                        <span class="badge @(order.Status == "Đã giao hàng" ? "ok" : "")">@order.Status</span>
-                                        <a href="@Url.Action("OrderDetail", "Users", new { id = order.OrderID })" class="btn light" style="font-size: 12px; padding: 6px 10px; margin-left: 8px;">Xem</a>
-                                    </div>
+            <!-- ==== HÀNG 1: THÊM ĐỊA CHỈ (FULL WIDTH) ==== -->
+            <section class="panel panel-full">
+                <div class="title">Thêm địa chỉ</div>
+                <p class="muted">Giúp đặt đơn nhanh hơn.</p>
+                <a href="@Url.Action("Info", "Users")"
+                   class="btn light"
+                   style="margin-top: 12px;">
+                    Thêm địa chỉ
+                </a>
+            </section>
+
+            <!-- ==== HÀNG 2: ĐƠN HÀNG GẦN ĐÂY (TRÁI) ==== -->
+            <section class="panel">
+                <div class="title">Đơn hàng gần đây</div>
+
+                @if (Model.RecentOrders != null && Model.RecentOrders.Any())
+                {
+                    <div class="grid" style="margin-top: 12px;">
+                        @foreach (var order in Model.RecentOrders)
+                        {
+                            <div class="panel" style="border:1px solid var(--line); padding: 12px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <strong>@order.OrderCode</strong>
+                                    <span>@order.OrderDate.ToString("dd/MM/yyyy")</span>
                                 </div>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="muted" style="padding:24px 0">
-                            Bạn chưa có đơn hàng nào gần đây · <a href="@Url.Action("Index", "CustomerHome")" style="color: var(--brand);">Mua sắm ngay</a>
-                        </div>
-                    }
-                </div>
-
-                <div class="panel">
-                    <div class="title">Ưu đãi của bạn</div>
-                    @if (Model.Vouchers != null && Model.Vouchers.Any())
-                    {
-                        <div class="grid" style="margin-top:12px">
-                            @foreach (var voucher in Model.Vouchers)
-                            {
-                                <div class="panel" style="border:1px dashed var(--line)">
-                                    <div class="title" style="font-size: 16px;">@voucher.Title</div>
-                                    <small class="muted">@voucher.Description · HSD: @voucher.ExpiryDate.ToString("dd/MM/yyyy")</small>
-                                    <div style="margin-top:8px"><code>@voucher.Code</code></div>
+                                <div style="margin-top: 4px;">
+                                    <strong>@order.TotalAmount.ToString("N0")₫</strong>
                                 </div>
-                            }
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="muted" style="padding:24px 0">Bạn chưa có ưu đãi nào</div>
-                    }
-                </div>
-            </div>
+                                <div style="margin-top: 8px;">
+                                    <span class="badge @(order.Status == "Đã giao hàng" ? "ok" : "")">
+                                        @order.Status
+                                    </span>
+                                    <a href="@Url.Action("OrderDetail", "Users", new { id = order.OrderID })"
+                                       class="btn light"
+                                       style="font-size: 12px; padding: 6px 10px; margin-left: 8px;">
+                                        Xem
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="muted" style="padding:24px 0">
+                        Bạn chưa có đơn hàng nào gần đây ·
+                        <a href="@Url.Action("Index", "CustomerHome")" style="color: var(--brand);">
+                            Mua sắm ngay
+                        </a>
+                    </div>
+                }
+            </section>
 
-            <div class="panel" style="margin-top:12px">
+            <!-- ==== HÀNG 2: ƯU ĐÃI CỦA BẠN (PHẢI) ==== -->
+            <section class="panel">
+                <div class="title">Ưu đãi của bạn</div>
+
+                @if (Model.Vouchers != null && Model.Vouchers.Any())
+                {
+                    <div class="grid" style="margin-top:12px">
+                        @foreach (var voucher in Model.Vouchers)
+                        {
+                            <div class="panel" style="border:1px dashed var(--line)">
+                                <div class="title" style="font-size: 16px;">@voucher.Title</div>
+                                <small class="muted">
+                                    @voucher.Description · HSD: @voucher.ExpiryDate.ToString("dd/MM/yyyy")
+                                </small>
+                                <div style="margin-top:8px">
+                                    <code>@voucher.Code</code>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="muted" style="padding:24px 0">
+                        Bạn chưa có ưu đãi nào
+                    </div>
+                }
+            </section>
+
+            <!-- ==== HÀNG 3: SẢN PHẨM YÊU THÍCH (FULL WIDTH) ==== -->
+            <section class="panel panel-full">
                 <div class="title">Sản phẩm yêu thích</div>
+
                 @if (Model.FavoriteProducts != null && Model.FavoriteProducts.Any())
                 {
                     <div class="grid grid-3" style="margin-top: 12px;">
                         @foreach (var product in Model.FavoriteProducts)
                         {
                             <div class="panel">
-                                <img src="@product.ImageUrl" alt="@product.ProductName" style="width: 100%; border-radius: 8px;" />
-                                <div class="title" style="font-size: 14px; margin-top: 8px;">@product.ProductName</div>
+                                <img src="@product.ImageUrl"
+                                     alt="@product.ProductName"
+                                     style="width: 100%; border-radius: 8px;" />
+                                <div class="title" style="font-size: 14px; margin-top: 8px;">
+                                    @product.ProductName
+                                </div>
                                 <strong>@product.ProductPrice.ToString("N0")₫</strong>
                             </div>
                         }
@@ -156,10 +196,15 @@
                 else
                 {
                     <div class="muted" style="padding:24px 0">
-                        Bạn chưa có sản phẩm nào yêu thích · <a href="@Url.Action("Index", "CustomerHome")" style="color: var(--brand);">Mua sắm ngay</a>
+                        Bạn chưa có sản phẩm nào yêu thích ·
+                        <a href="@Url.Action("Index", "CustomerHome")"
+                           style="color: var(--brand);">
+                            Mua sắm ngay
+                        </a>
                     </div>
                 }
-            </div>
+            </section>
+
         </div>
     </div>
 </div>

@@ -24,13 +24,17 @@ namespace WebBanDT.Models.viewmodels
         public string DeliveryAddress { get; set; }
 
         [Display(Name = "Ghi chú đơn hàng")]
-        public string OrderNote { get; set; }  // Thêm để bind textarea
+        public string OrderNote { get; set; }
 
         [Display(Name = "Tổng tiền")]
         public decimal TotalAmount { get; set; }
 
-        public Cart Cart { get; set; } // để hiển thị giỏ hàng
-        public List<CartItem> CartItems { get; set; }
+        // ✅ Phương thức thanh toán
+        [Required(ErrorMessage = "Vui lòng chọn phương thức thanh toán")]
+        [Display(Name = "Phương thức thanh toán")]
+        public string PaymentMethod { get; set; }
 
+        public Cart Cart { get; set; }
+        public List<CartItem> CartItems { get; set; }
     }
 }
