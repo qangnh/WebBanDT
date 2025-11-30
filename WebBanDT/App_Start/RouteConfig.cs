@@ -13,10 +13,12 @@ namespace WebBanDT
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Route mặc định với namespace chỉ định
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "TrangChu", id = UrlParameter.Optional }
+                defaults: new { controller = "CustomerHome", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "WebBanDT.Controllers" } // <-- thêm namespace
             );
         }
     }

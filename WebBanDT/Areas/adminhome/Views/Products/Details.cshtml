@@ -1,0 +1,127 @@
+﻿@model WebBanDT.Models.Product
+@using System.Linq;  <!-- nếu project đã import rồi thì bỏ dòng này cũng được -->
+
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Chi tiết sản phẩm</h5>
+            <span class="badge bg-light text-dark">
+                ID: @Model.ProductID
+            </span>
+        </div>
+
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3">Tên sản phẩm</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductName)</dd>
+
+                <dt class="col-sm-3">Mô tả sản phẩm</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.ProductDescription)</dd>
+
+                <dt class="col-sm-3">Giá bán</dt>
+                <dd class="col-sm-9">@String.Format("{0:N0} đ", Model.ProductPrice)</dd>
+
+                <dt class="col-sm-3">Số lượng tồn kho</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.StockQuantity)</dd>
+
+                <dt class="col-sm-3">Hình ảnh</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrEmpty(Model.ProductImage))
+                    {
+                        <img src="@Model.ProductImage"
+                             alt="Ảnh sản phẩm"
+                             class="img-thumbnail rounded"
+                             style="max-height: 200px;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Chưa có hình ảnh</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">Ngày tạo</dt>
+                <dd class="col-sm-9">@Model.CreatedAt?.ToString("dd/MM/yyyy")</dd>
+
+                <dt class="col-sm-3">Hiển thị</dt>
+                <dd class="col-sm-9">
+                    @(Model.IsActive == true ? "Có" : "Không")
+                </dd>
+
+                <dt class="col-sm-3">Danh mục</dt>
+                <dd class="col-sm-9">
+                    @(Model.Category != null ? Model.Category.CategoryName : "Chưa gán danh mục")
+                </dd>
+
+                <!-- ============ PHIÊN BẢN SẢN PHẨM ============ -->
+                <dt class="col-sm-3">Phiên bản</dt>
+                <dd class="col-sm-9">
+                    @if (Model.ProductVersions != null && Model.ProductVersions.Any())
+                    {
+                        <ul class="list-group list-group-flush border rounded">
+                            @foreach (var ver in Model.ProductVersions.OrderBy(v => v.VersionName))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@ver.VersionName</span>
+                                    <span class="fw-semibold">
+                                        @(ver.VersionPrice.HasValue
+                                            ? String.Format("{0:N0} đ", ver.VersionPrice.Value)
+                                            : "(dùng giá mặc định)")
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span class="text-muted fst-italic">Chưa cấu hình phiên bản cho sản phẩm này.</span>
+                    }
+                </dd>
+
+                <!-- ============ MÀU SẮC SẢN PHẨM ============ -->
+                <dt class="col-sm-3">Màu sắc</dt>
+                <dd class="col-sm-9">
+                    @if (Model.ProductColors != null && Model.ProductColors.Any())
+                    {
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach (var color in Model.ProductColors.OrderBy(c => c.ColorName))
+                            {
+                                <span class="badge bg-secondary">
+                                    @color.ColorName
+                                </span>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-muted fst-italic">Chưa cấu hình màu sắc cho sản phẩm này.</span>
+                    }
+                </dd>
+            </dl>
+
+            <hr />
+
+            <div class="mt-3 d-flex justify-content-between">
+                <div>
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.ProductID },
+                        new { @class = "btn btn-warning me-2" })
+                    @Html.ActionLink("Quay lại danh sách", "Index", null,
+                        new { @class = "btn btn-secondary" })
+                </div>
+
+                <div>
+                    @Html.ActionLink("Xóa sản phẩm", "Delete", new { id = Model.ProductID },
+                        new
+                        {
+                            @class = "btn btn-danger",
+                            onclick = "return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');"
+                        })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

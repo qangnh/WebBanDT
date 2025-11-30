@@ -1,63 +1,85 @@
-﻿.main-login {
-    width: 100%;
+﻿/* --- RESET & LAYOUT --- */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-/* css form-box */
+
+/* --- FORM CONTAINER --- */
 .wrapper {
-    position: absolute;
     width: 400px;
-    height: 400px;
+    min-height: 600px;
     background-color: white;
-    border: 2px solid rgba(255,255,255, .5);
     border-radius: 20px;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 30px rgba(0, 0, 0,.5);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    padding: 40px 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: height 0.2s ease;
-    overflow: hidden;
-    transform: translateY(80%);
+    position: relative;
+    overflow: visible;
+    transition: height 0.3s ease;
 }
 
-    .wrapper.active {
-        height: 520px;
-    }
-
+    /* --- FORM BOX --- */
     .wrapper .form-box {
-        width: 90%;
-        padding: 40px;
+        width: 100%;
+        position: absolute;
+        padding: 40px 30px;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
     }
 
+        /* --- LOGIN FORM --- */
         .wrapper .form-box.login {
-            position: absolute;
-            transition: transform .18s ease;
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
         }
 
     .wrapper.active .form-box.login {
-        transition: transform .18s ease;
         transform: translateX(500px);
+        opacity: 0;
+        pointer-events: none;
     }
 
+    /* --- REGISTER FORM --- */
     .wrapper .form-box.register {
-        position: absolute;
-        transition: none;
         transform: translateX(-500px);
     }
 
     .wrapper.active .form-box.register {
-        transition: transform .18s ease;
         transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
     }
 
+/* --- OVERRIDE FOR STANDALONE REGISTER PAGE --- */
+body.Đăng ký .wrapper .form-box.register {
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: relative !important;
+}
 
-
+/* --- FORM ELEMENTS --- */
 .form-box h2 {
     font-size: 2em;
     color: #162938;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .input-box {
@@ -82,6 +104,8 @@
     .input-box input:focus ~ label,
     .input-box input:valid ~ label {
         top: -5px;
+        font-size: 0.85em;
+        color: #0e1c2a;
     }
 
     .input-box input {
@@ -98,24 +122,26 @@
 
     .input-box .icon {
         position: absolute;
-        right: 32px;
+        right: 10px;
         font-size: 1.2em;
         color: #162938;
-        line-height: 57px;
+        line-height: 50px;
     }
 
+/* --- CHECKBOX & LINKS --- */
 .remember-forgot {
-    font-size: .9em;
+    font-size: 0.9em;
     color: #162938;
     font-weight: 500;
-    margin: -15px 0 15px;
+    margin: -10px 0 20px;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
     .remember-forgot label input {
         accent-color: #162938;
-        margin-right: 3px;
+        margin-right: 6px;
     }
 
     .remember-forgot a {
@@ -127,25 +153,31 @@
             text-decoration: underline;
         }
 
+/* --- BUTTON --- */
 .btn {
     width: 100%;
     height: 45px;
     background-color: #162938;
     border: none;
-    outline: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 1em;
     color: #fff;
     font-weight: 500;
+    transition: background-color 0.3s ease;
 }
 
+    .btn:hover {
+        background-color: #0e1c2a;
+    }
+
+/* --- SWITCH LINK --- */
 .login-resgister {
-    font-size: .9em;
+    font-size: 0.9em;
     color: #162938;
     text-align: center;
     font-weight: 500;
-    margin: 25px 0 10px;
+    margin-top: 25px;
 }
 
     .login-resgister p a {
@@ -157,3 +189,49 @@
         .login-resgister p a:hover {
             text-decoration: underline;
         }
+
+/* --- RESPONSIVE --- */
+@media (max-width: 480px) {
+    .wrapper {
+        width: 90%;
+        min-height: 620px;
+        padding: 30px 20px;
+    }
+
+    .form-box h2 {
+        font-size: 1.5em;
+    }
+
+    .input-box {
+        margin: 20px 0;
+    }
+
+        .input-box input {
+            font-size: 1em;
+            padding-right: 40px;
+        }
+
+        .input-box .icon {
+            right: 8px;
+            font-size: 1em;
+        }
+
+    .btn {
+        height: 50px;
+        font-size: 1em;
+    }
+}
+/* --- Hiển thị form đăng ký khi ở trang riêng --- */
+body.Đăng ký .wrapper {
+    min-height: 600px;
+    height: auto;
+    overflow: visible;
+    padding: 40px 30px;
+}
+
+    body.Đăng ký .wrapper .form-box.register {
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+    }

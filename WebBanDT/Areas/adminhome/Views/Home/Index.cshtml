@@ -1,0 +1,395 @@
+﻿@{
+    ViewBag.Title = "Trang Quản Trị";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+
+    var months = ViewBag.MonthLabels ?? new string[] { };
+    var monthTotals = ViewBag.MonthTotals ?? new decimal[] { };
+    var categories = ViewBag.CategoryLabels ?? new string[] { };
+    var categoryTotals = ViewBag.CategoryTotals ?? new decimal[] { };
+    var totalRevenue = ViewBag.TotalRevenue ?? 0;
+    var totalOrders = ViewBag.TotalOrders ?? 0;
+    var currentYear = ViewBag.CurrentYear ?? DateTime.Now.Year;
+    var errorMessage = ViewBag.ErrorMessage as string;
+}
+
+<div class="dashboard-header">
+    <h2>THỐNG KÊ DOANH SỐ NĂM @currentYear</h2>
+    <p class="subtitle">Tổng quan doanh thu theo tháng và danh mục sản phẩm</p>
+</div>
+
+<style>
+    .dashboard-header {
+        margin-bottom: 30px;
+    }
+
+        .dashboard-header h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+    .subtitle {
+        color: #7f8c8d;
+        font-size: 14px;
+    }
+
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .stat-card .amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+    .chart-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .chart-box {
+        flex: 1;
+        min-width: 300px;
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease;
+    }
+
+        .chart-box:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .chart-box.bar-chart {
+            max-width: 700px;
+        }
+
+        .chart-box.pie-chart {
+            max-width: 450px;
+        }
+
+    .chart-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #34495e;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .error-message {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        color: #856404;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .no-data {
+        text-align: center;
+        padding: 40px;
+        color: #7f8c8d;
+        font-size: 16px;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 40px;
+    }
+
+        .loading::after {
+            content: '⏳ Đang tải dữ liệu...';
+            font-size: 18px;
+            color: #667eea;
+        }
+</style>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="error-message">
+        <strong>⚠️ Cảnh báo:</strong> @errorMessage
+    </div>
+}
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>💰 Tổng Doanh Thu</h3>
+        <div class="amount">@totalRevenue.ToString("N0") ₫</div>
+    </div>
+    <div class="stat-card">
+        <h3>📦 Tổng Đơn Hàng</h3>
+        <div class="amount">@totalOrders.ToString("N0")</div>
+    </div>
+</div>
+
+@if (monthTotals.Length > 0 || categoryTotals.Length > 0)
+{
+    <div class="chart-container">
+        <div class="chart-box bar-chart">
+            <div class="chart-title">📊 Doanh số theo tháng</div>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="chart-box pie-chart">
+            <div class="chart-title">🎯 Tỷ lệ doanh số theo danh mục</div>
+            @if (categoryTotals.Length > 0)
+            {
+                <canvas id="categoryChart"></canvas>
+            }
+            else
+            {
+                <div class="no-data">Chưa có dữ liệu danh mục</div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="no-data">
+        📊 Chưa có dữ liệu thống kê cho năm @currentYear
+    </div>
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script>
+        // Dữ liệu từ Controller
+        const months = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(months));
+        const monthlyTotals = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(monthTotals));
+        const categories = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(categories));
+        const categoryTotals = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(categoryTotals));
+
+        // Tính tổng doanh thu
+        const totalRevenue = monthlyTotals.reduce((sum, value) => sum + value, 0);
+
+        // Hàm format tiền tệ
+        function formatCurrency(value) {
+            return value.toLocaleString('vi-VN') + ' ₫';
+        }
+
+        // Hàm tính phần trăm
+        function calculatePercentage(value, total) {
+            if (total === 0) return '0%';
+            return ((value / total) * 100).toFixed(1) + '%';
+        }
+
+        // === BIỂU ĐỒ CỘT - DOANH SỐ THEO THÁNG ===
+        if (monthlyTotals.length > 0) {
+            const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
+            const monthlyChart = new Chart(monthlyChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: 'Doanh số',
+                        data: monthlyTotals,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2,
+                        borderRadius: 5,
+                        hoverBackgroundColor: 'rgba(54, 162, 235, 0.9)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { size: 13 },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.parsed.y;
+                                    let percentage = calculatePercentage(value, totalRevenue);
+                                    return [
+                                        'Doanh số: ' + formatCurrency(value),
+                                        'Tỷ lệ: ' + percentage
+                                    ];
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#2c3e50',
+                            anchor: 'end',
+                            align: 'top',
+                            offset: 4,
+                            font: {
+                                weight: 'bold',
+                                size: 11
+                            },
+                            formatter: (value) => {
+                                if (value === 0) return '';
+                                return calculatePercentage(value, totalRevenue);
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                font: { size: 12 },
+                                callback: function(value) {
+                                    return formatCurrency(value);
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: { size: 12 }
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+
+        // === BIỂU ĐỒ TRÒN - DOANH SỐ THEO DANH MỤC ===
+        if (categoryTotals.length > 0) {
+            const categoryChartCtx = document.getElementById('categoryChart').getContext('2d');
+            const categoryTotal = categoryTotals.reduce((a, b) => a + b, 0);
+
+            const categoryChart = new Chart(categoryChartCtx, {
+                type: 'pie',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        data: categoryTotals,
+                        backgroundColor: [
+                            '#FF6384',
+                            '#36A2EB',
+                            '#FFCE56',
+                            '#4BC0C0',
+                            '#9966FF',
+                            '#FF9F40',
+                            '#FF6384',
+                            '#C9CBCF'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: { size: 12 },
+                                padding: 12,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        const percentage = calculatePercentage(value, total);
+                                        return {
+                                            text: `${label} (${percentage})`,
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            hidden: false,
+                                            index: i
+                                        };
+                                    });
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 13 },
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.parsed;
+                                    let total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let percentage = calculatePercentage(value, total);
+                                    return [
+                                        'Doanh số: ' + formatCurrency(value),
+                                        'Tỷ lệ: ' + percentage
+                                    ];
+                                }
+                            }
+                        },
+                        datalabels: {
+                            color: '#fff',
+                            font: {
+                                weight: 'bold',
+                                size: 13
+                            },
+                            formatter: (value, context) => {
+                                let sum = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = ((value * 100) / sum).toFixed(1);
+                                return percentage > 5 ? percentage + '%' : '';
+                            }
+                        }
+                    }
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+
+        // Animation khi load trang
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.chart-box, .stat-card').forEach((box, index) => {
+                box.style.opacity = '0';
+                box.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    box.style.transition = 'all 0.5s ease';
+                    box.style.opacity = '1';
+                    box.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+}

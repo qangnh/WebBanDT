@@ -1,0 +1,238 @@
+﻿@* Partial View Header - giữ nguyên cấu trúc gốc, thêm số lượng giỏ hàng *@
+
+<!-- Scroll to top button -->
+<button onclick="topFunction()" id="upBtn" title="Go to top">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<header>
+    <div id="header-taskbar">
+
+        <div class="header-taskbar-view">
+
+            <!-- Logo -->
+            <div class="header-taskbar-logo">
+                <a href="@Url.Action("Index", "CustomerHome")">
+                    <img src="@Url.Content("~/Image/GooD Phone.png")" alt="Logo" />
+                </a>
+            </div>
+
+            <!-- Danh mục -->
+            <div class="header-taskbar-dropdown">
+                <div class="header-taskbar-dropdown-button">
+                    <i class="fas fa-bars"></i> Danh Mục
+                    <i class="fa-solid fa-caret-down"></i>
+                </div>
+
+                <div class="header-taskbar-dropdown-list">
+                    <ul class="header-taskbar-dropdown-list-ul">
+                        <li class="menu-phone">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                            <a href="@Url.Action("Phones", "Category")">Điện thoại</a>
+                        </li>
+
+                        <li class="menu-tablet">
+                            <i class="fa-solid fa-tablet-screen-button"></i>
+                            <a href="@Url.Action("Tablet", "Category")">Tablet</a>
+                        </li>
+
+                        <li class="menu-laptop">
+                            <i class="fa-solid fa-laptop"></i>
+                            <a href="@Url.Action("Laptop", "Category")">Laptop</a>
+                        </li>
+
+                        <li class="menu-sound">
+                            <i class="fa-solid fa-headphones-simple"></i>
+                            <a href="@Url.Action("Sound", "Category")">Âm thanh</a>
+                        </li>
+
+                        <li class="menu-watch">
+                            <img src="~/Content/pic/iconwatch.svg"
+                                 onerror="this.outerHTML='<i class=\'fa-solid fa-clock\'></i>'">
+                            <a href="@Url.Action("Watch", "Category")">Đồng hồ thông minh</a>
+                        </li>
+                        <li class="menu-screen">
+                            <i class="fa-solid fa-computer"></i>
+                            <a href="@Url.Action("Screen", "Category")">Màn hình</a>
+                        </li>
+                        <li class="menu-screen">
+                            <i class="fa-solid fa-grip"></i>
+                            <a href="@Url.Action("FullProduct", "Category")">Tất cả sản phẩm</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Thanh tìm kiếm -->
+            <div class="header-taskbar-search">
+                <form action="@Url.Action("SearchAll", "Category")" method="get" id="header-search-form">
+                    <input type="text" name="keyword" placeholder="Bạn cần tìm gì" id="header-search-input" autocomplete="off">
+                    <button type="submit" class="header-search-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                <!-- Search suggestions dropdown -->
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+
+            <!-- Gọi mua hàng -->
+            <div class="header-taskbar-phone">
+                <i class="fa-solid fa-phone"></i>
+                <a href="tel:0345665648">Gọi mua hàng 0345665648</a>
+            </div>
+
+            <!-- Cửa hàng -->
+            <div class="header-taskbar-address">
+                <i class="fa-solid fa-store"></i>
+                <a href="https://www.google.com/maps/search/?api=1&query=the+gioi di dong" target="_blank">
+                    Cửa hàng gần bạn
+                </a>
+            </div>
+
+            <!-- Giỏ hàng -->
+            <div class="header-taskbar-cart">
+                <a href="@Url.Action("GioHang", "Cart")" class="cart-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Giỏ hàng</span>
+                    <span class="cart-count">(@(ViewBag.CartCount ?? 0))</span>
+                </a>
+            </div>
+
+            <!-- CSS gợi ý -->
+            <style>
+                .header-taskbar-cart {
+                    position: relative;
+                    display: inline-block;
+                }
+
+                .cart-link {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    text-decoration: none;
+                    color: inherit;
+                }
+
+                .cart-count {
+                    font-weight: bold;
+                    color: red;
+                }
+            </style>
+
+            @{
+                var username = Session["Username"] as string;
+                var avatarPath = Session["AvatarPath"] as string ?? Url.Content("~/Image/icon.jpg");
+
+                var currentController = ViewContext.RouteData.Values["controller"].ToString();
+                var currentAction = ViewContext.RouteData.Values["action"].ToString();
+
+                // Điều kiện hiển thị link Admin
+                bool showAdminLink = currentController == "Account" && currentAction == "Login";
+            }
+
+            @if (!string.IsNullOrEmpty(username))
+            {
+                <div class="header-taskbar-account dropdown">
+                    <img src="@avatarPath" class="avatar" id="avatar-toggle" alt="Avatar" />
+                    <span class="username">@username</span>
+                    <div class="dropdown-menu" id="avatar-menu">
+                        <a href="@Url.Action("Profile", "Users")">
+                            <i class="fa-solid fa-chart-line"></i> Tổng quan
+                        </a>
+                        <a href="@Url.Action("History", "Users")">
+                            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
+                        </a>
+                        <a href="@Url.Action("Info", "Users")">
+                            <i class="fa-regular fa-user"></i> Thông tin tài khoản
+                        </a>
+
+                        @* Link Trang quản trị *@
+                        @if (showAdminLink)
+                        {
+                            <a href="@Url.Action("Index", "Home", new { area = "AdminHome" })">
+                                <i class="fa-solid fa-shield"></i> Trang quản trị
+                            </a>
+                        }
+
+                        <div class="dropdown-divider"></div>
+                        <a href="@Url.Action("Logout", "Account")">
+                            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="header-taskbar-account">
+                    <a href="@Url.Action("Login", "Account")">
+                        <i class="fa-regular fa-circle-user"></i>
+                        <span>Đăng nhập</span>
+                    </a>
+                </div>
+            }
+
+
+        </div>
+    </div>
+</header>
+
+<!-- JS location & avatar menu -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    // Dropdown menu (Danh mục)
+    const dropdownButton = document.querySelector('.header-taskbar-dropdown-button');
+    const dropdownList = document.querySelector('.header-taskbar-dropdown-list');
+
+    if (dropdownButton && dropdownList) {
+        dropdownButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            dropdownList.style.display = (dropdownList.style.display === 'block') ? 'none' : 'block';
+        });
+
+        // Click outside to close
+        document.addEventListener('click', function (e) {
+            if (!dropdownButton.contains(e.target) && !dropdownList.contains(e.target)) {
+                dropdownList.style.display = 'none';
+            }
+        });
+    }
+    (function () {
+        'use strict';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var avatarToggle = document.getElementById('avatar-toggle');
+            var avatarMenu = document.getElementById('avatar-menu');
+            var dropdown = document.querySelector('.header-taskbar-account.dropdown');
+
+            if (!avatarToggle || !avatarMenu || !dropdown) return;
+
+            // Toggle dropdown khi click vào avatar
+            dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+                avatarMenu.classList.toggle('show');
+            });
+
+            // Đóng dropdown khi click bên ngoài
+            document.addEventListener('click', function (e) {
+                if (!dropdown.contains(e.target)) {
+                    avatarMenu.classList.remove('show');
+                }
+            });
+
+            // Đóng dropdown khi nhấn ESC
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    avatarMenu.classList.remove('show');
+                }
+            });
+
+            // Prevent dropdown từ đóng khi click vào menu items
+            avatarMenu.addEventListener('click', function (e) {
+                if (e.target.tagName === 'Admin') {
+                    return; // link navigate bình thường
+                }
+                e.stopPropagation();
+            });
+        });
+    })();
+</script>

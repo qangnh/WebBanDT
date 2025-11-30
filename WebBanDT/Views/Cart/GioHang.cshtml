@@ -1,219 +1,349 @@
-﻿
+﻿@model IEnumerable<WebBanDT.Models.CartItem>
+
 @{
-    ViewBag.Title = "GioHang";
+    ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/_CartLogin.cshtml";
 }
 
-
-<content>
-    <div class="super-cart">
-        <div class="cart-header-wrap">
-            <div class="cart-header">
-                <a asp-controller="Home" asp-action="TrangChu"><i class="fa-solid fa-chevron-left"></i> Mua thêm sản phẩm khác</a>
-                <p>Giỏ hàng của bạn</p>
-            </div>
-        </div>
-
-        <div class="cart-product">
-            <div class="cart-product-item">
-                <div class="cart-pic-item">
-                    <img src="https://cdn.tgdd.vn/Products/Images/42/299033/iphone-15-pro-blue-thumbnew-200x200.jpg" alt="">
-                    <div class="cart-product-btn">
-                        <i class="fa-solid fa-rectangle-xmark"></i>
-                        <span>Xóa</span>
-                    </div>
-                </div>
-                <div class="cart-product-info">
-                    <h4>Điện thoại iPhone 15 Promax 256GB</h4>
-                    <div class="cart-product-promotion-details">
-                        <ul>
-                            <li style="list-style-type: circle;">Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, Không kèm thanh toán qua cổng online, mua kèm) </li>
-                            <li style="list-style-type: circle;">Nhập mã MMSALE100 giảm ngay 1% tối đa 100.000đ khi thanh toán qua MOMO</li>
-                        </ul>
-                    </div>
-                    <div class="cart-product-promotion">
-                        <span>Khuyến mãi</span>
-                        <i class="fa-solid fa-caret-down"></i>
-                        <i class="fa-solid fa-caret-up"></i>
-                    </div>
-                    <div class="cart-product-color">
-                        <span>Màu: Xám</span>
-                        <i class="fa-solid fa-caret-down"></i>
-                        <div class="cart-product-color-dropdown">
-                            <ul>
-                                <li>
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/299033/iphone-15-pro-blue-thumbnew-200x200.jpg" alt="">
-                                    <span>Xám</span>
-                                </li>
-                                <li>
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-tim-thumb-200x200.jpg" alt="">
-                                    <span>Tím</span>
-                                </li>
-                                <li>
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/251192/iphone-14-pro-max-den-thumb-200x200.jpg" alt="">
-                                    <span>Đen</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-product-price-options">
-                    <div class="cart-product-price">
-                        <p class="price-product-cart">31990000<sup>đ</sup></p>
-                    </div>
-                    <div class="cart-product-quantity">
-                        <span class="cart-reduce cart-reduce--active">-</span>
-                        <p class="product-quantity">1</p>
-                        <span class="cart-add cart-add--active ">+</span>
-                    </div>
-                </div>
-
-            </div>
-            <div class="cart-product-allprice">
-                <p>Tạm tính (<span class="allprice">1</span> sản phẩm)</p>
-                <p><span class="totalprice">31990000</span><sup>đ</sup></p>
-            </div>
-
-            <div class="cart-user-info">
-
-                <h4>Thông tin khách hàng</h4>
-                <div class="cart-user-sex">
-                    <label class="container">
-                        Anh
-                        <input type="radio" checked="checked" name="gender">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="container">
-                        Chị
-                        <input type="radio" name="gender">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
-                <div class="cart-user-input">
-                    <input placeholder="Họ Và Tên" type="text" name="full-name" id="full-name">
-                    <input placeholder="Số điện thoại" type="text" name="phone" id="phone">
-                </div>
-
-
-                <h4>Chọn cách thức nhận hàng</h4>
-                <div class="cart-user-selector">
-                    <label class="container">
-                        Giao hàng tận nơi
-                        <input type="radio" checked="checked" name="delivery-method">
-                        <span class="checkmark"></span>
-                    </label>
-                    <label class="container">
-                        Nhận tại cửa hàng
-                        <input type="radio" name="delivery-method">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
-
-                <div class="cart-user-location">
-                    <p>Chọn địa chỉ để biết thời gian nhận hàng và phí vận chuyển (nếu có)</p>
-                    <div class="cart-user-location-selection">
-                        <select class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn tỉnh thành</option>
-                        </select>
-                        <select class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn quận huyện</option>
-                        </select>
-                    </div>
-                    <div class="cart-user-location-selection">
-                        <select class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
-                            <option value="" selected>Chọn phường xã</option>
-                        </select>
-                        <input placeholder="Số nhà, tên đường" type="text" name="" id="">
-                    </div>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-                    <script>
-	var citis = document.getElementById("city");
-var districts = document.getElementById("district");
-var wards = document.getElementById("ward");
-var Parameter = {
-  url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-  method: "GET",
-  responseType: "application/json",
-};
-var promise = axios(Parameter);
-promise.then(function (result) {
-  renderCity(result.data);
-});
-
-function renderCity(data) {
-  for (const x of data) {
-    citis.options[citis.options.length] = new Option(x.Name, x.Id);
-  }
-  citis.onchange = function () {
-    district.length = 1;
-    ward.length = 1;
-    if(this.value != ""){
-      const result = data.filter(n => n.Id === this.value);
-
-      for (const k of result[0].Districts) {
-        district.options[district.options.length] = new Option(k.Name, k.Id);
-      }
-    }
-  };
-  district.onchange = function () {
-    ward.length = 1;
-    const dataCity = data.filter((n) => n.Id === citis.value);
-    if (this.value != "") {
-      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
-
-      for (const w of dataWards) {
-        wards.options[wards.options.length] = new Option(w.Name, w.Id);
-      }
-    }
-  };
+@section Styles {
+    <link rel="stylesheet" href="@Url.Content("~/Content/stylecart.css")?v=@DateTime.UtcNow.Ticks" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 }
-                    </script>
-                </div>
 
-                <input placeholder="Yêu cầu khác (Không bắt buộc)" type="text" name="" id="" class="cart-user-info-request">
-
-                <div class="cart-buy-request">
-                    <div class="cart-buy-request-call">
-                        <input type="checkbox">
-                        <span>Gọi người khác nhận hàng (nếu có)</span>
-                    </div>
-                    <div class="cart-buy-request-data">
-                        <input type="checkbox">
-                        <span>Chuyển dữ liệu qua máy mới</span>
-                    </div>
-                    <div class="cart-buy-request-bill">
-                        <input type="checkbox">
-                        <span>Xuất hóa đơn công ty</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="cart-user-codesale">
-                <div class="cart-user-code">
-                    <i class="fa-solid fa-barcode"></i>
-                    <p>Sử dụng mã giảm giá</p>
-                    <i class="fa-solid fa-caret-down"></i>
-                </div>
-            </div>
-            <div class="cart-user-plus">
-                <div class="cart-user-money-plus">
-                    <p>Tổng tiền</p>
-                    <p class="money-all">31990000</p>
-                </div>
-                <div class="cart-user-point-plus">
-                    <p>Điểm tích lũy nhận được</p>
-                    <p class="money-point">31990</p>
-                </div>
-                <label for="chinhsach"><input type="checkbox" name="chinhsach">Tôi đồng ý với <a href="">Chính sách xử lý dữ liệu cá nhân</a> của Cellphone S</label>
-            </div>
-            <div class="cart-user-buy-now">
-                <p>đặt hàng</p>
-            </div>
+<div class="cart-page">
+    <div class="cart-header-wrap">
+        <div class="cart-header">
+            <a class="back" href="@Url.Action("Index","customerhome")">
+                <i class="fa-solid fa-angle-left"></i>
+                Mua thêm sản phẩm khác
+            </a>
+            <h1>Giỏ hàng của bạn</h1>
         </div>
     </div>
 
-</content>
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" style="margin:20px auto; max-width:1400px;">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="margin:20px auto; max-width:1400px;">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <p style="text-align:center; margin-top:50px;">🛒 Giỏ hàng của bạn đang trống.</p>
+    }
+    else
+    {
+        <div class="wrap">
+            <div class="cart-items-section">
+                <br />
+                <a href="@Url.Action("Index","customerhome")" class="btn-back-arrow" title="Quay lại trang chủ">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <!-- FORM MUA SẢN PHẨM ĐÃ CHỌN -->
+                <form id="buySelectedForm" action="@Url.Action("BuySelected", "Cart")" method="post">
+                    <input type="hidden" name="selectedItems" id="selectedItemsInput" />
+
+                    <div class="select-all-section">
+                        <input type="checkbox" id="selectAll" />
+                        <label for="selectAll">Chọn tất cả (@Model.Count() sản phẩm)</label>
+
+                        <button type="submit" class="btn-buy-selected" id="btnBuySelected" disabled>
+                            <i class="fa-solid fa-shopping-cart"></i> Mua sản phẩm đã chọn
+                        </button>
+
+                        <button type="button" class="btn-delete-selected" id="btnDeleteSelected" disabled>
+                            <i class="fa-solid fa-trash"></i> Xóa sản phẩm đã chọn
+                        </button>
+                    </div>
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="card cart-item" data-cart-item-id="@item.CartItemID">
+                            <!-- CHECKBOX CHỌN SẢN PHẨM -->
+                            <div class="checkbox-col">
+                                <input type="checkbox"
+                                       value="@item.CartItemID"
+                                       class="item-checkbox"
+                                       data-item-id="@item.CartItemID" />
+                            </div>
+
+                            <div class="item-col left">
+                                <div class="thumb">
+                                    @{
+                                        var thumbImg = item.Product.ProductImage;
+
+                                        if (item.ProductColor != null && !string.IsNullOrEmpty(item.ProductColor.ColorImage))
+                                        {
+                                            thumbImg = item.ProductColor.ColorImage; // 🔥 ưu tiên ảnh màu đã chọn
+                                        }
+                                    }
+                                    <img src="@thumbImg" alt="@item.Product.ProductName" />
+                                </div>
 
 
+                                <div class="meta">
+                                    <div class="row-1">
+                                        <a class="name" href="@Url.Action("Details", "Product", new { id = item.ProductID })">
+                                            @item.Product.ProductName
+                                        </a>
+
+                                        <!-- FORM XÓA SẢN PHẨM -->
+                                        @using (Html.BeginForm("RemoveItem", "Cart", FormMethod.Post, new { @class = "remove-item-form", style = "display:inline;" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <input type="hidden" name="cartItemId" value="@item.CartItemID" />
+                                            <button type="submit" class="icon-btn btn-remove-item" title="Xóa" data-item-id="@item.CartItemID">
+                                                <i class="fa-regular fa-rectangle-xmark"></i>
+                                            </button>
+                                        }
+                                    </div>
+                                    <div class="sub">
+                                        Mã SP: @item.ProductID
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="item-col right">
+                                <div class="price-box">
+                                    <div class="price-now" data-price="@item.UnitPrice">@item.UnitPrice.ToString("N0")₫</div>
+                                </div>
+
+                                <!-- FORM CẬP NHẬT SỐ LƯỢNG -->
+                                <div class="qty">
+                                    <form action="@Url.Action("UpdateQuantity", "Cart")" method="post" style="display:flex; align-items:center;">
+                                        <input type="hidden" name="cartItemId" value="@item.CartItemID" />
+                                        <button type="button" class="btn-qty" data-delta="-1">-</button>
+                                        <input name="quantity" id="qty-@item.CartItemID" value="@item.Quantity" inputmode="numeric" />
+                                        <button type="button" class="btn-qty" data-delta="1">+</button>
+                                        <button type="submit" style="display:none;"></button>
+                                    </form>
+                                </div>
+
+                                <!-- FORM MUA NGAY -->
+                                <form action="@Url.Action("BuyFromCart", "Cart")" method="post" style="margin-top:5px;">
+                                    <input type="hidden" name="cartItemId" value="@item.CartItemID" />
+                                    <button type="submit" class="btn-buy">Mua ngay</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </form>
+
+                <!-- FORM XÓA NHIỀU SẢN PHẨM -->
+                <form id="deleteSelectedForm" action="@Url.Action("RemoveSelectedItems", "Cart")" method="post">
+                    <input type="hidden" name="cartItemIds" id="cartItemIdsInput" />
+                </form>
+            </div>
+
+            <!-- SIDEBAR TỔNG TIỀN -->
+            <div class="cart-sidebar">
+                <div class="cart-sidebar-sticky">
+                    <h3>Địa chỉ: HCM HCM <a href="#">Thay đổi</a></h3>
+
+                    @{
+                        var tamtinh = Model.Sum(i => i.UnitPrice * i.Quantity);
+                        var giamgia = 10000m;
+                        var phigiaohang = 10000m;
+                        var tongtien = tamtinh - giamgia + phigiaohang;
+                    }
+
+                    <div class="price-row">
+                        <span>Tạm tính</span>
+                        <strong id="sumPrice">@tamtinh.ToString("N0") VND</strong>
+                    </div>
+
+                    <div class="price-row">
+                        <span>Giảm giá</span>
+                        <strong id="discountPrice">@giamgia.ToString("N0") VND</strong>
+                    </div>
+
+                    <div class="price-row">
+                        <span>Phí giao hàng</span>
+                        <strong id="shippingPrice">@phigiaohang.ToString("N0") VND</strong>
+                    </div>
+
+                    <div class="price-row total">
+                        <span>Tổng tiền</span>
+                        <span class="total-price" id="totalPrice">@tongtien.ToString("N0") VND</span>
+                    </div>
+
+                    <small>(Đã bao gồm VAT nếu có)</small>
+
+                    <form action="@Url.Action("BuyAll", "Cart")" method="post">
+                        <button type="submit" class="btn-buy-all">
+                            <i class="fa-solid fa-shopping-bag"></i>
+                            Mua tất cả <span id="cartCount">(@Model.Sum(i => i.Quantity))</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function formatVND(n) { return (Number(n) || 0).toLocaleString('vi-VN') + ' VND'; }
+
+        const DISCOUNT = 10000;
+        const SHIPPING = 10000;
+
+        // --- Xử lý số lượng ---
+        document.querySelectorAll('.cart-item').forEach(item => {
+            const minus = item.querySelector('[data-delta="-1"]');
+            const plus = item.querySelector('[data-delta="1"]');
+            const input = item.querySelector('input[name="quantity"]');
+            const priceNow = item.querySelector('.price-now');
+
+            function recalc() {
+                let unit = Number(priceNow.dataset.price || 0);
+                let qty = Math.max(1, parseInt(input.value || '1', 10));
+                input.value = qty;
+                priceNow.textContent = formatVND(unit * qty);
+                updateTotalSum();
+            }
+
+            [minus, plus].forEach(btn => {
+                btn.addEventListener('click', e => {
+                    e.preventDefault();
+                    input.value = Math.max(1, parseInt(input.value || '1', 10) + Number(btn.dataset.delta));
+                    recalc();
+                });
+            });
+
+            input.addEventListener('input', recalc);
+            recalc();
+        });
+
+        // --- Cập nhật tổng tạm tính ---
+        function updateTotalSum() {
+            let tamtinh = 0;
+            let totalQty = 0;
+
+            document.querySelectorAll('.cart-item').forEach(item => {
+                const priceNow = item.querySelector('.price-now');
+                const qty = parseInt(item.querySelector('input[name="quantity"]').value) || 0;
+                tamtinh += Number(priceNow.dataset.price || 0) * qty;
+                totalQty += qty;
+            });
+
+            const tongtien = tamtinh - DISCOUNT + SHIPPING;
+            document.getElementById('sumPrice').textContent = formatVND(tamtinh);
+            document.getElementById('totalPrice').textContent = formatVND(tongtien);
+            document.getElementById('cartCount').textContent = '(' + totalQty + ')';
+        }
+
+        // --- Checkbox chọn sản phẩm ---
+        const selectAllCheckbox = document.getElementById('selectAll');
+        const itemCheckboxes = document.querySelectorAll('.item-checkbox');
+        const btnBuySelected = document.getElementById('btnBuySelected');
+        const btnDeleteSelected = document.getElementById('btnDeleteSelected');
+
+        function updateSelectAllCheckbox() {
+            const allChecked = Array.from(itemCheckboxes).every(cb => cb.checked);
+            const someChecked = Array.from(itemCheckboxes).some(cb => cb.checked);
+            selectAllCheckbox.checked = allChecked;
+            selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        }
+
+        function updateActionButtons() {
+            const checkedItems = Array.from(itemCheckboxes).filter(cb => cb.checked);
+            const hasChecked = checkedItems.length > 0;
+
+            btnBuySelected.disabled = !hasChecked;
+            btnDeleteSelected.disabled = !hasChecked;
+
+            btnBuySelected.innerHTML = hasChecked
+                ? `<i class="fa-solid fa-shopping-cart"></i> Mua ${checkedItems.length} sản phẩm đã chọn`
+                : `<i class="fa-solid fa-shopping-cart"></i> Mua sản phẩm đã chọn`;
+
+            btnDeleteSelected.innerHTML = hasChecked
+                ? `<i class="fa-solid fa-trash"></i> Xóa ${checkedItems.length} sản phẩm`
+                : `<i class="fa-solid fa-trash"></i> Xóa sản phẩm đã chọn`;
+        }
+
+        selectAllCheckbox.addEventListener('change', function () {
+            itemCheckboxes.forEach(cb => {
+                cb.checked = this.checked;
+                cb.closest('.cart-item').classList.toggle('selected', this.checked);
+            });
+            updateActionButtons();
+        });
+
+        itemCheckboxes.forEach(cb => {
+            cb.addEventListener('change', function () {
+                cb.closest('.cart-item').classList.toggle('selected', cb.checked);
+                updateSelectAllCheckbox();
+                updateActionButtons();
+            });
+        });
+
+        // --- MUA sản phẩm đã chọn ---
+        document.getElementById('buySelectedForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const checkedItems = Array.from(itemCheckboxes).filter(cb => cb.checked);
+
+            if (checkedItems.length === 0) {
+                alert('Vui lòng chọn ít nhất một sản phẩm để mua!');
+                return;
+            }
+
+            // Lấy danh sách CartItemID và gán vào hidden input
+            const ids = checkedItems.map(cb => cb.value).join(',');
+            document.getElementById('selectedItemsInput').value = ids;
+
+            console.log('Mua sản phẩm:', ids);
+
+            // Submit form
+            this.submit();
+        });
+
+        // --- XÓA sản phẩm đã chọn ---
+        btnDeleteSelected.addEventListener('click', function () {
+            const checkedItems = Array.from(itemCheckboxes).filter(cb => cb.checked);
+
+            if (checkedItems.length === 0) {
+                alert('Vui lòng chọn ít nhất một sản phẩm để xóa!');
+                return;
+            }
+
+            if (!confirm(`Xóa ${checkedItems.length} sản phẩm đã chọn khỏi giỏ hàng?`)) {
+                return;
+            }
+
+            const ids = checkedItems.map(cb => cb.value).join(',');
+            document.getElementById('cartItemIdsInput').value = ids;
+
+            console.log('Xóa sản phẩm:', ids);
+
+            document.getElementById('deleteSelectedForm').submit();
+        });
+
+        // --- XÓA từng sản phẩm ---
+        document.querySelectorAll('.btn-remove-item').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const itemId = this.getAttribute('data-item-id');
+
+                if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                    console.log('Xóa sản phẩm ID:', itemId);
+                    // Submit form cha của button này
+                    this.closest('form').submit();
+                }
+            });
+        });
+
+        // --- Khởi tạo ---
+        updateActionButtons();
+        updateTotalSum();
+    </script>
+}

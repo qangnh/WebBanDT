@@ -1,0 +1,28 @@
+﻿@model WebBanDT.Models.Customer
+
+@{
+    ViewBag.Title = "Chi tiết khách hàng";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="mb-3">
+    <strong>Tên:</strong> @Model.CustomerName
+</div>
+<div class="mb-3">
+    <strong>Điện thoại:</strong> @Model.CustomerPhone
+</div>
+<div class="mb-3">
+    <strong>Email:</strong> @Model.CustomerEmail
+</div>
+<div class="mb-3">
+    <strong>Địa chỉ:</strong> @Model.CustomerAddress
+</div>
+<div class="mb-3">
+    <strong>Username liên kết:</strong> @Model.Username
+</div>
+
+<p>
+    @Html.ActionLink("Quay lại", "Index", "Customers", new { area = "AdminHome" }, new { @class = "btn btn-secondary" })
+</p>

@@ -1,0 +1,163 @@
+﻿@model WebBanDT.Models.viewmodels.OrderDetailViewModel
+@{
+    ViewBag.Title = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<br />
+<br />
+<br />
+@section Styles {
+    <link rel="stylesheet" href="~/Content/profile.css" />
+}
+
+<div class="wrap">
+    <!-- KPI Row -->
+    <div class="kpi">
+        <div class="kpi-card">
+            <div class="avatar">👤</div>
+            <div>
+                <div class="title">@ViewBag.CustomerName</div>
+                <small class="muted">@ViewBag.Phone · Cập nhật lại sau @ViewBag.UpdateDate</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">🛒</div>
+            <div>
+                <div class="num">@ViewBag.TotalOrders</div>
+                <small class="muted">Tổng số đơn hàng đã mua</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">💰</div>
+            <div>
+                <div class="num">@ViewBag.TotalSpent</div>
+                <small class="muted">Tổng tiền tích luỹ · Từ 01/01/2024</small>
+            </div>
+        </div>
+        <div class="kpi-card right">
+            <div>
+                <small class="muted">Bạn đang ở kênh thành viên</small>
+                <div class="title">GoodPhone</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="nav" id="profileMenu">
+                <li>
+                    <a href="@Url.Action("Index", "CustomerHome")">
+                        <span class="icon">🏠</span> Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Profile", "Users")">
+                        <span class="icon">📊</span> Tổng quan
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("History", "Users")" class="active">
+                        <span class="icon">🧾</span> Lịch sử mua hàng
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Info", "Users")">
+                        <span class="icon">👤</span> Thông tin tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "Account")">
+                        <span class="icon">↩️</span> Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Content - Order Detail -->
+        <div class="panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <div class="title">Chi tiết đơn hàng @Model.OrderCode</div>
+                <a href="@Url.Action("History", "Users")" class="btn light">← Quay lại</a>
+            </div>
+
+            <div class="grid grid-2">
+                <!-- Thông tin đơn hàng -->
+                <div class="panel">
+                    <div class="title" style="font-size: 16px;">Thông tin đơn hàng</div>
+                    <div style="margin-top: 12px;">
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span class="muted">Mã đơn:</span>
+                            <strong>@Model.OrderCode</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span class="muted">Ngày đặt:</span>
+                            <strong>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span class="muted">Trạng thái:</span>
+                            @if (Model.Status == "Đã giao hàng")
+                            {
+                                <span class="badge ok">@Model.Status</span>
+                            }
+                            else if (Model.Status == "Đã hủy")
+                            {
+                                <span class="badge cancel">@Model.Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge">@Model.Status</span>
+                            }
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span class="muted">Thanh toán:</span>
+                            <strong>@Model.PaymentStatus</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Địa chỉ giao hàng -->
+                <div class="panel">
+                    <div class="title" style="font-size: 16px;">Địa chỉ giao hàng</div>
+                    <div style="margin-top: 12px;">
+                        <p>@Model.DeliveryAddress</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sản phẩm -->
+            <div class="panel" style="margin-top: 12px;">
+                <div class="title" style="font-size: 16px;">Sản phẩm</div>
+                <table class="table" style="margin-top: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.UnitPrice.ToString("N0")₫</td>
+                                <td>@item.Quantity</td>
+                                <td><strong>@item.Subtotal.ToString("N0")₫</strong></td>
+                            </tr>
+                        }
+                        <tr style="background: var(--brand-100);">
+                            <td colspan="3" style="text-align: right;"><strong>Tổng cộng:</strong></td>
+                            <td><strong style="font-size: 18px; color: var(--brand);">@Model.TotalAmount.ToString("N0")₫</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/profile.js"></script>
+}

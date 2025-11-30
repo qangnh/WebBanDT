@@ -1,0 +1,237 @@
+﻿@model IEnumerable<WebBanDT.Models.viewmodels.OrderSummaryViewModel>
+@{
+    ViewBag.Title = "Lịch sử mua hàng";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<br />
+<br />
+<br />
+
+@section Styles {
+    <link rel="stylesheet" href="~/Content/profile.css" />
+    <style>
+        .badge.paid {
+            background: #10b981;
+            color: white;
+        }
+
+        .badge.processing {
+            background: #f59e0b;
+            color: white;
+        }
+    </style>
+}
+
+<div class="wrap">
+    <!-- KPI Row -->
+    <div class="kpi">
+        <div class="kpi-card">
+            <div class="avatar">👤</div>
+            <div>
+                <div class="title">@ViewBag.CustomerName</div>
+                <small class="muted">@ViewBag.Phone · Cập nhật lại sau @ViewBag.UpdateDate</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">🛒</div>
+            <div>
+                <div class="num">@ViewBag.TotalOrders</div>
+                <small class="muted">Tổng số đơn hàng đã mua</small>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <div style="font-size:28px">💰</div>
+            <div>
+                <div class="num">@ViewBag.TotalSpent</div>
+                <small class="muted">Tổng tiền tích luỹ · Từ 01/01/2024</small>
+            </div>
+        </div>
+        <div class="kpi-card right">
+            <div>
+                <small class="muted">Bạn đang ở kênh thành viên</small>
+                <div class="title">GoodPhone</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="nav" id="profileMenu">
+                <li>
+                    <a href="@Url.Action("Index", "CustomerHome")">
+                        <span class="icon">🏠</span> Trang chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Profile", "Users")">
+                        <span class="icon">📊</span> Tổng quan
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("History", "Users")" class="active">
+                        <span class="icon">🧾</span> Lịch sử mua hàng
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Info", "Users")">
+                        <span class="icon">👤</span> Thông tin tài khoản
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "Account")">
+                        <span class="icon">↩️</span> Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Content - History Section -->
+        <div class="panel">
+            <div class="panel" style="margin-bottom: 12px;">
+                <div class="pills">
+                    <a href="@Url.Action("History", "Users", new { status = "all" })"
+                       class="pill @(ViewBag.CurrentStatus == "all" ? "active" : "")">
+                        Tất cả
+                    </a>
+                    <a href="@Url.Action("History", "Users", new { status = "Chờ xử lý" })"
+                       class="pill @(ViewBag.CurrentStatus == "Chờ xử lý" ? "active" : "")">
+                        Chờ xử lý
+                    </a>
+                    <a href="@Url.Action("History", "Users", new { status = "Đã thanh toán" })"
+                       class="pill @(ViewBag.CurrentStatus == "Đã thanh toán" ? "active" : "")">
+                        Đã thanh toán
+                    </a>
+                    <a href="@Url.Action("History", "Users", new { status = "Đã giao" })"
+                       class="pill @(ViewBag.CurrentStatus == "Đã giao" ? "active" : "")">
+                        Đã giao
+                    </a>
+                    <a href="@Url.Action("History", "Users", new { status = "Đã hủy" })"
+                       class="pill @(ViewBag.CurrentStatus == "Đã hủy" ? "active" : "")">
+                        Đã huỷ
+                    </a>
+                </div>
+                @using (Html.BeginForm("History", "Users", FormMethod.Get))
+                {
+                    <div class="filter-bar" style="padding: 0 10px 10px;">
+                        <div class="spacer"></div>
+                        @Html.Hidden("status", (string)ViewBag.CurrentStatus)
+                        <input class="ipt" type="date" name="fromDate" value="@ViewBag.FromDate" style="max-width:140px" />
+                        <span>→</span>
+                        <input class="ipt" type="date" name="toDate" value="@ViewBag.ToDate" style="max-width:140px" />
+
+                        <button type="submit" class="btn light">📅 Lọc</button>
+                    </div>
+                }
+            </div>
+
+            <div class="panel">
+                @if (Model != null && Model.Any())
+                {
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn</th>
+                                <th>Ngày</th>
+                                <th>Tổng tiền</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td><strong>@order.OrderCode</strong></td>
+                                    <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td><strong>@order.TotalAmount.ToString("N0")₫</strong></td>
+                                    <td>
+                                        @{
+                                            // Nhóm trạng thái thành công (màu xanh)
+                                            var successStatuses = new[] { "Đã giao hàng", "Đã giao" };
+                                            var paidStatuses = new[] { "Đã thanh toán" };
+                                            var cancelStatuses = new[] { "Đã hủy", "Đã huỷ" };
+                                            var processingStatuses = new[] { "Chờ xử lý", "Đang xử lý", "Đang giao hàng" };
+
+                                            if (successStatuses.Contains(order.Status))
+                                            {
+                                                <span class="badge ok">
+                                                    ✓ @(order.Status == "Đã giao hàng" ? "Đã giao" : order.Status)
+                                                </span>
+                                            }
+                                            else if (paidStatuses.Contains(order.Status))
+                                            {
+                                                <span class="badge paid">
+                                                    💳 Đã thanh toán
+                                                </span>
+                                            }
+                                            else if (cancelStatuses.Contains(order.Status))
+                                            {
+                                                <span class="badge cancel">
+                                                    ✕ Đã huỷ
+                                                </span>
+                                            }
+                                            else if (processingStatuses.Contains(order.Status))
+                                            {
+                                                <span class="badge processing">
+                                                    ⏳ @order.Status
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge">@order.Status</span>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("OrderDetail", "Users", new { id = order.OrderID })"
+                                           class="btn light">
+                                            👁️ Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="muted" style="padding:48px 0; text-align: center;">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📦</div>
+                        <h3>Không tìm thấy đơn hàng nào</h3>
+                        @if (ViewBag.CurrentStatus != "all")
+                        {
+                            <p>Không có đơn hàng với trạng thái "@ViewBag.CurrentStatus"</p>
+                            <a href="@Url.Action("History", "Users", new { status = "all" })" class="btn light" style="margin-top: 12px;">
+                                Xem tất cả đơn hàng
+                            </a>
+                        }
+                        else
+                        {
+                            <p>Bạn chưa có đơn hàng nào</p>
+                            <a href="@Url.Action("Index", "CustomerHome")" class="btn light" style="margin-top: 12px;">
+                                Mua sắm ngay
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/profile.js"></script>
+    <script>
+        // Highlight active filter
+        document.addEventListener('DOMContentLoaded', function () {
+            const pills = document.querySelectorAll('.pill');
+            pills.forEach(pill => {
+                pill.addEventListener('click', function () {
+                    pills.forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+}

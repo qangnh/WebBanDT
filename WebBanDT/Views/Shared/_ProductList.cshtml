@@ -1,0 +1,113 @@
+﻿@model IEnumerable<WebBanDT.Models.ViewModels.ProductVM>
+
+<ul class="product-list">
+    @foreach (var item in Model)
+    {
+        <li class="product-item">
+            <div class="product-card">
+                @* PHẦN CLICK ĐỂ XEM CHI TIẾT *@
+                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"
+                   class="product-link">
+                    <div class="product-image-wrapper">
+                        <span class="product-badge">Hot</span>
+                        <div class="product-favorite"
+                             onclick="event.preventDefault(); event.stopPropagation();">
+                            <i class="fa-regular fa-heart"></i>
+                        </div>
+                        <img src="@item.ProductImage"
+                             alt="@item.ProductName"
+                             class="product-image">
+                    </div>
+
+                    <div class="product-content">
+                        <h4 class="product-name">@item.ProductName</h4>
+
+                        <div class="product-price-wrapper">
+                            <span class="product-price">
+                                @item.ProductPrice.ToString("N0")₫
+                            </span>
+                            <span class="product-discount">-15%</span>
+                        </div>
+
+                        <div class="product-rating">
+                            <span class="stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star-half-stroke"></i>
+                            </span>
+                            <span class="count">(4.5)</span>
+                        </div>
+
+                        <div class="product-features">
+                            <span class="feature-tag">Trả góp 0%</span>
+                            <span class="feature-tag">Giao nhanh 2h</span>
+                        </div>
+                    </div>
+                </a>
+
+                @* PHẦN NÚT HÀNH ĐỘNG – TÁCH RIÊNG, KHÔNG NẰM TRONG <a> *@
+                @if (Session["UserID"] != null)
+                {
+                    <div class="product-actions">
+                        @* NÚT THÊM VÀO GIỎ – AJAX *@
+                        <button type="button"
+                                class="btn-add-cart add-to-cart-btn"
+                                data-product-id="@item.ProductID"
+                                data-product-name="@item.ProductName">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>Thêm vào giỏ</span>
+                        </button>
+
+                        @* NÚT MUA NGAY – VẪN DÙNG FORM *@
+                        <form action="@Url.Action("ThongTin", "Order")"
+                              method="get"
+                              style="margin:0;">
+                            <input type="hidden" name="productId" value="@item.ProductID" />
+                            <input type="hidden" name="quantity" value="1" />
+                            <button type="submit" class="btn-buy-now">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Mua ngay</span>
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="product-actions">
+                        <a href="@Url.Action("Login","Account", new { returnUrl = Request.RawUrl })"
+                           class="btn-login"
+                           onclick="alert('Bạn chưa đăng nhập!');">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            <span>Thêm vào giỏ hàng</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </li>
+    }
+</ul>
+
+<style>
+    /* Nếu cần, bạn có thể thêm style bao ngoài */
+    .product-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .product-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        flex: 1;
+    }
+
+    .product-actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        justify-content: space-between;
+    }
+</style>

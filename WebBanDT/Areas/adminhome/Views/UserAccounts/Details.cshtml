@@ -1,0 +1,26 @@
+﻿@model WebBanDT.Models.UserAccount
+
+@{
+    ViewBag.Title = "Chi tiết tài khoản";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Thông tin chi tiết tài khoản</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row mb-3"><div class="col-sm-4 fw-bold">Tên đăng nhập:</div><div class="col-sm-8">@Model.Username</div></div>
+            <div class="row mb-3"><div class="col-sm-4 fw-bold">Mật khẩu (mã hóa):</div><div class="col-sm-8">@Model.PasswordHash</div></div>
+            <div class="row mb-3"><div class="col-sm-4 fw-bold">Vai trò:</div><div class="col-sm-8">@Model.UserRole</div></div>
+            <div class="row mb-3"><div class="col-sm-4 fw-bold">Ngày tạo:</div><div class="col-sm-8">@Model.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</div></div>
+        </div>
+
+        <div class="card-footer d-flex justify-content-start">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.UserID }, new { @class = "btn btn-warning me-2" })
+            @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+        </div>
+    </div>
+</div>

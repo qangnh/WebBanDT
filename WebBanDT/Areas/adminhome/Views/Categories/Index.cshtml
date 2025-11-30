@@ -1,0 +1,132 @@
+﻿@using System.Linq;
+@model PagedList.IPagedList<WebBanDT.Models.Category>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh mục";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("Index", "Categories", FormMethod.Get, new { area = "AdminHome", @class = "d-flex mb-3" }))
+{
+    <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control me-2" placeholder="🔍 Nhập tên danh mục..." />
+    <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Danh sách danh mục sản phẩm</h5>
+            <a href="@Url.Action("Create", "Categories", new { area = "AdminHome" })" class="btn btn-light btn-sm">
+                <i class="fa fa-plus"></i> Thêm danh mục mới
+            </a>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Tên danh mục</th>
+                        <th>Mô tả</th>
+                        <th>Thương hiệu</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.CategoryName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Description)</td>
+
+                            <td>
+                                @if (item.Brands != null && item.Brands.Any())
+                                {
+                                    @(string.Join(", ", item.Brands.Select(b => b.BrandName)))
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Chưa có thương hiệu</span>
+                                }
+                            </td>
+
+                            <td>@(item.CreatedAt?.ToString("dd/MM/yyyy"))</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
+                                   class="btn btn-warning btn-sm me-1">
+                                    <i class="fa fa-edit"></i> Sửa
+                                </a>
+
+                                <a href="@Url.Action("Details", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
+                                   class="btn btn-info btn-sm me-1 text-white">
+                                    <i class="fa fa-eye"></i> Chi tiết
+                                </a>
+
+                                @if (item.Products != null && item.Products.Any())
+                                {
+                                    <!-- ❌ Không thể xóa vì đang được sử dụng -->
+                                    <button class="btn btn-secondary btn-sm" disabled
+                                            title="Danh mục này đang có sản phẩm, không thể xóa">
+                                        <i class="fa fa-ban"></i> Không thể xóa
+                                    </button>
+                                }
+                                else
+                                {
+                                    <!-- ✔️ Cho phép xóa -->
+                                    <a href="@Url.Action("Delete", "Categories", new { id = item.CategoryID, area = "AdminHome" })"
+                                       class="btn btn-danger btn-sm"
+                                       onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
+                                        <i class="fa fa-trash"></i> Xóa
+                                    </a>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-center mt-3">
+                @Html.PagedListPager(
+                    Model,
+                    page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }),
+                    new PagedListRenderOptions
+                    {
+                        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                        MaximumPageNumbersToDisplay = 5,
+                        UlElementClasses = new[] { "pagination", "justify-content-center" },
+                        LiElementClasses = new[] { "page-item" },
+                        ContainerDivClasses = new[] { "d-flex", "justify-content-center" },
+                        DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                        LinkToPreviousPageFormat = "«",
+                        LinkToNextPageFormat = "»",
+                        LinkToFirstPageFormat = "Trang đầu",
+                        LinkToLastPageFormat = "Trang cuối"
+                    }
+                )
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pagination > li > a,
+    .pagination > li > span {
+        color: #0d6efd;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 0 3px;
+        text-decoration: none;
+    }
+
+    .pagination > .active > a {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: white !important;
+    }
+</style>

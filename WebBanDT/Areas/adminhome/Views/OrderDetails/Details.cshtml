@@ -1,0 +1,37 @@
+﻿@model WebBanDT.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Chi tiết OrderDetail";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Chi tiết OrderDetail</h2>
+
+@{
+    var productName = Model.Product != null ? Model.Product.ProductName : "Chưa có";
+    var paymentStatus = Model.Order != null ? Model.Order.PaymentStatus : "Chưa có";
+}
+<div class="card shadow-sm p-3 mb-3">
+    <div class="row mb-2">
+        <div class="col-md-3 fw-semibold">Sản phẩm:</div>
+        <div class="col-md-9">@productName</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-3 fw-semibold">Số lượng:</div>
+        <div class="col-md-9">@Model.Quantity</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-3 fw-semibold">Đơn giá:</div>
+        <div class="col-md-9">@Model.UnitPrice.ToString("N0")</div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-3 fw-semibold">Trạng thái thanh toán:</div>
+        <div class="col-md-9">@paymentStatus</div>
+    </div>
+</div>
+
+
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.OrderDetailID }, new { @class = "btn btn-warning me-2" })
+    @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-secondary" })
+</p>

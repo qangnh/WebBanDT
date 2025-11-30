@@ -1,0 +1,70 @@
+﻿@model WebBanDT.Models.viewmodels.CategoryWithBrandsViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Thêm danh mục sản phẩm</h5>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger mb-3" })
+
+                <!-- Tên danh mục -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Category.CategoryName, "Tên danh mục", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Category.CategoryName, new { htmlAttributes = new { @class = "form-control", placeholder = "Nhập tên danh mục..." } })
+                    @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Mô tả -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Category.Description, "Mô tả", htmlAttributes: new { @class = "form-label" })
+                    @Html.TextAreaFor(model => model.Category.Description, new { @class = "form-control", rows = 3, placeholder = "Mô tả ngắn gọn về danh mục..." })
+                    @Html.ValidationMessageFor(model => model.Category.Description, "", new { @class = "text-danger" })
+                </div>
+
+                <!-- Thương hiệu (Brand) -->
+                <div class="mb-3">
+                    @Html.Label("Thương hiệu", htmlAttributes: new { @class = "form-label" })
+                    @Html.TextAreaFor(model => model.BrandNames,
+                        new
+                        {
+                            @class = "form-control",
+                            rows = 3,
+                            placeholder = "Ví dụ: iPhone, Samsung, Xiaomi..."
+                        })
+                    <small class="text-muted">
+                        Nhập nhiều thương hiệu, cách nhau bằng dấu phẩy (,)
+                    </small>
+                </div>
+
+                <!-- Ngày tạo (có thể bỏ nếu để controller tự set DateTime.Now) -->
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Category.CreatedAt, "Ngày tạo", htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Category.CreatedAt, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.Category.CreatedAt, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-start mt-4">
+                    <button type="submit" class="btn btn-success me-2">
+                        <i class="bi bi-plus-circle"></i> Thêm danh mục
+                    </button>
+                    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

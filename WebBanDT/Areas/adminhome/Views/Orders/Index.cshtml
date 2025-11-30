@@ -1,0 +1,179 @@
+﻿@model PagedList.IPagedList<WebBanDT.Models.Order>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Danh sách đơn hàng";
+    Layout = "~/Areas/AdminHome/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Danh sách đơn hàng</h2>
+
+<!-- Thông báo -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<!-- Form tìm kiếm -->
+@using (Html.BeginForm("Index", "Orders", FormMethod.Get, new { @class = "d-flex mb-3" }))
+{
+    <input type="text"
+           name="searchString"
+           value="@ViewBag.SearchString"
+           class="form-control me-2"
+           placeholder="🔍 Nhập mã đơn hoặc tên khách..." />
+    <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+}
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Ngày đặt hàng</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Địa chỉ giao hàng</th>
+            <th>Trạng thái đơn hàng</th>
+            <th>Tên khách hàng</th>
+            <th>Cập nhật trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @(item.OrderDate.HasValue
+                            ? item.OrderDate.Value.ToString("dd/MM/yyyy")
+                            : "Chưa có")
+                    </td>
+
+                    <td class="text-end">
+                        @String.Format("{0:N0} đ", item.TotalAmount)
+                    </td>
+
+                    <td class="text-center">
+                        @item.PaymentStatus
+                    </td>
+
+                    <td>@item.DeliveryAddress</td>
+
+                    <td class="text-center">
+                        @item.OrderStatus
+                    </td>
+
+                    <td>@item.Customer.CustomerName</td>
+
+                    <!-- Form cập nhật trạng thái -->
+                    <td>
+                        @using (Html.BeginForm("UpdateStatus", "Orders", FormMethod.Post,
+                                               new { @class = "d-flex flex-column gap-1" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("id", item.OrderID)
+
+                            <select name="paymentStatus" class="form-select form-select-sm mb-1">
+                                <option value="Chưa thanh toán"
+                                        @(item.PaymentStatus == "Chưa thanh toán" ? "selected=\"selected\"" : "")>
+                                    Chưa thanh toán
+                                </option>
+                                <option value="Đã thanh toán"
+                                        @(item.PaymentStatus == "Đã thanh toán" ? "selected=\"selected\"" : "")>
+                                    Đã thanh toán
+                                </option>
+                            </select>
+
+                            <select name="orderStatus" class="form-select form-select-sm mb-1">
+                                <option value="Đang xử lý"
+                                        @(item.OrderStatus == "Đang xử lý" ? "selected=\"selected\"" : "")>
+                                    Đang xử lý
+                                </option>
+                                <option value="Đã giao"
+                                        @(item.OrderStatus == "Đã giao" ? "selected=\"selected\"" : "")>
+                                    Đã giao
+                                </option>
+                                <option value="Hủy"
+                                        @(item.OrderStatus == "Hủy" ? "selected=\"selected\"" : "")>
+                                    Hủy
+                                </option>
+                            </select>
+
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                Lưu
+                            </button>
+                        }
+                    </td>
+
+                    <!-- Thao tác -->
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            @* Edit/Delete đã bị chặn trong controller, nên chỉ để Chi tiết *@
+                            @Html.ActionLink("Chi tiết", "Details",
+                                new { id = item.OrderID },
+                                new { @class = "btn btn-sm btn-info text-white" })
+                        </div>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center text-muted py-4">
+                    <i class="fa fa-circle-exclamation"></i> Không có đơn hàng nào để hiển thị.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Phân trang -->
+<div class="d-flex justify-content-center mt-3">
+    @Html.PagedListPager(
+        Model,
+        page => Url.Action("Index", new { page, searchString = ViewBag.SearchString }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            MaximumPageNumbersToDisplay = 5,
+            UlElementClasses = new[] { "pagination", "justify-content-center" },
+            LiElementClasses = new[] { "page-item" },
+            DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+            LinkToPreviousPageFormat = "«",
+            LinkToNextPageFormat = "»",
+            LinkToFirstPageFormat = "Trang đầu",
+            LinkToLastPageFormat = "Trang cuối"
+        }
+    )
+</div>
+
+<style>
+    .pagination > li > a,
+    .pagination > li > span {
+        color: #0d6efd;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+        border-radius: 6px;
+        margin: 0 3px;
+        text-decoration: none;
+    }
+
+    .pagination > .active > a {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+        color: white !important;
+    }
+</style>
